@@ -4,12 +4,14 @@
   "advanced": "Advanced (A Folder)",
   "about": {
     "title": "About",
-    "type": "page"
+    "type": "page",
+    "href": "https://www.orx.travel/about",
+    "newWindow": true
   },
   "contact": {
     "title": "Contact ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://www.orx.travel/contact",
     "newWindow": true
   }
 }
