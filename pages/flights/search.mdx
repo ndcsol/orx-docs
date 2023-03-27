@@ -1,0 +1,106 @@
+# Getting Started with Flight Search
+
+This page covers the essential information needed to get started with Flight Search using the ORX API. We'll explain how to use the `POST /flight/search` endpoint to search for flights, what the required payload is, what the expected response looks like, and how to manage your session.
+
+## Search for Flights
+
+To search for flights, you can use the POST /flight/search endpoint. This endpoint requires a specific payload that includes information about the flight search.
+
+### Payload
+
+The payload for `POST /flight/search` should include the following:
+
+```json copy
+{
+  "queries": [
+    {
+      "departure_airport": "LAX",
+      "arrival_airport": "YVR",
+      "departure_date": "2033-03-26"
+    },
+    {
+      "departure_airport": "YVR",
+      "arrival_airport": "LAX",
+      "departure_date": "2033-03-28"
+    }
+  ],
+  "passengers": [
+    {
+      "code": "ADT"
+    },
+    {
+      "code": "CHD"
+    }
+  ]
+}
+```
+
+This payload includes the following fields:
+
+- `queries`: An array of objects that represents the flight search query. The example above searches for flights from LAX to YVR on March 26th, 2023.
+
+  - The dates provided are supposed to be in the [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+  - Airport codes should be provided in the [3-letter IATA](https://www.iata.org/en/publications/directories/code-search/) format.
+
+- `passengers`: An array of objects that represents the number and type of passengers. The example above includes one adult passenger.
+
+  - Supported passenger codes are `ADT` and `CHD`.
+
+- `preferences`: An object that represents additional search preferences. The example above includes preferred providers, PCCs, and a discount code. See advanced use for more info.
+
+### Response
+
+The response for `POST /flight/search` will include a session public ID that you can use to manage the entire itinerary. The response will look like this:
+
+```json copy
+{
+  "flow": "FLIGHT",
+  "expireAt": "2023-03-25T01:37:28.949Z",
+  "createdAt": "2023-03-24T23:37:28.949Z",
+  "public": "14a010e5-6d9e-4acd-8979-625cb003ece8"
+}
+```
+
+The `public` property is what you'll use to identify the session. You can retrieve the same information about your session using the [`GET /session`](../session) endpoint.
+
+## Advanced Usage
+
+You can also pass in additional search preferences in the `preferences` object in the payload.
+
+```json copy
+{
+  "queries": [
+    //query
+  ],
+  "passengers": [
+    //passengers
+  ],
+  "preferences": {
+    "suppression": "NO_SUPPRESSION",
+    "discount_codes": ["discount"]
+  }
+}
+```
+
+> Note that these preferences will override your default settings. We recommend only customizing these if you have a specific need.
+
+### Suppression
+
+The suppression property controls duplicate suppression for the search results. It can take one of the following values:
+
+- `FIRST_BOUND`: This is the **default behavior** and will remove duplicates based on the first bound found.
+- `REDEMPTIVE`: This will remove duplicates based on all bounds.
+- `NO_SUPPRESSION`: This will not suppress duplicate flights at all.
+
+### Discount Codes
+
+he `discount_codes` property can accept an array or a single string.
+
+```json copy
+"preferences": {
+    "discount_codes": ["discount"]
+}
+```
+
+> We recommend only using proper values as discount codes, as some sources will deny any response for invalid codes.
