@@ -2,6 +2,7 @@
   "index": "Introduction",
   "getting-started": "Getting Started",
   "session": "Session Management",
+  "flights": "Flights API",
   "about": {
     "title": "About",
     "type": "page",
