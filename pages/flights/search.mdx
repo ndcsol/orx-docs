@@ -4,7 +4,9 @@ This page covers the essential information needed to get started with Flight Sea
 
 ## Search for Flights
 
-To search for flights, you can use the POST /flight/search endpoint. This endpoint requires a specific payload that includes information about the flight search.
+`POST /flight/search`
+
+This endpoint specifies the criteria for your flight search. It will return a session public ID that you can use to manage your itinerary, including adding flights, passengers, and more.
 
 ### Payload
 
@@ -35,7 +37,7 @@ The payload for `POST /flight/search` should include the following:
 }
 ```
 
-This payload includes the following fields:
+This payload may include the following fields:
 
 - `queries`: An array of objects that represents the flight search query. The example above searches for flights from LAX to YVR on March 26th, 2023.
 
@@ -47,7 +49,7 @@ This payload includes the following fields:
 
   - Supported passenger codes are `ADT` and `CHD`.
 
-- `preferences`: An object that represents additional search preferences. The example above includes preferred providers, PCCs, and a discount code. See advanced use for more info.
+- `preferences`: An object that represents additional search preferences. It could be used to specify a suppression method and discount codes. See [advanced usage](#advanced-usage) for more info.
 
 ### Response
 
