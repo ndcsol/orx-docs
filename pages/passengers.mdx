@@ -1,0 +1,140 @@
+# Passenger Management
+
+To manage passengers, clients must first perform a search and receive a session_id. Passengers are defined within a session and will expire when the session has expired.
+
+> Please note that the public id needed to update passenger information can be obtained by using the [Retrieving All Passengers](#retrieving-all-passengers) endpoint and will be included in the response. You should use this public id when updating passenger information through the [Update Passenger](#updating-a-passenger) endpoint.
+
+## Retrieving All Passengers
+
+`PUT /passenger/[session_id]`
+
+This endpoint returns a list of all passengers with their public id and all information that has been filled so far.
+
+### Response
+
+The response looks like this when the client has just received their session_id:
+
+```json copy
+[
+  {
+    "expireAt": "2023-03-28T01:04:19.790Z",
+    "code": "ADT",
+    "createdAt": "2023-03-27T23:04:20.182Z",
+    "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2"
+  }
+]
+```
+
+And it will look like this after inputting all of the necessary information:
+
+```json
+[
+  {
+    "expireAt": "2023-03-28T01:04:19.790Z",
+    "code": "ADT",
+    "createdAt": "2023-03-27T23:04:20.182Z",
+    "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2",
+    "email": "Passenger@traveller.com",
+    "frequent_flyer": {
+      "program_id": "WS",
+      "id": "90398494444"
+    },
+    "personal_info": {
+      "date_of_birth": "1978-05-05",
+      "first_name": "John",
+      "last_name": "Doe",
+      "middle_name": "",
+      "gender": "X"
+    },
+    "phone_number": "+16023033033"
+  }
+]
+```
+
+> You should use the `public` property to identify the passenger in the following endpoints.
+
+## Retrieving a Single Passenger
+
+`GET /passenger/[session_id]/[passenger_public]`
+
+Retrieves information about a specific passenger within a session. To use this endpoint, you'll need to provide the session_id of the session containing the passenger, as well as the public of the passenger you want to retrieve information for. The passenger's reference should be the `public` ID returned in the response of the [Retrieving All Passengers](#retrieving-all-passengers) endpoint.
+
+This endpoint will return all the information that has been filled out for the specified passenger. Here's an example response:
+
+### Response
+
+```json copy
+{
+  "expireAt": "2023-03-28T01:04:19.790Z",
+  "code": "ADT",
+  "createdAt": "2023-03-27T23:04:20.182Z",
+  "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2",
+  "email": "Passenger@traveller.com",
+  "frequent_flyer": {
+    "program_id": "WS",
+    "id": "90398494444"
+  },
+  "personal_info": {
+    "date_of_birth": "1978-05-05",
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "",
+    "gender": "X"
+  },
+  "phone_number": "+16023033033"
+}
+```
+
+> If the specified passenger is not found within the session, the endpoint will return a 404 status code.
+
+## Updating a Passenger
+
+`PUT /passenger/[session_id]/[passenger_public]`
+
+Updates the passenger information for a specific passenger in the session using their public property.
+
+### Payload
+
+```json
+{
+  "personal_info": {
+    "date_of_birth": "1978-05-05",
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "",
+    "gender": "X"
+  },
+  "phone_number": "+16023033033",
+  "email": "Passenger@traveller.com",
+  "frequent_flyer": {
+    "program_id": "WS",
+    "id": "90398494444"
+  }
+}
+```
+
+- `phone_number`: Passenger's phone number in E.164 format
+
+- `email`: Passenger's email
+
+- `personal_info`: Passenger's personal information
+
+  - `personal_info.date_of_birth`: Passenger's date of birth [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) date format.
+
+  - `personal_info.first_name`: Passenger's first name
+
+  - `personal_info.last_name`: Passenger's last name
+
+  - `personal_info.middle_name`: (optional) Passenger's middle name
+
+  - `personal_info.gender`: Passenger's gender, must be one of M, F, X
+
+- `frequent_flyer`: (optional) Passenger's frequent flyer information
+
+  - `frequent_flyer.program_id`: Passenger's frequent flyer program id, must be a IATA airline code.
+
+  - `frequent_flyer.id`: Passenger's frequent flyer id.
+
+### Response
+
+The response will be the same as the response of the [Retrieving a Single Passenger](#retrieving-a-single-passenger) endpoint.

@@ -22,7 +22,9 @@ The session object includes the following fields:
 
 ## Accessing Session Information
 
-Clients can retrieve information about a session by using the `/session/[sessionId]` endpoint. This will return the session object described above, providing the client with important details about their search.
+`GET /session/[sessionId]`
+
+Clients can retrieve information about a session using this endpoint. This will return the session object described above, providing the client with important details about their search.
 
 ```shell copy
 curl -H "x-api-key: your-api-key" -H "x-api-version: 1" https://your-api-url.com/session/60d67317-2529-4e10-ae3e-9ba5c0746a3b
