@@ -1,0 +1,23 @@
+# Querying Flights
+
+Now that you have initiated a flight search; and, received a session public ID in response, you are ready to query and select individual flights.
+
+## Querying and Selection Order
+
+### Flights Querying Order
+
+> 🧨 It is important to keep in mind that not **all fares provided are combinable**. When querying bound 0 and selecting a fare and brand, querying bound 1 will only yield compatible results. Therefore, it is advised that you query each bound after selecting bounds prior to it to ensure compatibility of all results.
+
+---
+
+### Flights Selection Order
+
+> 🧨 It is also important to note that **flight selection needs to happen in order**. If someone re-selects a bound, the following bounds will be de-selected.
+
+## Querying Flights
+
+`GET /flight/[sessionId]/bound/[boundIndex]`
+
+This endpoint is used to query individual flights, where [sessionId] is the public session ID, and [bound] is the index of the bound being queried, starting from 0.
+
+### Response

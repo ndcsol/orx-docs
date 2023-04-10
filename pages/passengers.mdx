@@ -2,13 +2,13 @@
 
 To manage passengers, clients must first perform a search and receive a session_id. Passengers are defined within a session and will expire when the session has expired.
 
-> Please note that the public id needed to update passenger information can be obtained by using the [Retrieving All Passengers](#retrieving-all-passengers) endpoint and will be included in the response. You should use this public id when updating passenger information through the [Update Passenger](#updating-a-passenger) endpoint.
+> 🛎 Please note that the public ID needed to update passenger information can be obtained by using the [Retrieving All Passengers](#retrieving-all-passengers) endpoint and will be included in the response. You should use this public ID when updating passenger information through the [Update Passenger](#updating-a-passenger) endpoint.
 
 ## Retrieving All Passengers
 
 `PUT /passenger/[session_id]`
 
-This endpoint returns a list of all passengers with their public id and all information that has been filled so far.
+This endpoint returns a list of all passengers with their public ID and all information that has been filled so far.
 
 ### Response
 
@@ -51,7 +51,7 @@ And it will look like this after inputting all of the necessary information:
 ]
 ```
 
-> You should use the `public` property to identify the passenger in the following endpoints.
+> 🛎 You should use the `public` property to identify the passenger in the following endpoints.
 
 ## Retrieving a Single Passenger
 
@@ -85,7 +85,7 @@ This endpoint will return all the information that has been filled out for the s
 }
 ```
 
-> If the specified passenger is not found within the session, the endpoint will return a 404 status code.
+> 🛎 If the specified passenger is not found within the session, the endpoint will return a 404 status code.
 
 ## Updating a Passenger
 
