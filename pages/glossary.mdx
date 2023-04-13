@@ -2,7 +2,17 @@
 
 The following types are references throughout the documentations and are defined here for convenience.
 
-> Type definitions are written in TypeScript. This is done to provide a more accurate representation of the types and to provide a more consistent experience when reading the documentation.
+> Type definitions are written in a Pseudo-TypeScript style. This is done to provide a more accurate representation of the types and to provide a more consistent experience when reading the documentation.
+
+## Public ID
+
+A public ID is a UUID v4 unique identifier for a particular object. It is used to identify the object in the API and is used to retrieve the object from the API.
+
+### Type Definition
+
+```ts
+type PublicID = string;
+```
 
 ## Departure Arrival Information
 
@@ -19,7 +29,7 @@ Represents a departure or arrival information from or to an airport.
 ### Type Definition
 
 ```ts
-interface {
+interface DepartureArrivalInformation {
   airport_code: string;
   airport_name: string;
   airport_city_name: string;
@@ -56,7 +66,7 @@ Represents an airport visit within an itinerary. Will contain a layover time, if
 ### Type Definition
 
 ```ts
-interface {
+interface FlightAirportInformation {
   airport_name: string;
   airport_code: string;
   airport_city_name: string;
@@ -93,11 +103,11 @@ Represents an airline associated with a particular segment. Might be a marketing
 ### Type Definition
 
 ```ts
-interface {
-    airline_name: string;
-    airline_code: string;
-    flight_number: string;
-    alliance?: 'Star Alliance' | 'SkyTeam' | 'OneWorld' | string;
+interface FlightAirlineInformation {
+  airline_name: string;
+  airline_code: string;
+  flight_number: string;
+  alliance?: "Star Alliance" | "SkyTeam" | "OneWorld" | string;
 }
 ```
 
@@ -125,10 +135,10 @@ Represents an aircraft associated with a particular segment.
 ### Type Definition
 
 ```ts
-interface {
-    code: string;
-    name?: string;
-    graphic?: string;
+interface SegmentEquipmentInformation {
+  code: string;
+  name?: string;
+  graphic?: string;
 }
 ```
 
@@ -139,5 +149,81 @@ interface {
   "code": "73H",
   "name": "Boeing 737-800",
   "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+}
+```
+
+## Flight Brand Information
+
+Represents a particular brand associated with a flight. This object indicates most characteristics of the ticket being sold.
+
+### Sub Properties
+
+- `price_information`: ([Brand Price Information](#brand-price-information)) The pricing information for the brand.
+- `fare_information`: ([Brand Fare Information](#brand-fare-information)) Information about what the brand offers.
+- `excluded`: (`boolean`) Whether or not the brand is excluded from the search, based on the search preferences.
+- `brand`: (`string`) The name of the brand.
+- `cabin`: (`string`) The code for the cabin where the brand is located.
+- `public`: ([Public ID](#public-id)) The public ID of the brand.
+
+### Type Definition
+
+```ts
+interface FlightBrandInformation {
+  price_information: BrandPriceInformation;
+  fare_information: BrandFareInformation;
+  excluded?: boolean;
+  brand: string;
+  cabin: string;
+  public: PublicID;
+}
+```
+
+## Brand Price Information
+
+Represents the pricing information for a particular brand.
+
+### Sub Properties
+
+- `total_amount`: (`number`) The total amount of the brand in the currency indicated.
+- `base_amount`: (`number`) The base amount of the brand in the currency indicated.
+- `starting_fare_amount`: (`number`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
+- `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
+- `tax`: (`Record`) An object containing the tax information for the brand.
+  - `tax.total_tax` : (`number`) The total amount of tax for the brand in the currency indicated.
+  - `tax.tax` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
+- `surcharge`: (`Record`) An object containing the surcharge information for the brand.
+  - `surcharge.total_surcharge` : (`number`) The total amount of surcharges for the brand in the currency indicated.
+  - `surcharge.surcharge` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
+
+### Type Definition
+
+```ts
+interface FlightBrandInformation {
+  price_information: BrandPriceInformation;
+  fare_information: BrandFareInformation;
+  excluded?: boolean;
+  brand: string;
+  cabin: string;
+  public: PublicID;
+}
+```
+
+## Brand Price Charge Information
+
+Represents an additional tax/surcharge that applies to a brand's price.
+
+### Sub Properties
+
+- `amount`: (`string`) The amount of the charge in the currency indicated in the parent.
+- `code`: (`string`) The code provided for the charge.
+- `description`: (`string?`) A description explaining what the charge is, according to its code.
+
+### Type Definition
+
+```ts
+interface BrandPriceChargeInformation {
+  amount: string;
+  code: string;
+  description?: string;
 }
 ```
