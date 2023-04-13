@@ -1,0 +1,143 @@
+# API Type Glossary
+
+The following types are references throughout the documentations and are defined here for convenience.
+
+> Type definitions are written in TypeScript. This is done to provide a more accurate representation of the types and to provide a more consistent experience when reading the documentation.
+
+## Departure Arrival Information
+
+Represents a departure or arrival information from or to an airport.
+
+### Sub Properties
+
+- `airport_name`: (`string`) The name of the airport.
+- `airport_code`: (`string`) The IATA code of the airport.
+- `airport_city_name`: (`string`) The name of the city where the airport is located.
+- `date_time`: (`string`) The date and time of the flight departing from this airport.
+- `terminal`: (`string?`) The terminal of the airport.
+
+### Type Definition
+
+```ts
+interface {
+  airport_code: string;
+  airport_name: string;
+  airport_city_name: string;
+  date_time: string;
+  terminal?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "airport_code": "YEG",
+  "airport_name": "Edmonton International Airport",
+  "airport_city_name": "Edmonton",
+  "date_time": "2023-05-16 07:00:00",
+  "terminal": null
+}
+```
+
+## Flight Airport Information
+
+Represents an airport visit within an itinerary. Will contain a layover time, if the airport is a layover airport.
+
+### Sub Properties
+
+- `airport_name`: (`string`) The name of the airport.
+- `airport_code`: (`string`) The IATA code of the airport.
+- `airport_city_name`: (`string`) The name of the city where the airport is located.
+- `date_time`: (`string`) The date and time of the flight departing from this airport.
+- `flight_number`: (`string?`) The flight number of the flight departing from this airport.
+- `layover_time`: (`string?`) If this is a layover airport, the length of the layover in `H.i` format.
+
+### Type Definition
+
+```ts
+interface {
+  airport_name: string;
+  airport_code: string;
+  airport_city_name: string;
+  date_time: string;
+  flight_number: string;
+  layover_time?: `${number}.${number}`;
+}
+```
+
+### Example
+
+```json
+{
+  "airport_code": "YVR",
+  "airport_name": "Vancouver International Airport",
+  "airport_city_name": "Vancouver",
+  "date_time": "2023-04-15 23:15:00",
+  "flight_number": "",
+  "layover_time": ""
+}
+```
+
+## Flight Airline Information
+
+Represents an airline associated with a particular segment. Might be a marketing airline or an operating airline.
+
+### Sub Properties
+
+- `airline_name`: (`string`) The name of the airline.
+- `airline_code`: (`string`) The IATA code of the airport.
+- `flight_number`: (`string`) The flight number associated with the segment.
+- `alliance`: (`string`) The name of the alliance the airline is a member of.
+
+### Type Definition
+
+```ts
+interface {
+    airline_name: string;
+    airline_code: string;
+    flight_number: string;
+    alliance?: 'Star Alliance' | 'SkyTeam' | 'OneWorld' | string;
+}
+```
+
+### Example
+
+```json
+{
+  "airline_code": "DL",
+  "airline_name": "Delta Air Lines",
+  "flight_number": "4083",
+  "alliance": "SkyTeam"
+}
+```
+
+## Segment Equipment Information
+
+Represents an aircraft associated with a particular segment.
+
+### Sub Properties
+
+- `code`: (`string`) The IATA code of the aircraft.
+- `name`: (`string?`) The name of the aircraft.
+- `graphic`: (`string?`) The URL to an image of the aircraft.
+
+### Type Definition
+
+```ts
+interface {
+    code: string;
+    name?: string;
+    graphic?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "code": "73H",
+  "name": "Boeing 737-800",
+  "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+}
+```
