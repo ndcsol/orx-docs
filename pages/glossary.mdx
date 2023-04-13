@@ -14,6 +14,40 @@ A public ID is a UUID v4 unique identifier for a particular object. It is used t
 type PublicID = string;
 ```
 
+## Airport IATA Code
+
+A 3-letter IATA code for an airport. Visit [Airline and Location Code Search](https://www.iata.org/en/publications/directories/code-search/) for more information.
+
+### Type Definition
+
+```ts
+type AirportIATA = string;
+```
+
+## Airline IATA Code
+
+A 2-Alphanumeric IATA code for an airline. Visit [Airline and Location Code Search](https://www.iata.org/en/publications/directories/code-search/) for more information.
+
+### Type Definition
+
+```ts
+type AirlineIATA = string;
+```
+
+## Cabin Code
+
+A 1-2 letter code identifying a cabin class. The following are the possible values:
+
+- `Y`: Economy
+- `PY`: Premium Economy
+- `J`: Business or First Class
+
+### Type Definition
+
+```ts
+type CabinCode = "Y" | "PY" | "J";
+```
+
 ## Departure Arrival Information
 
 Represents a departure or arrival information from or to an airport.
@@ -21,7 +55,7 @@ Represents a departure or arrival information from or to an airport.
 ### Sub Properties
 
 - `airport_name`: (`string`) The name of the airport.
-- `airport_code`: (`string`) The IATA code of the airport.
+- `airport_code`: ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport.
 - `airport_city_name`: (`string`) The name of the city where the airport is located.
 - `date_time`: (`string`) The date and time of the flight departing from this airport.
 - `terminal`: (`string?`) The terminal of the airport.
@@ -30,7 +64,7 @@ Represents a departure or arrival information from or to an airport.
 
 ```ts
 interface DepartureArrivalInformation {
-  airport_code: string;
+  airport_code: AirportIATA;
   airport_name: string;
   airport_city_name: string;
   date_time: string;
@@ -57,7 +91,7 @@ Represents an airport visit within an itinerary. Will contain a layover time, if
 ### Sub Properties
 
 - `airport_name`: (`string`) The name of the airport.
-- `airport_code`: (`string`) The IATA code of the airport.
+- `airport_code`: ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport.
 - `airport_city_name`: (`string`) The name of the city where the airport is located.
 - `date_time`: (`string`) The date and time of the flight departing from this airport.
 - `flight_number`: (`string?`) The flight number of the flight departing from this airport.
@@ -68,7 +102,7 @@ Represents an airport visit within an itinerary. Will contain a layover time, if
 ```ts
 interface FlightAirportInformation {
   airport_name: string;
-  airport_code: string;
+  airport_code: AirportIATA;
   airport_city_name: string;
   date_time: string;
   flight_number: string;
@@ -96,7 +130,7 @@ Represents an airline associated with a particular segment. Might be a marketing
 ### Sub Properties
 
 - `airline_name`: (`string`) The name of the airline.
-- `airline_code`: (`string`) The IATA code of the airport.
+- `airline_code`: ([Airline IATA Code](#airline-iata-code)) The IATA code of the airport.
 - `flight_number`: (`string`) The flight number associated with the segment.
 - `alliance`: (`string`) The name of the alliance the airline is a member of.
 
@@ -105,7 +139,7 @@ Represents an airline associated with a particular segment. Might be a marketing
 ```ts
 interface FlightAirlineInformation {
   airline_name: string;
-  airline_code: string;
+  airline_code: AirlineIATA;
   flight_number: string;
   alliance?: "Star Alliance" | "SkyTeam" | "OneWorld" | string;
 }
@@ -178,6 +212,36 @@ interface FlightBrandInformation {
 }
 ```
 
+## Brand Fare Information
+
+Provides information about the fare associated with a brand.
+
+### Sub Properties
+
+- `offerings`: (`Array<string>`) A list of notable features of the fare.
+- `cabin_codes`: (`Array<Record>`?) A list of cabin codes associated with each segment of the flights.
+  > 🛎 This is present because a brand might be marketed as a certain cabin, but the actual cabin might be different in certain segments of the entire itinerary.
+  - `cabin_codes[].departure` : ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport which the segment departs from.
+  - `cabin_codes[].arrival` : ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport which the segment arrives at.
+  - `cabin_codes[].cabinClass` : ([Cabin Code](#cabin-code)) The cabin code for the segment with the given departure and arrival airports.
+- `rewards`: ([Brand Rewards Information](#brand-rewards-information)?) The estimated rewards earned for purchasing the brand.
+- `discount`: ([Brand Discount Information](#brand-discount-information)?) The discount information for the brand. This is only present if the brand is discounted, but for a more explicit way to check if a brand is discounted, use the `discount.indicator` property.
+
+### Type Definition
+
+```ts
+interface BrandFareInformation {
+  offerings: string[];
+  cabin_codes?: {
+    departure: AirportIATA;
+    arrival: AirportIATA;
+    cabinClass: CabinCode;
+  }[];
+  rewards?: BrandRewardsInformation;
+  discount?: BrandDiscountInformation;
+}
+```
+
 ## Brand Price Information
 
 Represents the pricing information for a particular brand.
@@ -198,13 +262,19 @@ Represents the pricing information for a particular brand.
 ### Type Definition
 
 ```ts
-interface FlightBrandInformation {
-  price_information: BrandPriceInformation;
-  fare_information: BrandFareInformation;
-  excluded?: boolean;
-  brand: string;
-  cabin: string;
-  public: PublicID;
+interface BrandPriceInformation {
+  total_amount: number;
+  base_amount: number;
+  starting_fare_amount: number;
+  currency: string;
+  tax: {
+    total_tax: number;
+    tax: Array<BrandPriceChargeInformation>;
+  };
+  surcharge: {
+    total_surcharge: number;
+    surcharge: Array<BrandPriceChargeInformation>;
+  };
 }
 ```
 
@@ -225,5 +295,78 @@ interface BrandPriceChargeInformation {
   amount: string;
   code: string;
   description?: string;
+}
+```
+
+## Brand Rewards Information
+
+Represents estimated rewards earned when purchasing a brand.
+
+### Sub Properties
+
+- `program`: (`Record`) An object containing the reward program information.
+  - `program.title` : (`string`) The name of the reward program.
+  - `program.code` : (`string`) The code identifying the program.
+  - `program.image` : (`string?`) The URL to the logo of the reward program.
+- `amount`: (`string`) The amount of rewards in the program's unit of measurement.
+
+### Type Definition
+
+```ts
+interface BrandRewardsInformation {
+  program: {
+    title: string;
+    code: string;
+    image?: string;
+  };
+  amount: string;
+}
+```
+
+## Brand Discount Information
+
+If a discount or a corporate code is applied to a brand, this object will contain information about the discount.
+
+### Sub Properties
+
+- `program`: (`Record`) An object containing the reward program information.
+  - `program.title` : (`string`) The name of the discount program.
+  - `program.identifier` : (`string?`) A unique identifier for the discount program.
+  - `program.image` : (`string?`) The URL to the logo of the discount program.
+- `indicator`: (`true`) Property explicitly indicating the application of a discount.
+- `type`: (`string`) The type of discount applied to the brand.
+  - Possible values:
+    - `CONTRACT`: Indicates a custom set of negotiated discounts. Usually used for larger corporate accounts.
+    - `ACCOUNT`: Indicates a more general purpose discount. Usually used for smaller corporate accounts.
+    - `GENERAL`: Indicates a general-purpose discount. Usually used for public discounts.
+- `code`: (`string?`) The code used to apply the discount.
+
+### Type Definition
+
+```ts
+interface BrandDiscountInformation {
+  program: {
+    title: string;
+    identifier?: string;
+    image?: string;
+  };
+  type: "CONTRACT" | "ACCOUNT" | "GENERAL";
+  code?: string;
+  indicator: true;
+}
+```
+
+### Example
+
+```json
+{
+  "program": {
+    "title": "AC for Business",
+    "identifier": "ACB",
+    "image": "https://bnwassets.s3.amazonaws.com/images/airline-logos/logo_air_AC_32x32.gif"
+  },
+  "indicator": true,
+  "type": "ACCOUNT",
+  "code": "ACB123"
 }
 ```
