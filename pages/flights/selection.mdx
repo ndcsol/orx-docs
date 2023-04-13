@@ -405,18 +405,24 @@ This endpoint is used to query individual flights, where `[sessionId]` is the pu
 
 ```
 
-- `airports`: An flat array representing all of the airports in the response.
-  - `airports[].airport_name`: The name of the airport.
-  - `airports[].airport_code`: The IATA code of the airport.
-  - `airports[].airport_city_name`: The name of the city where the airport is located.
-  - `airports[].date_time`: The date and time of the flight departing from this airport.
-  - `airports[].flight_number`: The flight number of the flight departing from this airport.
-  - `airports[].layover_time`: If this is a layover airport, the length of the layover in `H.i` format.
-- `sort_field`: An object containing general information about the flight.
-  - `sort_field.departure_date_time`: The date and time of the flight's departure.
-  - `sort_field.arrival_date_time`: The date and time of the flight's arrival.
-  - `sort_field.airline`: An array containing unique names of the airlines that are flying on this flight.
-  - `sort_field.stops`: The number of stops on this flight.
-  - `sort_field.elapse_time`: The length of the flight in `H.i` format.
-  - `sort_field.alliance`: An array containing unique names of the alliances that the airlines on this flight are a part of.
-  - `emission`: The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
+- `airports`: ([Flight Airport Information](/glossary#flight-airport-information)) An array representing all of the airports visited.
+- `sort_field`: (`Record`) An object containing general information about the flight.
+  - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
+  - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
+  - `sort_field.airline`: (`Array<string>`) An array containing unique names of the airlines that are flying on this flight.
+  - `sort_field.stops`: (number) The number of stops on this flight.
+  - `sort_field.elapse_time`: (`string`) The length of the flight in `H.i` format.
+  - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
+  - `emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
+- `segments`: (`Array<Record>`) An array of objects representing the flight segments.
+  - `segments[].departure_information`: ([Departure Arrival Information](/glossary#departure-arrival-information)) An object containing information about the departure and its airport.
+  - `segments[].arrival_information`: ([Departure Arrival Information](/glossary#departure-arrival-information)) An object containing information about the arrival and its airport.
+  - `segments[].marketing_airline_information`: ([Flight Airline Information](/glossary#flight-airline-information)) An object containing information about the airline marketing the fares.
+  - `segments[].marketing_airline_information`: ([Flight Airline Information](/glossary#flight-airline-information)?) An object containing information about the airline operating the fares. Operating airline might not be present for fares that are operated by their marketing airline.
+  - `segments[].additional_information`: (`Record`) An object containing additional information about the segment.
+    - `segments[].additional_information.equipment`: ([Segment Equipment Information](/pages/glossary.mdx#segment-equipment-information)?) An object containing information about the equipment used on this segment.
+    - `segments[].additional_information.flight_detail`: (`Record?`) Object containing some additional information about the segment.
+      - `segments[].additional_information.flight_detail.duration`: (`string?`) The duration of the flight in minutes.
+      - `segments[].additional_information.flight_detail.stop_quantity`: (`number?`) the number of stops on this flight. This is not the same as the number of segments, as this is inside a segment. This is in case of a indirect flight.
+  - `segments[].emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
+  - `segments[].distance`: (`number?`) The distance of the flight in miles.
