@@ -42,10 +42,16 @@ A 1-2 letter code identifying a cabin class. The following are the possible valu
 - `PY`: Premium Economy
 - `J`: Business or First Class
 
+## Brand Name
+
+An alphanumeric string containing the name of a brand. The names of brands will vary depending on the airline, the route and other factors.
+
+> 🛎 It is advised not to assume the existence of any brand or associating the name of a brand with particular characteristics.
+
 ### Type Definition
 
 ```ts
-type CabinCode = "Y" | "PY" | "J";
+type BrandName = string;
 ```
 
 ## Departure Arrival Information
