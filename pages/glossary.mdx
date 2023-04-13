@@ -1,0 +1,378 @@
+# API Type Glossary
+
+The following types are references throughout the documentations and are defined here for convenience.
+
+> Type definitions are written in a Pseudo-TypeScript style. This is done to provide a more accurate representation of the types and to provide a more consistent experience when reading the documentation.
+
+## Public ID
+
+A public ID is a UUID v4 unique identifier for a particular object. It is used to identify the object in the API and is used to retrieve the object from the API.
+
+### Type Definition
+
+```ts
+type PublicID = string;
+```
+
+## Airport IATA Code
+
+A 3-letter IATA code for an airport. Visit [Airline and Location Code Search](https://www.iata.org/en/publications/directories/code-search/) for more information.
+
+### Type Definition
+
+```ts
+type AirportIATA = string;
+```
+
+## Airline IATA Code
+
+A 2-Alphanumeric IATA code for an airline. Visit [Airline and Location Code Search](https://www.iata.org/en/publications/directories/code-search/) for more information.
+
+### Type Definition
+
+```ts
+type AirlineIATA = string;
+```
+
+## Cabin Code
+
+A 1-2 letter code identifying a cabin class. The following are the possible values:
+
+- `Y`: Economy
+- `PY`: Premium Economy
+- `J`: Business or First Class
+
+## Brand Name
+
+An alphanumeric string containing the name of a brand. The names of brands will vary depending on the airline, the route and other factors.
+
+> 🛎 It is advised not to assume the existence of any brand or associating the name of a brand with particular characteristics.
+
+### Type Definition
+
+```ts
+type BrandName = string;
+```
+
+## Departure Arrival Information
+
+Represents a departure or arrival information from or to an airport.
+
+### Sub Properties
+
+- `airport_name`: (`string`) The name of the airport.
+- `airport_code`: ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport.
+- `airport_city_name`: (`string`) The name of the city where the airport is located.
+- `date_time`: (`string`) The date and time of the flight departing from this airport.
+- `terminal`: (`string?`) The terminal of the airport.
+
+### Type Definition
+
+```ts
+interface DepartureArrivalInformation {
+  airport_code: AirportIATA;
+  airport_name: string;
+  airport_city_name: string;
+  date_time: string;
+  terminal?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "airport_code": "YEG",
+  "airport_name": "Edmonton International Airport",
+  "airport_city_name": "Edmonton",
+  "date_time": "2023-05-16 07:00:00",
+  "terminal": null
+}
+```
+
+## Flight Airport Information
+
+Represents an airport visit within an itinerary. Will contain a layover time, if the airport is a layover airport.
+
+### Sub Properties
+
+- `airport_name`: (`string`) The name of the airport.
+- `airport_code`: ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport.
+- `airport_city_name`: (`string`) The name of the city where the airport is located.
+- `date_time`: (`string`) The date and time of the flight departing from this airport.
+- `flight_number`: (`string?`) The flight number of the flight departing from this airport.
+- `layover_time`: (`string?`) If this is a layover airport, the length of the layover in `H.i` format.
+
+### Type Definition
+
+```ts
+interface FlightAirportInformation {
+  airport_name: string;
+  airport_code: AirportIATA;
+  airport_city_name: string;
+  date_time: string;
+  flight_number: string;
+  layover_time?: `${number}.${number}`;
+}
+```
+
+### Example
+
+```json
+{
+  "airport_code": "YVR",
+  "airport_name": "Vancouver International Airport",
+  "airport_city_name": "Vancouver",
+  "date_time": "2023-04-15 23:15:00",
+  "flight_number": "",
+  "layover_time": ""
+}
+```
+
+## Flight Airline Information
+
+Represents an airline associated with a particular segment. Might be a marketing airline or an operating airline.
+
+### Sub Properties
+
+- `airline_name`: (`string`) The name of the airline.
+- `airline_code`: ([Airline IATA Code](#airline-iata-code)) The IATA code of the airport.
+- `flight_number`: (`string`) The flight number associated with the segment.
+- `alliance`: (`string`) The name of the alliance the airline is a member of.
+
+### Type Definition
+
+```ts
+interface FlightAirlineInformation {
+  airline_name: string;
+  airline_code: AirlineIATA;
+  flight_number: string;
+  alliance?: "Star Alliance" | "SkyTeam" | "OneWorld" | string;
+}
+```
+
+### Example
+
+```json
+{
+  "airline_code": "DL",
+  "airline_name": "Delta Air Lines",
+  "flight_number": "4083",
+  "alliance": "SkyTeam"
+}
+```
+
+## Segment Equipment Information
+
+Represents an aircraft associated with a particular segment.
+
+### Sub Properties
+
+- `code`: (`string`) The IATA code of the aircraft.
+- `name`: (`string?`) The name of the aircraft.
+- `graphic`: (`string?`) The URL to an image of the aircraft.
+
+### Type Definition
+
+```ts
+interface SegmentEquipmentInformation {
+  code: string;
+  name?: string;
+  graphic?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "code": "73H",
+  "name": "Boeing 737-800",
+  "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+}
+```
+
+## Flight Brand Information
+
+Represents a particular brand associated with a flight. This object indicates most characteristics of the ticket being sold.
+
+### Sub Properties
+
+- `price_information`: ([Brand Price Information](#brand-price-information)) The pricing information for the brand.
+- `fare_information`: ([Brand Fare Information](#brand-fare-information)) Information about what the brand offers.
+- `excluded`: (`boolean`) Whether or not the brand is excluded from the search, based on the search preferences.
+- `brand`: (`string`) The name of the brand.
+- `cabin`: (`string`) The code for the cabin where the brand is located.
+- `public`: ([Public ID](#public-id)) The public ID of the brand.
+
+### Type Definition
+
+```ts
+interface FlightBrandInformation {
+  price_information: BrandPriceInformation;
+  fare_information: BrandFareInformation;
+  excluded?: boolean;
+  brand: string;
+  cabin: string;
+  public: PublicID;
+}
+```
+
+## Brand Fare Information
+
+Provides information about the fare associated with a brand.
+
+### Sub Properties
+
+- `offerings`: (`Array<string>`) A list of notable features of the fare.
+- `cabin_codes`: (`Array<Record>`?) A list of cabin codes associated with each segment of the flights.
+  > 🛎 This is present because a brand might be marketed as a certain cabin, but the actual cabin might be different in certain segments of the entire itinerary.
+  - `cabin_codes[].departure` : ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport which the segment departs from.
+  - `cabin_codes[].arrival` : ([Airport IATA Code](#airport-iata-code)) The IATA code of the airport which the segment arrives at.
+  - `cabin_codes[].cabinClass` : ([Cabin Code](#cabin-code)) The cabin code for the segment with the given departure and arrival airports.
+- `rewards`: ([Brand Rewards Information](#brand-rewards-information)?) The estimated rewards earned for purchasing the brand.
+- `discount`: ([Brand Discount Information](#brand-discount-information)?) The discount information for the brand. This is only present if the brand is discounted, but for a more explicit way to check if a brand is discounted, use the `discount.indicator` property.
+
+### Type Definition
+
+```ts
+interface BrandFareInformation {
+  offerings: string[];
+  cabin_codes?: {
+    departure: AirportIATA;
+    arrival: AirportIATA;
+    cabinClass: CabinCode;
+  }[];
+  rewards?: BrandRewardsInformation;
+  discount?: BrandDiscountInformation;
+}
+```
+
+## Brand Price Information
+
+Represents the pricing information for a particular brand.
+
+### Sub Properties
+
+- `total_amount`: (`number`) The total amount of the brand in the currency indicated.
+- `base_amount`: (`number`) The base amount of the brand in the currency indicated.
+- `starting_fare_amount`: (`number`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
+- `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
+- `tax`: (`Record`) An object containing the tax information for the brand.
+  - `tax.total_tax` : (`number`) The total amount of tax for the brand in the currency indicated.
+  - `tax.tax` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
+- `surcharge`: (`Record`) An object containing the surcharge information for the brand.
+  - `surcharge.total_surcharge` : (`number`) The total amount of surcharges for the brand in the currency indicated.
+  - `surcharge.surcharge` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
+
+### Type Definition
+
+```ts
+interface BrandPriceInformation {
+  total_amount: number;
+  base_amount: number;
+  starting_fare_amount: number;
+  currency: string;
+  tax: {
+    total_tax: number;
+    tax: Array<BrandPriceChargeInformation>;
+  };
+  surcharge: {
+    total_surcharge: number;
+    surcharge: Array<BrandPriceChargeInformation>;
+  };
+}
+```
+
+## Brand Price Charge Information
+
+Represents an additional tax/surcharge that applies to a brand's price.
+
+### Sub Properties
+
+- `amount`: (`string`) The amount of the charge in the currency indicated in the parent.
+- `code`: (`string`) The code provided for the charge.
+- `description`: (`string?`) A description explaining what the charge is, according to its code.
+
+### Type Definition
+
+```ts
+interface BrandPriceChargeInformation {
+  amount: string;
+  code: string;
+  description?: string;
+}
+```
+
+## Brand Rewards Information
+
+Represents estimated rewards earned when purchasing a brand.
+
+### Sub Properties
+
+- `program`: (`Record`) An object containing the reward program information.
+  - `program.title` : (`string`) The name of the reward program.
+  - `program.code` : (`string`) The code identifying the program.
+  - `program.image` : (`string?`) The URL to the logo of the reward program.
+- `amount`: (`string`) The amount of rewards in the program's unit of measurement.
+
+### Type Definition
+
+```ts
+interface BrandRewardsInformation {
+  program: {
+    title: string;
+    code: string;
+    image?: string;
+  };
+  amount: string;
+}
+```
+
+## Brand Discount Information
+
+If a discount or a corporate code is applied to a brand, this object will contain information about the discount.
+
+### Sub Properties
+
+- `program`: (`Record`) An object containing the reward program information.
+  - `program.title` : (`string`) The name of the discount program.
+  - `program.identifier` : (`string?`) A unique identifier for the discount program.
+  - `program.image` : (`string?`) The URL to the logo of the discount program.
+- `indicator`: (`true`) Property explicitly indicating the application of a discount.
+- `type`: (`string`) The type of discount applied to the brand.
+  - Possible values:
+    - `CONTRACT`: Indicates a custom set of negotiated discounts. Usually used for larger corporate accounts.
+    - `ACCOUNT`: Indicates a more general purpose discount. Usually used for smaller corporate accounts.
+    - `GENERAL`: Indicates a general-purpose discount. Usually used for public discounts.
+- `code`: (`string?`) The code used to apply the discount.
+
+### Type Definition
+
+```ts
+interface BrandDiscountInformation {
+  program: {
+    title: string;
+    identifier?: string;
+    image?: string;
+  };
+  type: "CONTRACT" | "ACCOUNT" | "GENERAL";
+  code?: string;
+  indicator: true;
+}
+```
+
+### Example
+
+```json
+{
+  "program": {
+    "title": "AC for Business",
+    "identifier": "ACB",
+    "image": "https://bnwassets.s3.amazonaws.com/images/airline-logos/logo_air_AC_32x32.gif"
+  },
+  "indicator": true,
+  "type": "ACCOUNT",
+  "code": "ACB123"
+}
+```
