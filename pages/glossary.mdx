@@ -532,3 +532,26 @@ interface Seat {
   }
 },
 ```
+
+## Selected Seat-Like
+
+### Sub Properties
+
+Represents seat like, after it has been selected by the passenger. It contains the same properties as a [Seat-Like](#seat-like), but also contains:
+
+- `bound`: (`number`) The index of the bound to which the seat-like belongs.
+- `segment`: (`number`) The index of the segment, within the bound, to which the seat-like belongs.
+- `passenger`: (`Record`) Information of the passenger to which the seat-like now belongs.
+  - `public` : ([Public ID](#public-id)) The public ID of the passenger.
+
+### Type Definition
+
+```ts
+type SelectedSeatLike = SeatLike & {
+  bound: number;
+  segment: number;
+  passenger: {
+    public: PublicID;
+  };
+};
+```

@@ -295,3 +295,312 @@ Depending on whether the boundIndex is specified, the response will be an array 
 - `origin_name`: (`string`) The name of the origin city of the segment the seat map belongs to.
 - `destination_name`: (`string`) The name of the destination city of the segment the seat map belongs to.
 - `seat_map`: (`Array<`[Seat Row](/glossary#seat-row)`>` `?`) The seat map for the segment. Consisting of an array of rows.
+
+## Seat Selection Requirements
+
+Before selecting a seat, please ensure that the following requirements are met:
+
+- Passenger [Public ID](/glossary#public-id) must've been requested from the [retrieving all passengers](/passengers#retrieving-all-passengers) endpoint.
+
+- The [seat-like](/glossary#seat-like) being selected must have the `selectable` property set to `true`.
+
+> 🛎 Selecting a seat for a passenger, will automatically remove their previous seat selection for the same segment.
+
+> 🧨 If a seat has already been selected for a passenger, it must be removed from them, before another passenger can be assigned to it.
+
+## Selecting Individual Seats
+
+`POST /flight/[sessionId]/seat/[seatId]`
+
+This endpoints allows for selection of a single seat, for a single passenger.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/seat/[seatId]" copy
+{
+  "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac"
+}
+```
+
+Where `passenger` is the `public` property of the passenger to be assigned to the seat, and the `seatId` is the `public` property of the seat-like to be selected.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/seat/[seatId]" copy
+{
+  "bound": 0,
+  "segment": 1,
+  "position": "WINDOW",
+  "rowIndex": 0,
+  "seatIndex": 1,
+  "selectable": true,
+  "seat": {
+    "row": "4",
+    "column": "A",
+    "position": "WINDOW",
+    "status": "paid",
+    "preferred": true,
+    "description": "WINDOW SEAT",
+    "service_type": "SEAT",
+    "price": {
+      "total_price": "36.00",
+      "total_tax": "0",
+      "currency": "CAD",
+      "base_price": "36.00"
+    }
+  },
+  "createdAt": "2023-04-24T18:08:31.003Z",
+  "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+  "expireAt": "2023-04-24T20:07:54.443Z",
+  "passenger": {
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "code": "ADT",
+    "createdAt": "2023-04-24T18:07:54.802Z",
+    "public": "fa4325f7-d301-4989-98be-c738598428e2"
+  }
+}
+```
+
+The response will contain the [selected seat-like](/glossary#selected-seat-like) that was selected.
+
+- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like that was selected containing minimal information about the passenger.
+
+## Selecting Seats in Bulk
+
+`POST /flight/[sessionId]/seat`
+
+This endpoints allows for selection of a multiple seats, for a multiple passengers.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/seat" copy
+[
+  {
+    "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac",
+    "seat": "58be0395-59da-40f0-9b9f-f7a1575d11de"
+  },
+  {
+    "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac",
+    "seat": "1d2a25dc-f87f-4bf0-971e-ea6938870ebc"
+  },
+  {
+    "passenger": "fa4325f7-d301-4989-98be-c738598428e2",
+    "seat": "488a1afa-fde2-4867-898c-7b0ee73cb8ba"
+  }
+]
+```
+
+You can choose select multiple seats for a multiple passengers are the same time, by repeating the passenger id in multiple objects.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/seat/[seatId]" copy
+[
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "WINDOW",
+    "rowIndex": 0,
+    "seatIndex": 1,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "A",
+      "position": "WINDOW",
+      "status": "paid",
+      "preferred": true,
+      "description": "WINDOW SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "36.00",
+        "total_tax": "2.00",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "ADT",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "fa4325f7-d301-4989-98be-c738598428e2"
+    }
+  },
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "CENTER",
+    "rowIndex": 0,
+    "seatIndex": 2,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "B",
+      "position": "CENTER",
+      "status": "paid",
+      "preferred": true,
+      "description": "CENTER SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "34.00",
+        "total_tax": "0",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "CHD",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+    }
+  }
+]
+```
+
+The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s selected.
+
+- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected containing minimal information about the passenger.
+
+## Retrieving a Selected Seat
+
+`GET /flight/[sessionId]/seat/[seatId]`
+
+This endpoint allows for retrieval a single selected seat.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/seat/[seatId]" copy
+{
+  "bound": 0,
+  "segment": 1,
+  "position": "CENTER",
+  "rowIndex": 0,
+  "seatIndex": 2,
+  "selectable": true,
+  "seat": {
+    "row": "4",
+    "column": "B",
+    "position": "CENTER",
+    "status": "paid",
+    "preferred": true,
+    "description": "CENTER SEAT",
+    "service_type": "SEAT",
+    "price": {
+      "total_price": "34.00",
+      "total_tax": "0",
+      "currency": "CAD",
+      "base_price": "34.00"
+    }
+  },
+  "createdAt": "2023-04-24T18:08:31.003Z",
+  "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+  "expireAt": "2023-04-24T20:07:54.443Z",
+  "passenger": {
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "code": "CHD",
+    "createdAt": "2023-04-24T18:07:54.802Z",
+    "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+  }
+}
+```
+
+The response will contain the [selected seat-like](/glossary#selected-seat-like) selected.
+
+- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like selected.
+
+## Retrieving All Selected Seats
+
+`GET /flight/[sessionId]/seat`
+
+This endpoint allows for retrieval of all selected seats for a given session.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/seat" copy
+[
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "WINDOW",
+    "rowIndex": 0,
+    "seatIndex": 1,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "A",
+      "position": "WINDOW",
+      "status": "paid",
+      "preferred": true,
+      "description": "WINDOW SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "36.00",
+        "total_tax": "2.00",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "ADT",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "fa4325f7-d301-4989-98be-c738598428e2"
+    }
+  },
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "CENTER",
+    "rowIndex": 0,
+    "seatIndex": 2,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "B",
+      "position": "CENTER",
+      "status": "paid",
+      "preferred": true,
+      "description": "CENTER SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "34.00",
+        "total_tax": "0",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "CHD",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+    }
+  }
+]
+```
+
+The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s.
+
+- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected.
+
+## Removing a Selected Seat
+
+`DELETE /flight/[sessionId]/seat/[seatId]`
+
+This endpoint allows for deselection of a single selected seat.
+
+### Response
+
+If successful, the response will be empty with a status code of `204`.
