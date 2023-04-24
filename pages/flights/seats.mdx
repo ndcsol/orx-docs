@@ -1,0 +1,606 @@
+# Seat Selection
+
+Once all of the flights have been selected, seat maps can be retrieved for each flight. The seat maps returned will be according to the flights and brands selected. Re-selecting brands or fares will change the seat maps and remove any selected seats.
+
+## Requesting Seat Maps
+
+`GET /flight/[sessionId]/seatmap/[boundIndex?]`
+
+The endpoint will return an array of seat maps for the fares selected. If the boundIndex is not specified, seat maps for all bounds will be returned.
+
+> 🛎 Seat selection is not available for all flights. If seat selection is not available for a flight, the result will still acknowledge the flight, but will not include a seat map.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/seatmap/[boundIndex?]" copy
+[
+  {
+    "origin": "YVR",
+    "destination": "YYC",
+    "origin_name": "Vancouver",
+    "destination_name": "Calgary",
+    "seat_map": [
+      [
+        {
+          "position": "EXIT-DOOR",
+          "rowIndex": 0,
+          "seatIndex": 0,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.470Z",
+          "public": "244fc0d9-2f54-4347-b2da-ea50d7df4d52"
+        },
+        {
+          "position": "WINDOW",
+          "rowIndex": 0,
+          "seatIndex": 1,
+          "selectable": true,
+          "seat": {
+            "row": "1",
+            "column": "A",
+            "position": "WINDOW",
+            "status": "paid",
+            "preferred": false,
+            "description": "WINDOW Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.472Z",
+          "public": "584313e9-2c1b-42c2-a02d-ceffcac015da"
+        },
+        {
+          "position": "AISLE",
+          "rowIndex": 0,
+          "seatIndex": 2,
+          "selectable": true,
+          "seat": {
+            "row": "1",
+            "column": "B",
+            "position": "AISLE",
+            "status": "paid",
+            "preferred": false,
+            "description": "AISLE Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.473Z",
+          "public": "af50320f-1cab-4e29-819f-9ce2e4c3107e"
+        },
+        {
+          "position": "HALLWAY",
+          "row": "1 ",
+          "rowIndex": 0,
+          "seatIndex": 3,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.473Z",
+          "public": "3d8d5f2d-1bfb-4974-97c9-25f4bb7642d8"
+        },
+        {
+          "position": "AISLE",
+          "rowIndex": 0,
+          "seatIndex": 4,
+          "selectable": true,
+          "seat": {
+            "row": "1",
+            "column": "C",
+            "position": "AISLE",
+            "status": "paid",
+            "preferred": false,
+            "description": "AISLE Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "24.15",
+              "total_tax": "1.15",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.474Z",
+          "public": "b325afc3-008b-4dc9-90f8-06c9bb664727"
+        },
+        {
+          "position": "WINDOW",
+          "rowIndex": 0,
+          "seatIndex": 5,
+          "selectable": true,
+          "seat": {
+            "row": "1",
+            "column": "D",
+            "position": "WINDOW",
+            "status": "paid",
+            "preferred": false,
+            "description": "WINDOW Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "24.15",
+              "total_tax": "1.15",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.475Z",
+          "public": "780f38e2-2e91-4ff9-b80a-3c6fe5bbb0e7"
+        },
+        {
+          "position": "EXIT-DOOR",
+          "rowIndex": 0,
+          "seatIndex": 6,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.475Z",
+          "public": "d4d8e45c-4b05-4db0-996c-1b6f9352acef"
+        }
+      ],
+      [
+        {
+          "position": "EXIT-DOOR",
+          "rowIndex": 1,
+          "seatIndex": 0,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.475Z",
+          "public": "757aeb53-08cd-4263-ae4a-610945263d3a"
+        },
+        {
+          "position": "WINDOW",
+          "rowIndex": 1,
+          "seatIndex": 1,
+          "selectable": true,
+          "seat": {
+            "row": "2",
+            "column": "A",
+            "position": "WINDOW",
+            "status": "paid",
+            "preferred": false,
+            "description": "WINDOW Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.476Z",
+          "public": "94370763-d53f-41df-b635-f5dd2e0fe43e"
+        },
+        {
+          "position": "AISLE",
+          "rowIndex": 1,
+          "seatIndex": 2,
+          "selectable": true,
+          "seat": {
+            "row": "2",
+            "column": "B",
+            "position": "AISLE",
+            "status": "paid",
+            "preferred": false,
+            "description": "AISLE Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.477Z",
+          "public": "ae8bce7a-e466-4cde-bb8a-ce51371740f0"
+        },
+        {
+          "position": "HALLWAY",
+          "row": "2 ",
+          "rowIndex": 1,
+          "seatIndex": 3,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.477Z",
+          "public": "02c38203-86d1-4d1b-a47a-6b6ae8068ddf"
+        },
+        {
+          "position": "AISLE",
+          "rowIndex": 1,
+          "seatIndex": 4,
+          "selectable": true,
+          "seat": {
+            "row": "2",
+            "column": "C",
+            "position": "AISLE",
+            "status": "paid",
+            "preferred": false,
+            "description": "AISLE Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.478Z",
+          "public": "1bff14b3-7f02-4263-bb9f-d2cded580063"
+        },
+        {
+          "position": "WINDOW",
+          "rowIndex": 1,
+          "seatIndex": 5,
+          "selectable": true,
+          "seat": {
+            "row": "2",
+            "column": "D",
+            "position": "WINDOW",
+            "status": "paid",
+            "preferred": false,
+            "description": "WINDOW Seat",
+            "service_type": "SEAT",
+            "price": {
+              "total_price": "26.25",
+              "total_tax": "1.25",
+              "currency": "CAD"
+            }
+          },
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.479Z",
+          "public": "3d004ac4-284f-4d81-a317-d50059ad4892"
+        },
+        {
+          "position": "EXIT-DOOR",
+          "rowIndex": 1,
+          "seatIndex": 6,
+          "selectable": false,
+          "seat": null,
+          "expireAt": "2023-04-14T23:32:21.703Z",
+          "createdAt": "2023-04-14T22:33:43.480Z",
+          "public": "92b5910d-4b25-4b7b-8afb-e5e7fcfd2d4d"
+        }
+      ]
+    ],
+    "expireAt": "2023-04-14T23:32:21.703Z",
+    "createdAt": "2023-04-14T21:34:02.486Z",
+    "public": "6b7f7ef6-9b53-4ce0-9443-f1375dedcde0"
+  },
+  {
+    "origin": "YYC",
+    "destination": "LHR",
+    "origin_name": "Calgary",
+    "destination_name": "London",
+    "seat_map": null,
+    "expireAt": "2023-04-14T23:32:21.703Z",
+    "createdAt": "2023-04-14T21:34:02.486Z",
+    "public": "22348085-6819-4ef0-884f-ecc0d66301bd"
+  }
+]
+```
+
+Depending on whether the boundIndex is specified, the response will be an array containing all seat maps or the seat map for the boundIndex specified.
+
+- `origin`: ([Airport IATA Code](/glossary#airport-iata-code)) The IATA code of the origin airport of the segment the seat map belongs to.
+- `destination`: ([Airport IATA Code](/glossary#airport-iata-code)) The IATA code of the destination airport of the segment the seat map belongs to.
+- `origin_name`: (`string`) The name of the origin city of the segment the seat map belongs to.
+- `destination_name`: (`string`) The name of the destination city of the segment the seat map belongs to.
+- `seat_map`: (`Array<`[Seat Row](/glossary#seat-row)`>` `?`) The seat map for the segment. Consisting of an array of rows.
+
+## Seat Selection Requirements
+
+Before selecting a seat, please ensure that the following requirements are met:
+
+- Passenger [Public ID](/glossary#public-id) must've been requested from the [retrieving all passengers](/passengers#retrieving-all-passengers) endpoint.
+
+- The [seat-like](/glossary#seat-like) being selected must have the `selectable` property set to `true`.
+
+> 🛎 Selecting a seat for a passenger, will automatically remove their previous seat selection for the same segment.
+
+> 🧨 If a seat has already been selected for a passenger, it must be removed from them, before another passenger can be assigned to it.
+
+## Selecting Individual Seats
+
+`POST /flight/[sessionId]/seat/[seatId]`
+
+This endpoints allows for selection of a single seat, for a single passenger.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/seat/[seatId]" copy
+{
+  "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac"
+}
+```
+
+Where `passenger` is the `public` property of the passenger to be assigned to the seat, and the `seatId` is the `public` property of the seat-like to be selected.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/seat/[seatId]" copy
+{
+  "bound": 0,
+  "segment": 1,
+  "position": "WINDOW",
+  "rowIndex": 0,
+  "seatIndex": 1,
+  "selectable": true,
+  "seat": {
+    "row": "4",
+    "column": "A",
+    "position": "WINDOW",
+    "status": "paid",
+    "preferred": true,
+    "description": "WINDOW SEAT",
+    "service_type": "SEAT",
+    "price": {
+      "total_price": "36.00",
+      "total_tax": "0",
+      "currency": "CAD",
+      "base_price": "36.00"
+    }
+  },
+  "createdAt": "2023-04-24T18:08:31.003Z",
+  "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+  "expireAt": "2023-04-24T20:07:54.443Z",
+  "passenger": {
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "code": "ADT",
+    "createdAt": "2023-04-24T18:07:54.802Z",
+    "public": "fa4325f7-d301-4989-98be-c738598428e2"
+  }
+}
+```
+
+The response will contain the [selected seat-like](/glossary#selected-seat-like) that was selected.
+
+- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like that was selected containing minimal information about the passenger.
+
+## Selecting Seats in Bulk
+
+`POST /flight/[sessionId]/seat`
+
+This endpoints allows for selection of a multiple seats, for a multiple passengers.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/seat" copy
+[
+  {
+    "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac",
+    "seat": "58be0395-59da-40f0-9b9f-f7a1575d11de"
+  },
+  {
+    "passenger": "ac80c658-da65-48a7-b803-ed849e6273ac",
+    "seat": "1d2a25dc-f87f-4bf0-971e-ea6938870ebc"
+  },
+  {
+    "passenger": "fa4325f7-d301-4989-98be-c738598428e2",
+    "seat": "488a1afa-fde2-4867-898c-7b0ee73cb8ba"
+  }
+]
+```
+
+You can choose select multiple seats for a multiple passengers are the same time, by repeating the passenger id in multiple objects.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/seat" copy
+[
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "WINDOW",
+    "rowIndex": 0,
+    "seatIndex": 1,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "A",
+      "position": "WINDOW",
+      "status": "paid",
+      "preferred": true,
+      "description": "WINDOW SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "36.00",
+        "total_tax": "2.00",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "ADT",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "fa4325f7-d301-4989-98be-c738598428e2"
+    }
+  },
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "CENTER",
+    "rowIndex": 0,
+    "seatIndex": 2,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "B",
+      "position": "CENTER",
+      "status": "paid",
+      "preferred": true,
+      "description": "CENTER SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "34.00",
+        "total_tax": "0",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "CHD",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+    }
+  }
+]
+```
+
+The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s selected.
+
+- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected containing minimal information about the passenger.
+
+## Retrieving a Selected Seat
+
+`GET /flight/[sessionId]/seat/[seatId]`
+
+This endpoint allows for retrieval a single selected seat.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/seat/[seatId]" copy
+{
+  "bound": 0,
+  "segment": 1,
+  "position": "CENTER",
+  "rowIndex": 0,
+  "seatIndex": 2,
+  "selectable": true,
+  "seat": {
+    "row": "4",
+    "column": "B",
+    "position": "CENTER",
+    "status": "paid",
+    "preferred": true,
+    "description": "CENTER SEAT",
+    "service_type": "SEAT",
+    "price": {
+      "total_price": "34.00",
+      "total_tax": "0",
+      "currency": "CAD",
+      "base_price": "34.00"
+    }
+  },
+  "createdAt": "2023-04-24T18:08:31.003Z",
+  "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+  "expireAt": "2023-04-24T20:07:54.443Z",
+  "passenger": {
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "code": "CHD",
+    "createdAt": "2023-04-24T18:07:54.802Z",
+    "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+  }
+}
+```
+
+The response will contain the [selected seat-like](/glossary#selected-seat-like) selected.
+
+- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like selected.
+
+## Retrieving All Selected Seats
+
+`GET /flight/[sessionId]/seat`
+
+This endpoint allows for retrieval of all selected seats for a given session.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/seat" copy
+[
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "WINDOW",
+    "rowIndex": 0,
+    "seatIndex": 1,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "A",
+      "position": "WINDOW",
+      "status": "paid",
+      "preferred": true,
+      "description": "WINDOW SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "36.00",
+        "total_tax": "2.00",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "58be0395-59da-40f0-9b9f-f7a1575d11de",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "ADT",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "fa4325f7-d301-4989-98be-c738598428e2"
+    }
+  },
+  {
+    "bound": 0,
+    "segment": 1,
+    "position": "CENTER",
+    "rowIndex": 0,
+    "seatIndex": 2,
+    "selectable": true,
+    "seat": {
+      "row": "4",
+      "column": "B",
+      "position": "CENTER",
+      "status": "paid",
+      "preferred": true,
+      "description": "CENTER SEAT",
+      "service_type": "SEAT",
+      "price": {
+        "total_price": "34.00",
+        "total_tax": "0",
+        "currency": "CAD",
+        "base_price": "34.00"
+      }
+    },
+    "createdAt": "2023-04-24T18:08:31.003Z",
+    "public": "636c991f-c300-41df-bbbf-ef7d7f2c4114",
+    "expireAt": "2023-04-24T20:07:54.443Z",
+    "passenger": {
+      "expireAt": "2023-04-24T20:07:54.443Z",
+      "code": "CHD",
+      "createdAt": "2023-04-24T18:07:54.802Z",
+      "public": "f38df5d1-95d6-4fe7-8575-59b5d5eb186c"
+    }
+  }
+]
+```
+
+The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s.
+
+- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected.
+
+## Removing a Selected Seat
+
+`DELETE /flight/[sessionId]/seat/[seatId]`
+
+This endpoint allows for deselection of a single selected seat.
+
+### Response
+
+If successful, the response will be empty with a status code of `204`.
