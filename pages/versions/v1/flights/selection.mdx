@@ -405,9 +405,9 @@ This endpoint is used to query individual flights, where `[sessionId]` is the pu
 
 ```
 
-- `public`: ([Public ID](/glossary#public-id)) The public ID of the flight. This will be used to select and retrieve the flight.
+- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the flight. This will be used to select and retrieve the flight.
 - `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/session#session-object).
-- `airports`: ([Flight Airport Information](/glossary#flight-airport-information)) An array representing all of the airports visited.
+- `airports`: ([Flight Airport Information](/versions/v1/glossary#flight-airport-information)) An array representing all of the airports visited.
 - `sort_field`: (`Record`) An object containing general information about the flight.
   - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
   - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
@@ -417,18 +417,18 @@ This endpoint is used to query individual flights, where `[sessionId]` is the pu
   - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
   - `emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
 - `segments`: (`Array<Record>`) An array of objects representing the flight segments.
-  - `segments[].departure_information`: ([Departure Arrival Information](/glossary#departure-arrival-information)) An object containing information about the departure and its airport.
-  - `segments[].arrival_information`: ([Departure Arrival Information](/glossary#departure-arrival-information)) An object containing information about the arrival and its airport.
-  - `segments[].marketing_airline_information`: ([Flight Airline Information](/glossary#flight-airline-information)) An object containing information about the airline marketing the fares.
-  - `segments[].marketing_airline_information`: ([Flight Airline Information](/glossary#flight-airline-information)?) An object containing information about the airline operating the fares. Operating airline might not be present for fares that are operated by their marketing airline.
+  - `segments[].departure_information`: ([Departure Arrival Information](/versions/v1/glossary#departure-arrival-information)) An object containing information about the departure and its airport.
+  - `segments[].arrival_information`: ([Departure Arrival Information](/versions/v1/glossary#departure-arrival-information)) An object containing information about the arrival and its airport.
+  - `segments[].marketing_airline_information`: ([Flight Airline Information](/versions/v1/glossary#flight-airline-information)) An object containing information about the airline marketing the fares.
+  - `segments[].marketing_airline_information`: ([Flight Airline Information](/versions/v1/glossary#flight-airline-information)?) An object containing information about the airline operating the fares. Operating airline might not be present for fares that are operated by their marketing airline.
   - `segments[].additional_information`: (`Record`) An object containing additional information about the segment.
-    - `segments[].additional_information.equipment`: ([Segment Equipment Information](/glossary#segment-equipment-information)?) An object containing information about the equipment used on this segment.
+    - `segments[].additional_information.equipment`: ([Segment Equipment Information](/versions/v1/glossary#segment-equipment-information)?) An object containing information about the equipment used on this segment.
     - `segments[].additional_information.flight_detail`: (`Record?`) Object containing some additional information about the segment.
       - `segments[].additional_information.flight_detail.duration`: (`string?`) The duration of the flight in minutes.
       - `segments[].additional_information.flight_detail.stop_quantity`: (`number?`) the number of stops on this flight. This is not the same as the number of segments, as this is inside a segment. This is in case of a indirect flight.
   - `segments[].emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
   - `segments[].distance`: (`number?`) The distance of the flight in miles.
-- `brand_information`: (`Record<`[Cabin Code](/glossary#cabin-code)`,` `Record<` [Brand Name](/glossary#brand-name) `,`[Brand Information](/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
+- `brand_information`: (`Record<`[Cabin Code](/versions/v1/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v1/glossary#brand-name) `,`[Brand Information](/versions/v1/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
 
   > 🛎 The `public` ID of the brand of choice will be necessary to select and retrieve the brand.
 

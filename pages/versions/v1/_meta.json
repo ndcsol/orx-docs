@@ -1,0 +1,18 @@
+{
+  "index": "Getting Started",
+  "session": "Session Management",
+  "flights": "Flights",
+  "passengers": "Passenger Management",
+  "about": {
+    "title": "About",
+    "type": "page",
+    "href": "https://www.orx.travel/about",
+    "newWindow": true
+  },
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://www.orx.travel/contact",
+    "newWindow": true
+  }
+}

@@ -290,19 +290,19 @@ The endpoint will return an array of seat maps for the fares selected. If the bo
 
 Depending on whether the boundIndex is specified, the response will be an array containing all seat maps or the seat map for the boundIndex specified.
 
-- `origin`: ([Airport IATA Code](/glossary#airport-iata-code)) The IATA code of the origin airport of the segment the seat map belongs to.
-- `destination`: ([Airport IATA Code](/glossary#airport-iata-code)) The IATA code of the destination airport of the segment the seat map belongs to.
+- `origin`: ([Airport IATA Code](/versions/v1/glossary#airport-iata-code)) The IATA code of the origin airport of the segment the seat map belongs to.
+- `destination`: ([Airport IATA Code](/versions/v1/glossary#airport-iata-code)) The IATA code of the destination airport of the segment the seat map belongs to.
 - `origin_name`: (`string`) The name of the origin city of the segment the seat map belongs to.
 - `destination_name`: (`string`) The name of the destination city of the segment the seat map belongs to.
-- `seat_map`: (`Array<`[Seat Row](/glossary#seat-row)`>` `?`) The seat map for the segment. Consisting of an array of rows.
+- `seat_map`: (`Array<`[Seat Row](/versions/v1/glossary#seat-row)`>` `?`) The seat map for the segment. Consisting of an array of rows.
 
 ## Seat Selection Requirements
 
 Before selecting a seat, please ensure that the following requirements are met:
 
-- Passenger [Public ID](/glossary#public-id) must've been requested from the [retrieving all passengers](/passengers#retrieving-all-passengers) endpoint.
+- Passenger [Public ID](/versions/v1/glossary#public-id) must've been requested from the [retrieving all passengers](/versions/v1/passengers#retrieving-all-passengers) endpoint.
 
-- The [seat-like](/glossary#seat-like) being selected must have the `selectable` property set to `true`.
+- The [seat-like](/versions/v1/glossary#seat-like) being selected must have the `selectable` property set to `true`.
 
 > 🛎 Selecting a seat for a passenger, will automatically remove their previous seat selection for the same segment.
 
@@ -361,9 +361,9 @@ Where `passenger` is the `public` property of the passenger to be assigned to th
 }
 ```
 
-The response will contain the [selected seat-like](/glossary#selected-seat-like) that was selected.
+The response will contain the [selected seat-like](/versions/v1/glossary#selected-seat-like) that was selected.
 
-- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like that was selected containing minimal information about the passenger.
+- ([Selected seat-like](/versions/v1/glossary#selected-seat-like)): The seat-like that was selected containing minimal information about the passenger.
 
 ## Selecting Seats in Bulk
 
@@ -463,9 +463,9 @@ You can choose select multiple seats for a multiple passengers are the same time
 ]
 ```
 
-The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s selected.
+The response will contain the an array of [selected seat-like](/versions/v1/glossary#selected-seat-like)s selected.
 
-- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected containing minimal information about the passenger.
+- (`Array<`[Selected seat-like](/versions/v1/glossary#selected-seat-like)`>`): The seat-likes selected containing minimal information about the passenger.
 
 ## Retrieving a Selected Seat
 
@@ -510,9 +510,9 @@ This endpoint allows for retrieval a single selected seat.
 }
 ```
 
-The response will contain the [selected seat-like](/glossary#selected-seat-like) selected.
+The response will contain the [selected seat-like](/versions/v1/glossary#selected-seat-like) selected.
 
-- ([Selected seat-like](/glossary#selected-seat-like)): The seat-like selected.
+- ([Selected seat-like](/versions/v1/glossary#selected-seat-like)): The seat-like selected.
 
 ## Retrieving All Selected Seats
 
@@ -591,9 +591,9 @@ This endpoint allows for retrieval of all selected seats for a given session.
 ]
 ```
 
-The response will contain the an array of [selected seat-like](/glossary#selected-seat-like)s.
+The response will contain the an array of [selected seat-like](/versions/v1/glossary#selected-seat-like)s.
 
-- (`Array<`[Selected seat-like](/glossary#selected-seat-like)`>`): The seat-likes selected.
+- (`Array<`[Selected seat-like](/versions/v1/glossary#selected-seat-like)`>`): The seat-likes selected.
 
 ## Removing a Selected Seat
 

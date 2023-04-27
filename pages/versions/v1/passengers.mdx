@@ -6,7 +6,7 @@ To manage passengers, clients must first perform a search and receive a session_
 
 ## Retrieving All Passengers
 
-`PUT /passenger/[session_id]`
+`PUT /versions/v1/passenger/[session_id]`
 
 This endpoint returns a list of all passengers with their public ID and all information that has been filled so far.
 
@@ -55,7 +55,7 @@ And it will look like this after inputting all of the necessary information:
 
 ## Retrieving a Single Passenger
 
-`GET /passenger/[session_id]/[passenger_public]`
+`GET /versions/v1/passenger/[session_id]/[passenger_public]`
 
 Retrieves information about a specific passenger within a session. To use this endpoint, you'll need to provide the session_id of the session containing the passenger, as well as the public of the passenger you want to retrieve information for. The passenger's reference should be the `public` ID returned in the response of the [Retrieving All Passengers](#retrieving-all-passengers) endpoint.
 
@@ -89,7 +89,7 @@ This endpoint will return all the information that has been filled out for the s
 
 ## Updating a Passenger
 
-`PUT /passenger/[session_id]/[passenger_public]`
+`PUT /versions/v1/passenger/[session_id]/[passenger_public]`
 
 Updates the passenger information for a specific passenger in the session using their public property.
 
