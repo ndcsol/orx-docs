@@ -258,12 +258,8 @@ Represents the pricing information for a particular brand.
 - `base_amount`: (`number`) The base amount of the brand in the currency indicated.
 - `starting_fare_amount`: (`number`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
 - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
-- `tax`: (`Record`) An object containing the tax information for the brand.
-  - `tax.total_tax` : (`number`) The total amount of tax for the brand in the currency indicated.
-  - `tax.tax` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
-- `surcharge`: (`Record`) An object containing the surcharge information for the brand.
-  - `surcharge.total_surcharge` : (`number`) The total amount of surcharges for the brand in the currency indicated.
-  - `surcharge.surcharge` : (`Array<`[Brand Price Charge Information](#brand-price-charge-information)`>`)
+- `tax`: ([Price Tax Information](#price-tax-information)) An object containing the tax information for the brand.
+- `surcharge`: ([Price Surcharge Information](#price-surcharge-information)) An object containing the surcharges information for the brand.
 
 ### Type Definition
 
@@ -273,18 +269,48 @@ interface BrandPriceInformation {
   base_amount: number;
   starting_fare_amount: number;
   currency: string;
-  tax: {
-    total_tax: number;
-    tax: Array<BrandPriceChargeInformation>;
-  };
-  surcharge: {
-    total_surcharge: number;
-    surcharge: Array<BrandPriceChargeInformation>;
-  };
+  tax: PriceTaxInformation;
+  surcharge: PriceSurchargeInformation;
 }
 ```
 
-## Brand Price Charge Information
+## Price Tax Information
+
+Contains the total and the breakdown of the taxes for a particular price.
+
+### Sub Properties
+
+- `total_tax` : (`number`) The total amount of tax in the context of its parent.
+- `tax` : (`Array<`[Charge Information](#charge-information)`>`)
+
+### Type Definition
+
+```ts
+interface PriceTaxInformation {
+  total_tax: number;
+  tax: Array<ChargeInformation>;
+}
+```
+
+## Price Surcharge Information
+
+Contains the total and the breakdown of the surcharges for a particular price.
+
+### Sub Properties
+
+- `total_surcharge` : (`number`) The total amount of surcharges in the context of its parent.
+- `surcharge` : (`Array<`[Charge Information](#charge-information)`>`)
+
+### Type Definition
+
+```ts
+interface PriceSurchargeInformation {
+  total_surcharge: number;
+  surcharge: Array<ChargeInformation>;
+}
+```
+
+## Charge Information
 
 Represents an additional tax/surcharge that applies to a brand's price.
 
@@ -297,7 +323,7 @@ Represents an additional tax/surcharge that applies to a brand's price.
 ### Type Definition
 
 ```ts
-interface BrandPriceChargeInformation {
+interface ChargeInformation {
   amount: string;
   code: string;
   description?: string;
@@ -491,7 +517,7 @@ Represents information about an actual seat.
 - `price`: (`Record?`) The price of the seat.
   - `total_price`: (`string`) The total price of the seat.
   - `total_tax`: (`string`) The total tax of the seat.
-  - `currency`: (`string`) The currency of the seat.
+  - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the seat.
   - `base_price`: (`number?`) The base price of the seat.
 
 ### Type Definition
@@ -554,4 +580,63 @@ type SelectedSeatLike = SeatLike & {
     public: PublicID;
   };
 };
+```
+
+## Pricing Strategy
+
+Depending on the selected fares, the pricing strategy will indicate whether the selected fares were priced as a bundle or as individual fares. The possible values are:
+
+- `BUNDLED`: The fares were priced as a bundle.
+- `SEPARATE`: The fares were priced as individual fares.
+
+### Type Definition
+
+```ts
+type PricingStrategy = "BUNDLED" | "SEPARATE";
+```
+
+## Price Change
+
+### Sub Properties
+
+Represents change in the price of a fare. It contains the following properties:
+
+- `difference`: (`string`) The difference in price in the currency of its context.
+- `type`: (`string`) Whether the price has increased or decreased.
+  - Possible values:
+    - `MORE`: The price has increased.
+    - `LESS`: The price has decreased.
+- `reason`: ([Price Change Reason](#price-change-reason)) The reason for the price change.
+
+### Type Definition
+
+```ts
+interface PriceChange {
+  difference: string;
+  type: "MORE" | "LESS";
+  reason: PriceChangeReason;
+}
+```
+
+### Example
+
+```json
+{
+  "difference": "20",
+  "reason": "REPRICED",
+  "type": "MORE"
+}
+```
+
+## Price Change Reason
+
+Indicates the reason for a price change. The possible values are:
+
+- `BUNDLED`: The price has changed as a result of bundling previously unbundled fares.
+- `REPRICED`: The price has changed due to cached pricing or a change of price by the vendor.
+
+### Type Definition
+
+```ts
+type PriceChangeReason = "BUNDLED" | "REPRICED";
 ```
