@@ -1,0 +1,90 @@
+# Pricing Flights
+
+Once we have selected out flights, and optionally selected our ancillaries, we can proceed to pricing our flights. This step is required, and works towards confirming the price of the flights, and ensuring that the flights are still available. By this points, you should have also added the required passenger information to the session.
+
+## Requesting Pricing
+
+`GET /flight/[sessionId]/price`
+
+The endpoint will return the pricing information for the selected flights, and will also return the total price of the flights, including the ancillaries. If the price has changed, the response will contain the new price, and a property acknowledging the change.
+
+> 🧨 If there was any problems with the combination of flights, or the ancillaries, this is likely where the chicken 🐓 will come home to roost. If you have any issues, you should check the response for any errors, and then try to reselect the flights, or ancillaries.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/price" copy
+{
+  "itinerary_price": {
+    "total_amount": "3476.02",
+    "base_amount": "3442.37",
+    "currency": "CAD",
+    "tax": {
+      "total_tax": "32.52",
+      "tax": [
+        {
+          "amount": "0.50",
+          "code": "SC",
+          "description": "Goods And Services Tax (domestic/international)"
+        },
+        {
+          "amount": "32.02",
+          "code": "YQ",
+          "description": "Service Fee - Carrier-imposed"
+        }
+      ]
+    },
+    "surcharge": {
+      "total_surcharge": "1.13",
+      "tax": [
+        {
+          "amount": "1.13",
+          "code": "SC",
+          "description": "Airport Improvement Fees"
+        }
+      ]
+    },
+    "pricing_strategy": "SEPARATE",
+    "change_indicator": {
+      "difference": "12.00",
+      "reason": "REPRICED",
+      "type": "MORE"
+    }
+  },
+  "itinerary_notice": [
+    "BAG ALLOWANCE     -YVRYYC-02P/WS",
+    "CARRY ON ALLOWANCE",
+    "YVRYYC-01P/WS",
+    "01/CARRY ON HAND BAGGAGE",
+    "CARRY ON CHARGES",
+    "YVRYYC-WS-CARRY ON FEES UNKNOWN-CONTACT CARRIER",
+    "ADDITIONAL ALLOWANCES AND/OR DISCOUNTS MAY APPLY DEPENDING ON",
+    "FLYER-SPECIFIC FACTORS /E.G. FREQUENT FLYER STATUS/MILITARY/",
+    "CREDIT CARD FORM OF PAYMENT/EARLY PURCHASE OVER INTERNET,ETC./",
+    "BAG ALLOWANCE     -YYCYVR-02P/AC/EACH PIECE UP TO 70 POUNDS/32",
+    "KILOGRAMS AND UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS",
+    "CARRY ON ALLOWANCE",
+    "YYCYEG YEGYVR-01P/AC",
+    "01/CARRY ON HAND BAGGAGE",
+    "CARRY ON CHARGES",
+    "YYCYEG YEGYVR-AC-CARRY ON FEES UNKNOWN-CONTACT CARRIER",
+    "ADDITIONAL ALLOWANCES AND/OR DISCOUNTS MAY APPLY DEPENDING ON",
+    "FLYER-SPECIFIC FACTORS /E.G. FREQUENT FLYER STATUS/MILITARY/",
+    "CREDIT CARD FORM OF PAYMENT/EARLY PURCHASE OVER INTERNET,ETC./"
+  ],
+  "expireAt": "2023-04-28T18:41:54.523Z",
+  "createdAt": "2023-04-28T17:35:50.045Z",
+  "public": "68aa95f6-a7af-4823-b289-d0e6f63f15e4"
+}
+```
+
+- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the pricing.
+- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
+- `itinerary_price`: (`Record`) An object containing all the information about the pricing of the session.
+  - `itinerary_price.total_amount`: (`string`) The total amount for the session. This is the sum of the `base_amount`, `tax`, and `surcharge`.
+  - `itinerary_price.base_amount`: (`string`) The base amount for the session. It is the sum of the base prices for the flights and seats.
+  - `itinerary_price.currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
+  - `itinerary_price.tax`: ([Price Tax Information](/versions/v1/glossary#price-tax-information)) An object containing the tax information.
+  - `itinerary_price.surcharge`: ([Price Surcharge Information](/versions/v1/glossary#price-surcharge-information)) An object containing the surcharge information.
+  - `itinerary_price.pricing_strategy`: ([Pricing Strategy](/versions/v1/glossary#pricing-strategy)) The pricing strategy used to calculate the price. The strategies are automatically chosen by the API in order to ensure compatibility with the airline's pricing rules and to minimize pricing.
+  - `itinerary_price.change_indicator`: ([Price Change](/versions/v1/glossary#price-change)?) If the price has changed from the previous steps, this object will contain the information about the change.
+- `itinerary_notice`: (`Array<string>`) A list of notices for the itinerary. These notices are usually related to baggage allowances, and other information that may be relevant to the itinerary.
