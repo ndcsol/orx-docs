@@ -12,18 +12,21 @@ This endpoint is used to obtain configuration credentials required to generate t
 
 ### Payload
 
-```json
+```json filename="POST /payment/[sessionId]/initiate" copy
 { "origin": "http://localhost:3000", "token": "411111Z6hasQ1111" }
 ```
 
 This payload may include the following fields:
 
 - `origin`: The URL of the application embedding the iFrames.
+
+> 🛎 The origin used will have to be whitelisted in production. Please contact our support team for assistance.
+
 - `token` : (optional) The tokenized credit card number. This parameter is included when collecting sensitive information (e.g CVC/CVV) for an already tokenized credit card.
 
 ### Response
 
-```json
+```json filename="POST /payment/[sessionId]/initiate" copy
 {
   "authentication_key": "fBQRtlK5E1SBWJytXMSex7VeSPvAhI8w3A4vgxPD6FC=",
   "expires_at": "2023-06-23T18:46:27.036794Z",
