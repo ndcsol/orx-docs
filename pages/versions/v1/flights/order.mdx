@@ -1,0 +1,48 @@
+# Ordering Flights
+
+Once you have selected your flights, added the necessary ancillaries, and obtained the pricing information, you can proceed to place an order for the selected itinerary. This step finalizes the booking process and requires providing payment information.
+
+## Requesting Order
+
+`POST /flight/[sessionId]/order`
+
+Use this endpoint to place an order for the selected flights using the specified payment details. See [Payment Initialization](/versions/v1/payment/initiate) to understand the tokenization process.
+
+> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized with its [CVV/CVC attached to it](https://docs.tokenex.com/docs/pci-w-cvv-configuration).
+
+### Request
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "payment": {
+    "code": "visa",
+    "first_name": "John",
+    "last_name": "Doe",
+    "token": "401299Hb1tTS9999",
+    "expiry": "10/25",
+    "billing_information": {
+      "unit": "211",
+      "country": "CA",
+      "state": "ON",
+      "address": "529 West Broadway",
+      "city": "Toronto",
+      "postal_code": "L5W 1N6"
+    }
+  }
+}
+```
+
+- `payment`: (Payment Information) An object containing the payment details.
+  - `payment.code`: (`string`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
+    - It can only be one of `masterCard`, `americanExpress`, `discover`, `visa`, `diners`, or `jcb`.
+  - `payment.first_name`: (`string`) The first name of the cardholder.
+  - `payment.last_name`: (`string`) The last name of the cardholder.
+  - `payment.token`: (`string`) The payment token associated with the card.
+  - `payment.expiry`: (`string`) The expiry date of the card.
+  - `payment.billing_information`: (`Record`) An object containing the billing address details.
+    - `payment.billing_information.unit`: (`string?`) The unit number (optional).
+    - `payment.billing_information.country`: (`string`) The two-letter country code (e.g., "CA" for Canada).
+    - `payment.billing_information.state`: (`string`) The state or province.
+    - `payment.billing_information.address`: (`string`) The street address.
+    - `payment.billing_information.city`: (`string`) The city.
+    - `payment.billing_information.postal_code`: (`string`) The postal code/zip code.
