@@ -1,5 +1,7 @@
 {
   "search": "Initiating Search",
   "selection": "Flight Selection",
-  "seats": "Seat Selection"
+  "seats": "Seat Selection",
+  "pricing": "Pricing",
+  "order": "Order Creation"
 }

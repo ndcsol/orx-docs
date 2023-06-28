@@ -24,413 +24,381 @@ This endpoint is used to query individual flights, where `[sessionId]` is the pu
 
 ```json filename="GET /flight/[sessionId]/bound/[boundIndex]" copy
 [
-    {
-        "airports": [
-            {
-                "airport_code": "YUL",
-                "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
-                "airport_city_name": "Montreal",
-                "date_time": "2023-04-15 20:30:00",
-                "flight_number": "772",
-                "layover_time": ""
-            },
-            {
-                "airport_code": "YVR",
-                "airport_name": "Vancouver International Airport",
-                "airport_city_name": "Vancouver",
-                "date_time": "2023-04-15 23:15:00",
-                "flight_number": "",
-                "layover_time": ""
-            }
-        ],
-        "sort_field": {
-            "departure_date_time": "2023-04-15 20:30:00",
-            "arrival_date_time": "2023-04-15 23:15:00",
-            "airline": [
-                "Air Transat"
-            ],
-            "stops": 0,
-            "elapse_time": "5.45",
-            "cheapest_price": 0,
-            "alliances": [],
-            "emission": 255.55
-        },
-        "segments": [
-            {
-                "departure_information": {
-                    "airport_code": "YUL",
-                    "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
-                    "airport_city_name": "Montreal",
-                    "date_time": "2023-04-15 20:30:00",
-                    "terminal": null
-                },
-                "arrival_information": {
-                    "airport_code": "YVR",
-                    "airport_name": "Vancouver International Airport",
-                    "airport_city_name": "Vancouver",
-                    "date_time": "2023-04-15 23:15:00",
-                    "terminal": "M"
-                },
-                "marketing_airline_information": {
-                    "airline_code": "TS",
-                    "airline_name": "Air Transat",
-                    "flight_number": "772",
-                    "alliance": null
-                },
-                "operating_airline_information": {
-                    "airline_code": "TS",
-                    "airline_name": "Air Transat",
-                    "flight_number": "772",
-                    "alliance": null
-                },
-                "additional_information": {
-                    "equipment": {
-                        "code": "32Q",
-                        "name": "Airbus A321neo",
-                        "graphic": null
-                    },
-                    "e_ticket": "true",
-                    "mileage": "2295",
-                    "flight_detail": {
-                        "duration": "345"
-                    }
-                },
-                "emission": 255.55,
-                "distance": 2295
-            }
-        ],
-        "brand_information": {
-            "Y": {
-                "economy budget": {
-                    "price_information": {
-                        "total_amount": 163.41,
-                        "base_amount": 70,
-                        "starting_fare_amount": 0,
-                        "currency": "CAD",
-                        "tax": {
-                            "total_tax": 93.41,
-                            "tax": [
-                                {
-                                    "amount": "7.11",
-                                    "code": "XG",
-                                    "description": "Goods And Services Tax (gst)"
-                                },
-                                {
-                                    "amount": "35.00",
-                                    "code": "SQ",
-                                    "description": "Airport Improvement Fee (aif), (domestic/international)"
-                                },
-                                {
-                                    "amount": "14.18",
-                                    "code": "XQ",
-                                    "description": "Quebec Sales Tax"
-                                },
-                                {
-                                    "amount": "30.00",
-                                    "code": "YQ",
-                                    "description": "Airline Fuel And Insurance Surcharge"
-                                },
-                                {
-                                    "amount": "7.12",
-                                    "code": "CA",
-                                    "description": "Air Travellers Security Charge (domestic/international)"
-                                }
-                            ]
-                        },
-                        "surcharge": {
-                            "total_surcharge": 0,
-                            "surcharge": []
-                        },
-                    },
-                    "fare_information": {
-                        "offerings": [
-                            "Paid Alcoholic Drinks and Free Non-Alcoholic Drinks",
-                            "On-demand Entertainment Available",
-                            "Paid Light Meal",
-                            "All Rows have Power/usb Available",
-                            "255.55 KgCo2e total emissions"
-                        ],
-                        "discount": null,
-                        "cabin_codes": [
-                            {
-                                "departure": "YUL",
-                                "arrival": "YVR",
-                                "cabinClass": "Y"
-                            }
-                        ],
-                        "rewards": null,
-                    },
-                    "media_information": [],
-                    "baggage_information": {
-                        "free_baggages": [
-                            {
-                                "messages": [
-                                    "Free 0 for segments "
-                                ],
-                                "charge": 0,
-                                "piece": "0"
-                            }
-                        ],
-                        "charged_baggages": [
-                            {
-                                "messages": [
-                                    "UP TO 50 POUNDS/23 KILOGRAMS",
-                                    "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
-                                ],
-                                "charge": "40.00",
-                                "piece": "1"
-                            },
-                            {
-                                "messages": [
-                                    "UP TO 50 POUNDS/23 KILOGRAMS",
-                                    "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
-                                ],
-                                "charge": "70.00",
-                                "piece": "2"
-                            },
-                            {
-                                "messages": [
-                                    "UP TO 50 POUNDS/23 KILOGRAMS",
-                                    "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
-                                ],
-                                "charge": "225.00",
-                                "piece": "3"
-                            },
-                            {
-                                "messages": [
-                                    "UP TO 50 POUNDS/23 KILOGRAMS",
-                                    "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
-                                ],
-                                "charge": "225.00",
-                                "piece": "3"
-                            }
-                        ]
-                    },
-                    "optional_information": {
-                        "offer": {
-                            "offer_id": null,
-                            "offer_expiration": "2023-04-10T23:22:28.079883Z"
-                        }
-                    },
-                    "excluded": false,
-                    "expireAt": "2023-04-10T23:23:29.711Z",
-                    "brand": "economy budget",
-                    "cabin": "Y",
-                    "createdAt": "2023-04-10T21:23:29.950Z",
-                    "public": "9407ae91-625f-4e81-9188-584c979b744f",
-                }
-            },
-            "PY": {
-                "club standard": {
-                    "price_information": {
-                        "total_amount": 623.31,
-                        "base_amount": 470,
-                        "starting_fare_amount": 459.9,
-                        "currency": "CAD",
-                        "tax": {
-                            "total_tax": 153.31,
-                            "tax": [
-                                {
-                                    "amount": "27.11",
-                                    "code": "XG",
-                                    "description": "Goods And Services Tax (gst)"
-                                },
-                                {
-                                    "amount": "35.00",
-                                    "code": "SQ",
-                                    "description": "Airport Improvement Fee (aif), (domestic/international)"
-                                },
-                                {
-                                    "amount": "54.08",
-                                    "code": "XQ",
-                                    "description": "Quebec Sales Tax"
-                                },
-                                {
-                                    "amount": "30.00",
-                                    "code": "YQ",
-                                    "description": "Airline Fuel And Insurance Surcharge"
-                                },
-                                {
-                                    "amount": "7.12",
-                                    "code": "CA",
-                                    "description": "Air Travellers Security Charge (domestic/international)"
-                                }
-                            ]
-                        },
-                        "surcharge": {
-                            "total_surcharge": 0,
-                            "surcharge": []
-                        }
-                    },
-                    "fare_information": {
-                        "offerings": [
-                            "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
-                            "On-demand Entertainment Available",
-                            "Free Premium Meal",
-                            "All Rows have Power/usb Available",
-                            "Fully refundable",
-                            "2 checked bags free",
-                            "383.325 KgCo2e total emissions"
-                        ],
-                        "discount": null,
-                        "cabin_codes": [
-                            {
-                                "departure": "YUL",
-                                "arrival": "YVR",
-                                "cabinClass": "PY"
-                            }
-                        ],
-                        "rewards": null
-                    },
-                    "media_information": [],
-                    "baggage_information": {
-                        "free_baggages": [
-                            {
-                                "messages": [
-                                    "Free 2 for segments "
-                                ],
-                                "charge": 0,
-                                "piece": "2"
-                            }
-                        ],
-                        "charged_baggages": []
-                    },
-                    "optional_information": {
-                        "offer": {
-                            "offer_id": null,
-                            "offer_expiration": "2023-04-10T23:22:28.079883Z"
-                        }
-                    },
-                    "excluded": false,
-                    "expireAt": "2023-04-10T23:23:29.711Z",
-                    "brand": "club standard",
-                    "cabin": "PY",
-                    "createdAt": "2023-04-10T21:23:29.951Z",
-                    "public": "21959f67-db5c-43b0-899a-f2b44dea25f3",
-                },
-                "club flex": {
-                    "price_information": {
-                        "total_amount": 1175.19,
-                        "base_amount": 950,
-                        "starting_fare_amount": 1011.78,
-                        "currency": "CAD",
-                        "tax": {
-                            "total_tax": 225.19,
-                            "tax": [
-                                {
-                                    "amount": "51.11",
-                                    "code": "XG",
-                                    "description": "Goods And Services Tax (gst)"
-                                },
-                                {
-                                    "amount": "35.00",
-                                    "code": "SQ",
-                                    "description": "Airport Improvement Fee (aif), (domestic/international)"
-                                },
-                                {
-                                    "amount": "101.96",
-                                    "code": "XQ",
-                                    "description": "Quebec Sales Tax"
-                                },
-                                {
-                                    "amount": "30.00",
-                                    "code": "YQ",
-                                    "description": "Airline Fuel And Insurance Surcharge"
-                                },
-                                {
-                                    "amount": "7.12",
-                                    "code": "CA",
-                                    "description": "Air Travellers Security Charge (domestic/international)"
-                                }
-                            ],
-                        },
-                        "surcharge": {
-                            "total_surcharge": 0,
-                            "surcharge": [],
-                        },
-                    },
-                    "fare_information": {
-                        "offerings": [
-                            "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
-                            "On-demand Entertainment Available",
-                            "Free Premium Meal",
-                            "All Rows have Power/usb Available",
-                            "Fully refundable",
-                            "2 checked bags free",
-                            "383.325 KgCo2e total emissions"
-                        ],
-                        "discount": null,
-                        "cabin_codes": [
-                            {
-                                "departure": "YUL",
-                                "arrival": "YVR",
-                                "cabinClass": "PY"
-                            }
-                        ],
-                        "rewards": null
-                    },
-                    "media_information": [],
-                    "baggage_information": {
-                        "free_baggages": [
-                            {
-                                "messages": [
-                                    "Free 2 for segments "
-                                ],
-                                "charge": 0,
-                                "piece": "2"
-                            }
-                        ],
-                        "charged_baggages": []
-                    },
-                    "optional_information": {
-                        "offer": {
-                            "offer_id": null,
-                            "offer_expiration": "2023-04-10T23:22:28.079883Z"
-                        }
-                    },
-                    "excluded": false,
-                    "expireAt": "2023-04-10T23:23:29.711Z",
-                    "brand": "club flex",
-                    "cabin": "PY",
-                    "createdAt": "2023-04-10T21:23:29.952Z",
-                    "public": "8d504db7-544c-4679-93de-fdb88efe8e55",
-
-                }
-            }
-        },
-        "expireAt": "2023-04-10T23:23:29.711Z",
-        "createdAt": "2023-04-10T21:23:36.239Z",
-        "public": "eb02945c-f793-4c00-8053-edd756de4b15"
+  {
+    "airports": [
+      {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-04-15 20:30:00",
+        "flight_number": "772",
+        "layover_time": ""
+      },
+      {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-04-15 23:15:00",
+        "flight_number": "",
+        "layover_time": ""
+      }
+    ],
+    "sort_field": {
+      "departure_date_time": "2023-04-15 20:30:00",
+      "arrival_date_time": "2023-04-15 23:15:00",
+      "airline": ["Air Transat"],
+      "stops": 0,
+      "elapse_time": "5.45",
+      "cheapest_price": 0,
+      "alliances": [],
+      "emission": 255.55
     },
-
+    "segments": [
+      {
+        "departure_information": {
+          "airport_code": "YUL",
+          "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+          "airport_city_name": "Montreal",
+          "date_time": "2023-04-15 20:30:00",
+          "terminal": null
+        },
+        "arrival_information": {
+          "airport_code": "YVR",
+          "airport_name": "Vancouver International Airport",
+          "airport_city_name": "Vancouver",
+          "date_time": "2023-04-15 23:15:00",
+          "terminal": "M"
+        },
+        "marketing_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "operating_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "additional_information": {
+          "equipment": {
+            "code": "32Q",
+            "name": "Airbus A321neo",
+            "graphic": null
+          },
+          "e_ticket": "true",
+          "mileage": "2295",
+          "flight_detail": {
+            "duration": "345"
+          }
+        },
+        "emission": 255.55,
+        "distance": 2295
+      }
+    ],
+    "brand_information": {
+      "Y": {
+        "economy budget": {
+          "price_information": {
+            "total_amount": 163.41,
+            "base_amount": 70,
+            "starting_fare_amount": 0,
+            "currency": "CAD",
+            "tax": {
+              "total_tax": 93.41,
+              "tax": [
+                {
+                  "amount": "7.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "14.18",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": 0,
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Paid Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Paid Light Meal",
+              "All Rows have Power/usb Available",
+              "255.55 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "Y"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 0 for segments "],
+                "charge": 0,
+                "piece": "0"
+              }
+            ],
+            "charged_baggages": [
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "40.00",
+                "piece": "1"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "70.00",
+                "piece": "2"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              }
+            ]
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "economy budget",
+          "cabin": "Y",
+          "createdAt": "2023-04-10T21:23:29.950Z",
+          "public": "9407ae91-625f-4e81-9188-584c979b744f"
+        }
+      },
+      "PY": {
+        "club standard": {
+          "price_information": {
+            "total_amount": 623.31,
+            "base_amount": 470,
+            "starting_fare_amount": 459.9,
+            "currency": "CAD",
+            "tax": {
+              "total_tax": 153.31,
+              "tax": [
+                {
+                  "amount": "27.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "54.08",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": 0,
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": 0,
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club standard",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.951Z",
+          "public": "21959f67-db5c-43b0-899a-f2b44dea25f3"
+        },
+        "club flex": {
+          "price_information": {
+            "total_amount": 1175.19,
+            "base_amount": 950,
+            "starting_fare_amount": 1011.78,
+            "currency": "CAD",
+            "tax": {
+              "total_tax": 225.19,
+              "tax": [
+                {
+                  "amount": "51.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "101.96",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": 0,
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": 0,
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club flex",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.952Z",
+          "public": "8d504db7-544c-4679-93de-fdb88efe8e55"
+        }
+      }
+    },
+    "expireAt": "2023-04-10T23:23:29.711Z",
+    "createdAt": "2023-04-10T21:23:36.239Z",
+    "public": "eb02945c-f793-4c00-8053-edd756de4b15"
+  }
+]
 ```
 
-- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the flight. This will be used to select and retrieve the flight.
-- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
-- `airports`: ([Flight Airport Information](/versions/v1/glossary#flight-airport-information)) An array representing all of the airports visited.
-- `sort_field`: (`Record`) An object containing general information about the flight.
-  - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
-  - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
-  - `sort_field.airline`: (`Array<string>`) An array containing unique names of the airlines that are flying on this flight.
-  - `sort_field.stops`: (number) The number of stops on this flight.
-  - `sort_field.elapse_time`: (`string`) The length of the flight in `H.i` format.
-  - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
-  - `emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
-- `segments`: (`Array<Record>`) An array of objects representing the flight segments.
-  - `segments[].departure_information`: ([Departure Arrival Information](/versions/v1/glossary#departure-arrival-information)) An object containing information about the departure and its airport.
-  - `segments[].arrival_information`: ([Departure Arrival Information](/versions/v1/glossary#departure-arrival-information)) An object containing information about the arrival and its airport.
-  - `segments[].marketing_airline_information`: ([Flight Airline Information](/versions/v1/glossary#flight-airline-information)) An object containing information about the airline marketing the fares.
-  - `segments[].marketing_airline_information`: ([Flight Airline Information](/versions/v1/glossary#flight-airline-information)?) An object containing information about the airline operating the fares. Operating airline might not be present for fares that are operated by their marketing airline.
-  - `segments[].additional_information`: (`Record`) An object containing additional information about the segment.
-    - `segments[].additional_information.equipment`: ([Segment Equipment Information](/versions/v1/glossary#segment-equipment-information)?) An object containing information about the equipment used on this segment.
-    - `segments[].additional_information.flight_detail`: (`Record?`) Object containing some additional information about the segment.
-      - `segments[].additional_information.flight_detail.duration`: (`string?`) The duration of the flight in minutes.
-      - `segments[].additional_information.flight_detail.stop_quantity`: (`number?`) the number of stops on this flight. This is not the same as the number of segments, as this is inside a segment. This is in case of a indirect flight.
-  - `segments[].emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
-  - `segments[].distance`: (`number?`) The distance of the flight in miles.
-- `brand_information`: (`Record<`[Cabin Code](/versions/v1/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v1/glossary#brand-name) `,`[Brand Information](/versions/v1/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
+The response contains an array of [Flight Fares](/versions/v1/glossary#flight-fare), each representing of set of segments fulfilling the bound at hand.
 
-  > 🛎 The `public` ID of the brand of choice will be necessary to select and retrieve the brand.
+> 🛎 The `public` ID of the Flight Fare and the Brand Information of choice will be necessary to select and retrieve the brand.
 
 ## Selecting a Flight
 
@@ -642,3 +610,5 @@ The response will look similar to an individual flight object, similar to the on
   "expireAt": "2023-04-12T23:51:17.988Z"
 }
 ```
+
+The response will be of type [Itinerary Flight Fare](/versions/v1/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.

@@ -1,0 +1,375 @@
+# Retrieve Flight Order
+
+At this stage, it is assumed that you have successfully created an order session and obtained the necessary session identifier. The order session allows you to perform various operations related to the management of flight orders, such as retrieving order details.
+
+## Requesting Order Retrieve
+
+### Request
+
+`GET /order/[sessionId]/retrieve`
+
+This endpoint will provide you with the necessary information and details of the flight order associated with the specified order session. By retrieving the flight order, you can access important information such as passenger details, flight itinerary, ticketing status, and any other relevant order information.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "status": "QUEUED",
+  "locator": "4BG98N",
+  "pcc": null,
+  "provider": "ATPCO",
+  "ticketing_info": {
+    "ticketed": false,
+    "time_limit": "2023-06-29T23:59:00"
+  },
+  "booking_references": [
+    {
+      "airline": "AC",
+      "locator": "4BG98N"
+    }
+  ],
+  "itinerary_price": {
+    "tax": {
+      "total_tax": "172.21",
+      "tax": [
+        {
+          "amount": "14.25",
+          "code": "XG",
+          "description": "Air Travellers Security Charge - Canada"
+        },
+        {
+          "amount": "93.41",
+          "code": "XG",
+          "description": "Goods And Services Tax - Canada - 100092287 Rt0001"
+        },
+        {
+          "amount": "4.55",
+          "code": "XG",
+          "description": "Harmonized Sales Tax - Canada - 100092287 Rt0001"
+        },
+        {
+          "amount": "60.0",
+          "code": "XG",
+          "description": "Airport Improvement Fee - Canada"
+        },
+        {
+          "amount": "0",
+          "code": "XG",
+          "description": ""
+        }
+      ]
+    },
+    "surcharge": {
+      "total_surcharge": "0",
+      "tax": []
+    },
+    "total_amount": "1942.21",
+    "base_amount": "1769.00",
+    "currency": "CAD"
+  },
+  "itinerary": [
+    {
+      "airports": [
+        {
+          "airport_code": "YYZ",
+          "airport_name": "Lester B. Pearson International Airport",
+          "airport_city_name": "Toronto",
+          "date_time": "2023-07-24 21:55",
+          "flight_number": "129",
+          "layover_time": ""
+        },
+        {
+          "airport_code": "YVR",
+          "airport_name": "Vancouver International Airport",
+          "airport_city_name": "Vancouver",
+          "date_time": "2023-07-25 00:01",
+          "flight_number": "",
+          "layover_time": ""
+        }
+      ],
+      "sort_field": {
+        "provider": "ATPCO",
+        "departure_date_time": "2023-07-24 21:55",
+        "arrival_date_time": "2023-07-25 00:01",
+        "airline": ["Air Canada"],
+        "stops": 0,
+        "elapse_time": "5.06",
+        "cheapest_price": 0,
+        "alliances": ["Star Alliance"],
+        "emission": 244.37,
+        "onlyExcluded": false
+      },
+      "segments": [
+        {
+          "departure_information": {
+            "airport_code": "YYZ",
+            "airport_name": "Lester B. Pearson International Airport",
+            "airport_city_name": "Toronto",
+            "date_time": "2023-07-24 21:55",
+            "terminal": "1"
+          },
+          "arrival_information": {
+            "airport_code": "YVR",
+            "airport_name": "Vancouver International Airport",
+            "airport_city_name": "Vancouver",
+            "date_time": "2023-07-25 00:01",
+            "terminal": "M"
+          },
+          "marketing_airline_information": {
+            "airline_code": "AC",
+            "airline_name": "Air Canada",
+            "flight_number": "129",
+            "alliance": "Star Alliance"
+          },
+          "operating_airline_information": {
+            "airline_code": "AC",
+            "airline_name": "Air Canada",
+            "flight_number": null,
+            "alliance": "Star Alliance"
+          },
+          "additional_information": {
+            "equipment": {
+              "code": "321",
+              "name": "Airbus A321",
+              "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/AC/321.png"
+            },
+            "seat_left": "9",
+            "e_ticket": "true",
+            "flight_detail": {
+              "duration": 306,
+              "original_duration_form": "PT05H06M",
+              "stop_quantity": "0"
+            }
+          },
+          "services": [],
+          "media": [],
+          "fare_description": [],
+          "emission": 244.37,
+          "distance": 1977.49
+        }
+      ],
+      "brand_information": {
+        "price_information": {
+          "total_amount": 1102.29,
+          "base_amount": 975,
+          "starting_fare_amount": 856.8,
+          "currency": "CAD",
+          "tax": {
+            "total_tax": 97.29,
+            "tax": [
+              {
+                "amount": 7.13,
+                "code": "CA",
+                "description": "Air Travellers Security Charge - Canada"
+              },
+              {
+                "amount": 50.61,
+                "code": "XG",
+                "description": "Goods And Services Tax - Canada - 100092287 Rt0001"
+              },
+              {
+                "amount": 4.55,
+                "code": "RC",
+                "description": "Harmonized Sales Tax - Canada - 100092287 Rt0001"
+              },
+              {
+                "amount": 35,
+                "code": "SQ",
+                "description": "Airport Improvement Fee - Canada"
+              }
+            ]
+          },
+          "surcharge": {
+            "total_surcharge": 30,
+            "surcharge": [
+              {
+                "amount": 30,
+                "code": "Q",
+                "description": "Surcharges"
+              },
+              {
+                "amount": 0,
+                "code": "YQ",
+                "description": "Carrier Surcharges"
+              },
+              {
+                "amount": 0,
+                "code": "YR",
+                "description": "Carrier Surcharges"
+              }
+            ]
+          }
+        },
+        "fare_information": {
+          "cabin_class": "Y",
+          "brand": {
+            "brand_class": "Latitude",
+            "brand_class_code": "",
+            "brand_description": "Latitude"
+          },
+          "offerings": [
+            "Free Preferred and standard seat selection",
+            "2 checked bags free",
+            "Free changes and cancellation",
+            "125% Aeroplan points/SQM",
+            "Air Canada Bistro meal",
+            "Free same-day standby",
+            "Fully refundable",
+            "244.37 KgCo2e total emissions"
+          ],
+          "discount": null,
+          "cabin_codes": [
+            {
+              "departure": "YYZ",
+              "arrival": "YVR",
+              "cabinClass": "Y"
+            }
+          ],
+          "rewards": {
+            "program": {
+              "title": "Aeroplan",
+              "code": "AC",
+              "image": "https://bnwassets.s3.amazonaws.com/images/rewards/AC.png"
+            },
+            "amount": "3978"
+          }
+        },
+        "excluded": false,
+        "createdAt": "2023-06-28T17:21:32.135Z",
+        "public": "5ffaa3b2-a35f-436e-bd60-94a2b3063a0f",
+        "expireAt": "2023-08-01T00:00:00.000Z",
+        "brand": "latitude",
+        "cabin": "Y",
+        "bound": 1
+      },
+      "createdAt": "2023-06-28T17:21:43.133Z",
+      "public": "e03628af-1430-4c65-a196-dc09afc1449f",
+      "expireAt": "2023-08-01T00:00:00.000Z",
+      "check_in": {
+        "check_in_link": "https://www.aircanada.com/ca/en/aco/home.html#/home:checkIn",
+        "check_in_window": ["2023-07-23 21:55:00", "2023-07-24 21:10:00"]
+      }
+    }
+  ],
+  "passengers": [
+    {
+      "frequent_flyer": {
+        "program_id": "AC",
+        "id": "903984954454"
+      },
+      "personal_info": {
+        "date_of_birth": "1977-05-05",
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "middle_name": "",
+        "gender": "F"
+      },
+      "phone_number": "+989121305244",
+      "email": "Passenge22r@traveller.com",
+      "createdAt": "2023-06-28T17:21:33.331Z",
+      "public": "494aa2db-f4be-4c8d-8d16-cefbc5420c8f",
+      "expireAt": "2023-08-01T00:00:00.000Z",
+      "code": "ADT",
+      "ticket_number": null
+    },
+    {
+      "frequent_flyer": {
+        "program_id": "AC",
+        "id": "90398494444"
+      },
+      "personal_info": {
+        "date_of_birth": "1978-05-05",
+        "first_name": "John",
+        "last_name": "Doe",
+        "middle_name": "",
+        "gender": "X"
+      },
+      "phone_number": "+989121305294",
+      "email": "Passenger@traveller.com",
+      "createdAt": "2023-06-28T17:21:33.332Z",
+      "public": "a7c3ee9b-ff17-4bce-9fee-c1b6cc030ed6",
+      "expireAt": "2023-08-01T00:00:00.000Z",
+      "code": "ADT",
+      "ticket_number": null
+    }
+  ],
+  "seats": [
+    {
+      "bound": 0,
+      "segment": 0,
+      "position": "AISLE",
+      "rowIndex": 0,
+      "seatIndex": 2,
+      "selectable": true,
+      "seat": {
+        "row": "1",
+        "column": "C",
+        "position": "AISLE",
+        "status": "free",
+        "preferred": false,
+        "description": "Standard Seat - Aisle",
+        "service_type": "SEAT",
+        "price": {
+          "total_price": "0",
+          "total_tax": "0",
+          "currency": "CAD",
+          "base_price": "0"
+        }
+      },
+      "createdAt": "2023-06-28T17:23:13.018Z",
+      "public": "d6daa8c0-1a46-4026-8c0a-1937d5972b6b",
+      "expireAt": "2023-08-01T00:00:00.000Z",
+      "passenger": {
+        "public": "a7c3ee9b-ff17-4bce-9fee-c1b6cc030ed6"
+      }
+    },
+    {
+      "bound": 0,
+      "segment": 0,
+      "position": "WINDOW",
+      "rowIndex": 0,
+      "seatIndex": 1,
+      "selectable": true,
+      "seat": {
+        "row": "12",
+        "column": "A",
+        "position": "WINDOW",
+        "status": "free",
+        "preferred": true,
+        "description": "Preferred Seat - Window",
+        "service_type": "SEAT",
+        "price": {
+          "total_price": "0.0",
+          "total_tax": "0.0",
+          "currency": "CAD",
+          "base_price": "0"
+        }
+      },
+      "createdAt": "2023-06-28T17:23:13.029Z",
+      "public": "13c52fba-201b-4671-882f-9a374f8bf781",
+      "expireAt": "2023-08-01T00:00:00.000Z",
+      "passenger": {
+        "public": "494aa2db-f4be-4c8d-8d16-cefbc5420c8f"
+      }
+    }
+  ],
+  "expireAt": "2023-08-01T00:00:00.000Z",
+  "createdAt": "2023-06-28T17:25:33.226Z",
+  "public": "dacb4773-ca39-4ea0-9b70-5d17c5e9c84d"
+}
+```
+
+- `status`: (`QUEUED` | `ISSUED` | `CANCELLED`) The status of the booking.
+- `locator`: (`string`) The unique identifier for the entire booking. This may or may not be the same as the booking references, depending on the channel.
+- `pcc`: (`string?`) The Pseudo City Code the booking was made with.
+- `provider`: (`string`) The source the booking was made through.
+- `ticketing_info`: (`Record`) Information about the ticketing for the booking.
+  - `ticketing_info.ticketed`: (`boolean`) A boolean value indicating whether the ticket has been issued or not.
+  - `ticketing_info.time_limit`: (`string?`) The time when the order will expire at, if not ticketed.
+- `booking_references`: (`Array<Record>`) An array containing booking reference information. There may or may not be one locator per marketing airline in the booking, depending on the type of the partnership.
+  - `booking_references[].airline`: ([Airline IATA Code](/versions/v1/glossary#airline-iata-code)) The IATA code of the airline.
+  - `booking_references[].locator`: (`string`) The unique identifier for the booking reference provided by the airline.
+- `itinerary_price`: ([Itinerary Price Information](/versions/v1/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
+- `itinerary`: (`Array<`[Order Flight Fare](/versions/v1/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
+- `passengers`: (`Array<`[Passenger Information](/versions/v1/glossary#passenger-information).`>`) An array containing the details of all passengers.
+- `seats`: (`Array<`[Order Seat-Like](/versions/v1/glossary#order-seat-like)`>`) An array of all the seats within the order.
