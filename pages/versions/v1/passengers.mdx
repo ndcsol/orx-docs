@@ -85,6 +85,8 @@ This endpoint will return all the information that has been filled out for the s
 }
 ```
 
+The response, if complete, will of type [Passenger Information](/versions/v1/glossary#passenger-information).
+
 > 🛎 If the specified passenger is not found within the session, the endpoint will return a 404 status code.
 
 ## Updating a Passenger
@@ -113,27 +115,9 @@ Updates the passenger information for a specific passenger in the session using 
 }
 ```
 
-- `phone_number`: Passenger's phone number in E.164 format
+The payload needs to be of type [Passenger Information](/versions/v1/glossary#passenger-information).
 
-- `email`: Passenger's email
-
-- `personal_info`: Passenger's personal information
-
-  - `personal_info.date_of_birth`: Passenger's date of birth [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) date format.
-
-  - `personal_info.first_name`: Passenger's first name
-
-  - `personal_info.last_name`: Passenger's last name
-
-  - `personal_info.middle_name`: (optional) Passenger's middle name
-
-  - `personal_info.gender`: Passenger's gender, must be one of M, F, X
-
-- `frequent_flyer`: (optional) Passenger's frequent flyer information
-
-  - `frequent_flyer.program_id`: Passenger's frequent flyer program id, must be a IATA airline code.
-
-  - `frequent_flyer.id`: Passenger's frequent flyer id.
+> 🛎 You do not need to send the passenger information all at once. You can do it in multiple separate calls.
 
 ### Response
 
