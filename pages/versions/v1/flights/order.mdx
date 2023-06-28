@@ -33,16 +33,30 @@ Use this endpoint to place an order for the selected flights using the specified
 ```
 
 - `payment`: (Payment Information) An object containing the payment details.
-  - `payment.code`: (`string`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
-    - It can only be one of `masterCard`, `americanExpress`, `discover`, `visa`, `diners`, or `jcb`.
+  - `payment.code`: (`masterCard` | `americanExpress` | `discover` | `visa` | `diners` | `jcb`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
   - `payment.first_name`: (`string`) The first name of the cardholder.
   - `payment.last_name`: (`string`) The last name of the cardholder.
   - `payment.token`: (`string`) The payment token associated with the card.
   - `payment.expiry`: (`string`) The expiry date of the card.
   - `payment.billing_information`: (`Record`) An object containing the billing address details.
     - `payment.billing_information.unit`: (`string?`) The unit number (optional).
-    - `payment.billing_information.country`: (`string`) The two-letter country code (e.g., "CA" for Canada).
-    - `payment.billing_information.state`: (`string`) The state or province.
+    - `payment.billing_information.country`: (`string`) [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166-2) code for the country.
+    - `payment.billing_information.state`: (`string`) The two letter abbreviation of the state/province.
     - `payment.billing_information.address`: (`string`) The street address.
-    - `payment.billing_information.city`: (`string`) The city.
+    - `payment.billing_information.city`: (`string`) The name of the city.
     - `payment.billing_information.postal_code`: (`string`) The postal code/zip code.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "flow": "FLIGHT_BOOKING",
+  "expireAt": "2023-07-31T00:00:00.000Z",
+  "createdAt": "2023-06-27T22:24:45.817Z",
+  "public": "aa27fbad-5c63-4938-86df-cf4a2207fc59"
+}
+```
+
+The response will be a new [session](/versions/v1/session#session-object), used to manage the created order.
+
+> 🛎 The session returned will be set to expire after the booking is completed.
