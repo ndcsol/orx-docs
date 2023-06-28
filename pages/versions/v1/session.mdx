@@ -15,10 +15,10 @@ The session object includes the following fields:
 }
 ```
 
-- `flow`: Specifies the type of search that the session is associated with (e.g., FLIGHT, HOTEL, CAR).
-- `id`: The unique ID associated with the session.
-- `expireAt`: The date and time when the session will expire.
-- `createdAt`: The date and time when the session was created.
+- `flow`: (`FLIGHT` | `FLIGHT_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking.
+- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the session.
+- `expireAt`: (`string`) The date and time when the session will expire.
+- `createdAt`: (`string`) The date and time when the session was created.
 
 ## Accessing Session Information
 
