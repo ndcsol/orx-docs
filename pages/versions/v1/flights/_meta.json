@@ -3,5 +3,6 @@
   "selection": "Flight Selection",
   "seats": "Seat Selection",
   "pricing": "Pricing",
-  "order": "Order Creation"
+  "order": "Create Order",
+  "retrieve": "Retrieve Order"
 }
