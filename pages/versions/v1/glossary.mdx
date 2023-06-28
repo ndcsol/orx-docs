@@ -1507,3 +1507,21 @@ interface PassengerInformation {
   };
 }
 ```
+
+## Flight Order Passenger Information
+
+**Flight Order** Passenger Information contains information about passengers within a flight order. It is the same as [Passenger Information](#passenger-information), but it also potentially has a `ticket_number` attached to it.
+
+### Sub Properties
+
+It looks just like [Passenger Information](#passenger-information) but it also contains:
+
+- `ticket_number`: (`string?`) Passenger's ticket number, if available.
+
+### Type Definition
+
+```ts
+type FlightOrderPassengerInformation = PassengerInformation & {
+  ticket_number?: string;
+};
+```
