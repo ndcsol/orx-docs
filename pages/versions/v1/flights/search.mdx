@@ -49,7 +49,7 @@ This payload may include the following fields:
 
   - Supported passenger codes are `ADT` and `CHD`.
 
-- `preferences`: An object that represents additional search preferences. It could be used to specify a suppression method and discount codes. See [advanced usage](#advanced-usage) for more info.
+- `preferences`: An object that represents additional search preferences. It could be used to specify a suppression method, discount codes, providers, and PCCs. See [advanced usage](#advanced-usage) for more info.
 
 ### Response
 
@@ -80,7 +80,14 @@ You can also pass in additional search preferences in the `preferences` object i
   ],
   "preferences": {
     "suppression": "NO_SUPPRESSION",
-    "discount_codes": ["discount"]
+    "discount_codes": ["discount"],
+    "providers": ["ATPCO", "FLX", "SABRE", "FNDC"],
+    "pcc": {
+      "ATPCO": "4R5L",
+      "FLX": "56NM",
+      "SABRE": "B5E2",
+      "FNDC": "9PM1"
+    }
   }
 }
 ```
@@ -97,7 +104,7 @@ The suppression property controls duplicate suppression for the search results. 
 
 ### Discount Codes
 
-he `discount_codes` property can accept an array or a single string.
+The `discount_codes` property can accept an array or a single string.
 
 ```json copy
 "preferences": {
@@ -106,3 +113,30 @@ he `discount_codes` property can accept an array or a single string.
 ```
 
 > 🛎 We recommend only using proper values as discount codes, as some sources will deny any response for invalid codes.
+
+### Providers
+
+The `providers` controls which providers are queried. The possible providers are:
+
+- `ATPCO` `FLX` `SABRE` `FNDC`
+
+```json copy
+"preferences": {
+    "providers": ["ATPCO", "FLX", "SABRE", "FNDC"]
+}
+```
+
+### PCC
+
+The `pcc` property accepts an object, where keys are providers and values are the relevant PCCs for those providers.
+
+```json copy
+"preferences": {
+    "pcc": {
+      "ATPCO": "4R5L",
+      "FLX": "56NM",
+      "SABRE": "B5E2",
+      "FNDC": "9PM1"
+    }
+}
+```
