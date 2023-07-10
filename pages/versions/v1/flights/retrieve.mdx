@@ -6,13 +6,13 @@ At this stage, it is assumed that you have successfully created an order session
 
 ### Request
 
-`GET /order/[sessionId]/retrieve`
+`GET /flight/[sessionId]/retrieve`
 
 This endpoint will provide you with the necessary information and details of the flight order associated with the specified order session. By retrieving the flight order, you can access important information such as passenger details, flight itinerary, ticketing status, and any other relevant order information.
 
 ### Response
 
-```json filename="GET /order/[sessionId]/retrieve" copy
+```json filename="GET /flight/[sessionId]/retrieve" copy
 {
   "status": "QUEUED",
   "locator": "4BG98N",
