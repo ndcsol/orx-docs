@@ -2,6 +2,14 @@
 
 Once we have selected out flights, and optionally selected our ancillaries, we can proceed to pricing our flights. This step is required, and works towards confirming the price of the flights, and ensuring that the flights are still available. By this points, you should have also added the required passenger information to the session.
 
+## Passenger Requirements
+
+By this point, all [Passenger](/versions/v1/glossary#passenger-information) need to have a complete `personal_info` object. At least one adult passenger needs to have their `email` and `phone_number` set.
+
+> 🧨 If the passenger requirements are not met by this point, the request will return validation errors for the passengers.
+
+> 🛎 We highly recommend that you input the `email` and the `phone_number` for **all adult passengers**.
+
 ## Requesting Pricing
 
 `GET /flight/[sessionId]/price`
@@ -79,12 +87,5 @@ The endpoint will return the pricing information for the selected flights, and w
 
 - `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the pricing.
 - `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
-- `itinerary_price`: (`Record`) An object containing all the information about the pricing of the session.
-  - `itinerary_price.total_amount`: (`string`) The total amount for the session. This is the sum of the `base_amount`, `tax`, and `surcharge`.
-  - `itinerary_price.base_amount`: (`string`) The base amount for the session. It is the sum of the base prices for the flights and seats.
-  - `itinerary_price.currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
-  - `itinerary_price.tax`: ([Price Tax Information](/versions/v1/glossary#price-tax-information)) An object containing the tax information.
-  - `itinerary_price.surcharge`: ([Price Surcharge Information](/versions/v1/glossary#price-surcharge-information)) An object containing the surcharge information.
-  - `itinerary_price.pricing_strategy`: ([Pricing Strategy](/versions/v1/glossary#pricing-strategy)) The pricing strategy used to calculate the price. The strategies are automatically chosen by the API in order to ensure compatibility with the airline's pricing rules and to minimize pricing.
-  - `itinerary_price.change_indicator`: ([Price Change](/versions/v1/glossary#price-change)?) If the price has changed from the previous steps, this object will contain the information about the change.
+- `itinerary_price`: ([Pricing Itinerary Price Information](/versions/v1/glossary#pricing-itinerary-price-information)) An object containing all the information about the pricing of the session.
 - `itinerary_notice`: (`Array<string>`) A list of notices for the itinerary. These notices are usually related to baggage allowances, and other information that may be relevant to the itinerary.

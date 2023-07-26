@@ -45,9 +45,9 @@ This payload may include the following fields:
 
   - Airport codes should be provided in the [3-letter IATA](https://www.iata.org/en/publications/directories/code-search/) format.
 
-- `passengers`: An array of objects that represents the number and type of passengers. The example above includes one adult passenger.
+- `passengers`: An array of objects that representing each passenger. The example above includes one adult passenger.
 
-  - Supported passenger codes are `ADT` and `CHD`.
+  - `code` is of type [Passenger Code](/versions/v1/glossary#passenger-code).
 
 - `preferences`: An object that represents additional search preferences. It could be used to specify a suppression method and discount codes. See [advanced usage](#advanced-usage) for more info.
 

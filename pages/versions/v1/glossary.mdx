@@ -42,6 +42,40 @@ A 1-2 letter code identifying a cabin class. The following are the possible valu
 - `PY`: Premium Economy
 - `J`: Business or First Class
 
+### Type Definition
+
+```ts
+type CabinCode = "Y" | "PY" | "J";
+```
+
+## Passenger Code
+
+Represents the age range of a passenger.
+
+- `ADT`: Adult
+- `CHD`: Child
+- `INF`: Infant (Currently Not Supported)
+
+### Type Definition
+
+```ts
+type PassengerCode = "ADT" | "CHD" | "INF";
+```
+
+## Passenger Gender
+
+Represents a passenger's gender.
+
+- `F`: Female
+- `M`: Male
+- `X`: Other genders
+
+### Type Definition
+
+```ts
+type PassengerGender = "F" | "M" | "X";
+```
+
 ## Brand Name
 
 An alphanumeric string containing the name of a brand. The names of brands will vary depending on the airline, the route and other factors.
@@ -136,7 +170,7 @@ Represents an airline associated with a particular segment. Might be a marketing
 ### Sub Properties
 
 - `airline_name`: (`string`) The name of the airline.
-- `airline_code`: ([Airline IATA Code](#airline-iata-code)) The IATA code of the airport.
+- `airline_code`: ([Airline IATA Code](#airline-iata-code)) The IATA code of the airline.
 - `flight_number`: (`string`) The flight number associated with the segment.
 - `alliance`: (`string`) The name of the alliance the airline is a member of.
 
@@ -403,6 +437,782 @@ interface BrandDiscountInformation {
 }
 ```
 
+## Itinerary Price Information
+
+Represents pricing of an itinerary, including seats and ancillaries.
+
+### Sub Properties
+
+- `itinerary_price.total_amount`: (`string`) The total amount. This is the sum of the `base_amount`, `tax`, and `surcharge`.
+- `itinerary_price.base_amount`: (`string`) The base amount. It is the sum of the base prices for the flights and seats.
+- `itinerary_price.currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
+- `itinerary_price.tax`: ([Price Tax Information](#price-tax-information)) An object containing the tax information.
+- `itinerary_price.surcharge`: ([Price Surcharge Information](#price-surcharge-information)) An object containing the surcharge information.
+
+### Type Definition
+
+```ts
+interface ItineraryPriceInformation {
+  total_amount: string;
+  base_amount: string;
+  currency: string;
+  tax: PriceTaxInformation;
+  surcharge: PriceSurchargeInformation;
+}
+```
+
+## Pricing Itinerary Price Information
+
+**Pricing** Itinerary Price contains information about pricing of an itinerary in a pricing call. It is the same as [Itinerary Price Information](#itinerary-price-information), but has information about the strategy and changes of the pricing.
+
+### Sub Properties
+
+It looks just like [Itinerary Price Information](#itinerary-price-information) but it also contains:
+
+- `pricing_strategy`: ([Pricing Strategy](#pricing-strategy)) The pricing strategy used to calculate the price. The strategies are automatically chosen by the API in order to ensure compatibility with the airline's pricing rules and to minimize pricing.
+- `change_indicator`: ([Price Change](#price-change)?) If the price has changed from the previous steps, this object will contain the information about the change.
+
+### Type Definition
+
+```ts
+type PricingItineraryPriceInformation = ItineraryPriceInformation & {
+  pricing_strategy: PricingStrategy;
+  change_indicator: PriceChange;
+};
+```
+
+## Segment Information
+
+Contains information about one segment of a bound. A segment is an individual flight between two airports. Each bound will have one or more segments. A direct bound will only have one segment.
+
+### Sub Properties
+
+- `departure_information`: ([Departure Arrival Information](#departure-arrival-information)) An object containing information about the departure and its airport.
+- `arrival_information`: ([Departure Arrival Information](#departure-arrival-information)) An object containing information about the arrival and its airport.
+- `marketing_airline_information`: ([Flight Airline Information](#flight-airline-information)) An object containing information about the airline marketing the fares.
+- `marketing_airline_information`: ([Flight Airline Information](#flight-airline-information)?) An object containing information about the airline operating the fares. Operating airline might not be present for fares that are operated by their marketing airline.
+- `additional_information`: (`Record`) An object containing additional information about the segment.
+  - `additional_information.equipment`: ([Segment Equipment Information](#segment-equipment-information)?) An object containing information about the equipment used on this segment.
+  - `additional_information.flight_detail`: (`Record?`) Object containing some additional information about the segment.
+    - `additional_information.flight_detail.duration`: (`string?`) The duration of the flight in minutes.
+    - `additional_information.flight_detail.stop_quantity`: (`number?`) the number of stops on this flight. This is not the same as the number of segments, as this is inside a segment. This is in case of a indirect flight.
+- `emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
+- `distance`: (`number?`) The distance of the flight in miles.
+
+### Type Definition
+
+```ts
+export interface SegmentInformation {
+  departure_information: DepartureArrivalInformation;
+  arrival_information: DepartureArrivalInformation;
+  marketing_airline_information: FlightAirlineInformation;
+  operating_airline_information?: FlightAirlineInformation;
+  additional_information: {
+    equipment?: SegmentEquipmentInformation;
+    flight_detail?: {
+      duration?: string;
+      stop_quantity?: number;
+    };
+  };
+  emission?: number;
+  distance?: number;
+}
+```
+
+### Example
+
+```json
+{
+  "departure_information": {
+    "airport_code": "YVR",
+    "airport_name": "Vancouver International Airport",
+    "airport_city_name": "Vancouver",
+    "date_time": "2023-07-21 18:10",
+    "terminal": "M"
+  },
+  "arrival_information": {
+    "airport_code": "YYZ",
+    "airport_name": "Lester B. Pearson International Airport",
+    "airport_city_name": "Toronto",
+    "date_time": "2023-07-22 01:43",
+    "terminal": "1"
+  },
+  "marketing_airline_information": {
+    "airline_code": "AC",
+    "airline_name": "Air Canada",
+    "flight_number": "124",
+    "alliance": "Star Alliance"
+  },
+  "operating_airline_information": {
+    "airline_code": "AC",
+    "airline_name": "Air Canada",
+    "flight_number": null,
+    "alliance": "Star Alliance"
+  },
+  "additional_information": {
+    "equipment": {
+      "code": "321",
+      "name": "Airbus A321",
+      "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/AC/321.png"
+    },
+    "flight_detail": {
+      "duration": 273,
+      "original_duration_form": "PT04H33M",
+      "stop_quantity": "0"
+    }
+  },
+  "emission": 244.37,
+  "distance": 1977.49
+}
+```
+
+## Flight Fare
+
+A flight fare is a representation of a bound. It may contain one or more [segments](#segment-information). It will also contain different [Brands](/versions/v1/glossary#flight-brand-information), one of which will have to be selected.
+
+### Sub Properties
+
+- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the flight fare. This will be used to select and retrieve the flight.
+- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
+- `airports`: (`Array<`[Flight Airport Information](/versions/v1/glossary#flight-airport-information)`>`) An array representing all of the airports visited.
+- `sort_field`: (`Record`) An object containing general information about the flight.
+  - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
+  - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
+  - `sort_field.airline`: (`Array<string>`) An array containing unique names of the airlines that are flying on this flight.
+  - `sort_field.stops`: (`number`) The number of stops on this flight.
+  - `sort_field.elapse_time`: (`string`) The length of the flight in `H.i` format.
+  - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
+  - `sort_field.emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
+- `segments`: (`Array<`[Segment Information](#segment-information)`>`) An array of objects representing the flight segments.
+- `brand_information`: (`Record<`[Cabin Code](/versions/v1/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v1/glossary#brand-name) `,`[Brand Information](/versions/v1/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
+
+### Type Definition
+
+```ts
+interface FlightFare {
+  public: Public;
+  expireAt: string;
+  airports: FlightAirportInformation[];
+  sort_field: {
+    departure_date_time: string;
+    arrival_date_time: string;
+    airline: string[];
+    stops: number;
+    elapse_time: string;
+    alliance: FlightAirlineInformation["allliance"];
+    emission?: number;
+  };
+  segments: SegmentInformation[];
+  brand_information: Record<
+    CabinCode,
+    Record<BrandName, FlightBrandInformation>
+  >;
+}
+```
+
+### Example
+
+```json
+{
+  "airports": [
+    {
+      "airport_code": "YUL",
+      "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+      "airport_city_name": "Montreal",
+      "date_time": "2023-04-15 20:30:00",
+      "flight_number": "772",
+      "layover_time": ""
+    },
+    {
+      "airport_code": "YVR",
+      "airport_name": "Vancouver International Airport",
+      "airport_city_name": "Vancouver",
+      "date_time": "2023-04-15 23:15:00",
+      "flight_number": "",
+      "layover_time": ""
+    }
+  ],
+  "sort_field": {
+    "departure_date_time": "2023-04-15 20:30:00",
+    "arrival_date_time": "2023-04-15 23:15:00",
+    "airline": ["Air Transat"],
+    "stops": 0,
+    "elapse_time": "5.45",
+    "cheapest_price": "0.00",
+    "alliances": [],
+    "emission": 255.55
+  },
+  "segments": [
+    {
+      "departure_information": {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-04-15 20:30:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-04-15 23:15:00",
+        "terminal": "M"
+      },
+      "marketing_airline_information": {
+        "airline_code": "TS",
+        "airline_name": "Air Transat",
+        "flight_number": "772",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "TS",
+        "airline_name": "Air Transat",
+        "flight_number": "772",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "32Q",
+          "name": "Airbus A321neo",
+          "graphic": null
+        },
+        "e_ticket": "true",
+        "mileage": "2295",
+        "flight_detail": {
+          "duration": "345"
+        }
+      },
+      "emission": 255.55,
+      "distance": 2295
+    }
+  ],
+  "brand_information": {
+    "Y": {
+      "economy budget": {
+        "price_information": {
+          "total_amount": "163.41",
+          "base_amount": "70.00",
+          "starting_fare_amount": "0.00",
+          "currency": "CAD",
+          "tax": {
+            "total_tax": "93.41",
+            "tax": [
+              {
+                "amount": "7.11",
+                "code": "XG",
+                "description": "Goods And Services Tax (gst)"
+              },
+              {
+                "amount": "35.00",
+                "code": "SQ",
+                "description": "Airport Improvement Fee (aif), (domestic/international)"
+              },
+              {
+                "amount": "14.18",
+                "code": "XQ",
+                "description": "Quebec Sales Tax"
+              },
+              {
+                "amount": "30.00",
+                "code": "YQ",
+                "description": "Airline Fuel And Insurance Surcharge"
+              },
+              {
+                "amount": "7.12",
+                "code": "CA",
+                "description": "Air Travellers Security Charge (domestic/international)"
+              }
+            ]
+          },
+          "surcharge": {
+            "total_surcharge": "0.00",
+            "surcharge": []
+          }
+        },
+        "fare_information": {
+          "offerings": [
+            "Paid Alcoholic Drinks and Free Non-Alcoholic Drinks",
+            "On-demand Entertainment Available",
+            "Paid Light Meal",
+            "All Rows have Power/usb Available",
+            "255.55 KgCo2e total emissions"
+          ],
+          "discount": null,
+          "cabin_codes": [
+            {
+              "departure": "YUL",
+              "arrival": "YVR",
+              "cabinClass": "Y"
+            }
+          ],
+          "rewards": null
+        },
+        "media_information": [],
+        "baggage_information": {
+          "free_baggages": [
+            {
+              "messages": ["Free 0 for segments "],
+              "charge": "0.00",
+              "piece": "0"
+            }
+          ],
+          "charged_baggages": [
+            {
+              "messages": [
+                "UP TO 50 POUNDS/23 KILOGRAMS",
+                "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+              ],
+              "charge": "40.00",
+              "piece": "1"
+            },
+            {
+              "messages": [
+                "UP TO 50 POUNDS/23 KILOGRAMS",
+                "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+              ],
+              "charge": "70.00",
+              "piece": "2"
+            },
+            {
+              "messages": [
+                "UP TO 50 POUNDS/23 KILOGRAMS",
+                "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+              ],
+              "charge": "225.00",
+              "piece": "3"
+            },
+            {
+              "messages": [
+                "UP TO 50 POUNDS/23 KILOGRAMS",
+                "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+              ],
+              "charge": "225.00",
+              "piece": "3"
+            }
+          ]
+        },
+        "optional_information": {
+          "offer": {
+            "offer_id": null,
+            "offer_expiration": "2023-04-10T23:22:28.079883Z"
+          }
+        },
+        "excluded": false,
+        "expireAt": "2023-04-10T23:23:29.711Z",
+        "brand": "economy budget",
+        "cabin": "Y",
+        "createdAt": "2023-04-10T21:23:29.950Z",
+        "public": "9407ae91-625f-4e81-9188-584c979b744f"
+      }
+    },
+    "PY": {
+      "club standard": {
+        "price_information": {
+          "total_amount": "623.31",
+          "base_amount": "470.00",
+          "starting_fare_amount": "459.90",
+          "currency": "CAD",
+          "tax": {
+            "total_tax": "153.31",
+            "tax": [
+              {
+                "amount": "27.11",
+                "code": "XG",
+                "description": "Goods And Services Tax (gst)"
+              },
+              {
+                "amount": "35.00",
+                "code": "SQ",
+                "description": "Airport Improvement Fee (aif), (domestic/international)"
+              },
+              {
+                "amount": "54.08",
+                "code": "XQ",
+                "description": "Quebec Sales Tax"
+              },
+              {
+                "amount": "30.00",
+                "code": "YQ",
+                "description": "Airline Fuel And Insurance Surcharge"
+              },
+              {
+                "amount": "7.12",
+                "code": "CA",
+                "description": "Air Travellers Security Charge (domestic/international)"
+              }
+            ]
+          },
+          "surcharge": {
+            "total_surcharge": "0.00",
+            "surcharge": []
+          }
+        },
+        "fare_information": {
+          "offerings": [
+            "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+            "On-demand Entertainment Available",
+            "Free Premium Meal",
+            "All Rows have Power/usb Available",
+            "Fully refundable",
+            "2 checked bags free",
+            "383.325 KgCo2e total emissions"
+          ],
+          "discount": null,
+          "cabin_codes": [
+            {
+              "departure": "YUL",
+              "arrival": "YVR",
+              "cabinClass": "PY"
+            }
+          ],
+          "rewards": null
+        },
+        "media_information": [],
+        "baggage_information": {
+          "free_baggages": [
+            {
+              "messages": ["Free 2 for segments "],
+              "charge": "0.00",
+              "piece": "2"
+            }
+          ],
+          "charged_baggages": []
+        },
+        "optional_information": {
+          "offer": {
+            "offer_id": null,
+            "offer_expiration": "2023-04-10T23:22:28.079883Z"
+          }
+        },
+        "excluded": false,
+        "expireAt": "2023-04-10T23:23:29.711Z",
+        "brand": "club standard",
+        "cabin": "PY",
+        "createdAt": "2023-04-10T21:23:29.951Z",
+        "public": "21959f67-db5c-43b0-899a-f2b44dea25f3"
+      },
+      "club flex": {
+        "price_information": {
+          "total_amount": "1175.19",
+          "base_amount": "950.00",
+          "starting_fare_amount": "1011.78",
+          "currency": "CAD",
+          "tax": {
+            "total_tax": "225.19",
+            "tax": [
+              {
+                "amount": "51.11",
+                "code": "XG",
+                "description": "Goods And Services Tax (gst)"
+              },
+              {
+                "amount": "35.00",
+                "code": "SQ",
+                "description": "Airport Improvement Fee (aif), (domestic/international)"
+              },
+              {
+                "amount": "101.96",
+                "code": "XQ",
+                "description": "Quebec Sales Tax"
+              },
+              {
+                "amount": "30.00",
+                "code": "YQ",
+                "description": "Airline Fuel And Insurance Surcharge"
+              },
+              {
+                "amount": "7.12",
+                "code": "CA",
+                "description": "Air Travellers Security Charge (domestic/international)"
+              }
+            ]
+          },
+          "surcharge": {
+            "total_surcharge": "0.00",
+            "surcharge": []
+          }
+        },
+        "fare_information": {
+          "offerings": [
+            "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+            "On-demand Entertainment Available",
+            "Free Premium Meal",
+            "All Rows have Power/usb Available",
+            "Fully refundable",
+            "2 checked bags free",
+            "383.325 KgCo2e total emissions"
+          ],
+          "discount": null,
+          "cabin_codes": [
+            {
+              "departure": "YUL",
+              "arrival": "YVR",
+              "cabinClass": "PY"
+            }
+          ],
+          "rewards": null
+        },
+        "media_information": [],
+        "baggage_information": {
+          "free_baggages": [
+            {
+              "messages": ["Free 2 for segments "],
+              "charge": "0.00",
+              "piece": "2"
+            }
+          ],
+          "charged_baggages": []
+        },
+        "optional_information": {
+          "offer": {
+            "offer_id": null,
+            "offer_expiration": "2023-04-10T23:22:28.079883Z"
+          }
+        },
+        "excluded": false,
+        "expireAt": "2023-04-10T23:23:29.711Z",
+        "brand": "club flex",
+        "cabin": "PY",
+        "createdAt": "2023-04-10T21:23:29.952Z",
+        "public": "8d504db7-544c-4679-93de-fdb88efe8e55"
+      }
+    }
+  },
+  "expireAt": "2023-04-10T23:23:29.711Z",
+  "createdAt": "2023-04-10T21:23:36.239Z",
+  "public": "eb02945c-f793-4c00-8053-edd756de4b15"
+}
+```
+
+## Itinerary Flight Fare
+
+An **itinerary** flight fare is a representation of a bound that has **already been selected**. It looks just like the [Flight Fare](#flight-fare), but it only has a single [Brand Information](/versions/v1/glossary#flight-brand-information); the one that has been selected.
+
+### Sub Properties
+
+It contains the same properties as a [Flight Fare](/versions/v1/glossary#flight-fare), with the exception of its `brand_information`:
+
+- `brand_information`: ([Brand Information](/versions/v1/glossary#flight-brand-information)) The object containing the selected brand information.
+
+### Type Definition
+
+```ts
+type ItineraryFlightFare = Omit<FlightFare, "brand_information"> & {
+  brand_information: FlightBrandInformation;
+};
+```
+
+### Example
+
+```json
+{
+  "airports": [
+    {
+      "airport_code": "YUL",
+      "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+      "airport_city_name": "Montreal",
+      "date_time": "2023-05-15 22:00:00",
+      "flight_number": "8533",
+      "layover_time": ""
+    },
+    {
+      "airport_code": "YYC",
+      "airport_name": "Calgary International Airport",
+      "airport_city_name": "Calgary",
+      "date_time": "2023-05-16 04:00:00",
+      "flight_number": "8591",
+      "layover_time": "03.30"
+    },
+    {
+      "airport_code": "YVR",
+      "airport_name": "Vancouver International Airport",
+      "airport_city_name": "Vancouver",
+      "date_time": "2023-05-16 04:05:00",
+      "flight_number": "",
+      "layover_time": ""
+    }
+  ],
+  "sort_field": {
+    "departure_date_time": "2023-05-15 22:00:00",
+    "arrival_date_time": "2023-05-16 04:05:00",
+    "airline": ["WestJet"],
+    "stops": 1,
+    "elapse_time": "9.05",
+    "cheapest_price": "34.49",
+    "alliances": [],
+    "emission": 313.54
+  },
+  "segments": [
+    {
+      "departure_information": {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-05-15 22:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 00:30:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "1873",
+        "flight_detail": {
+          "duration": "270"
+        }
+      },
+      "emission": 255.22,
+      "distance": 1873
+    },
+    {
+      "departure_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 04:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-05-16 04:05:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "428",
+        "flight_detail": {
+          "duration": "65"
+        }
+      },
+      "emission": 58.32,
+      "distance": 428
+    }
+  ],
+  "brand_information": {
+    "price_information": {
+      "total_amount": "191.00",
+      "base_amount": "124.00",
+      "starting_fare_amount": "34.49",
+      "currency": "CAD",
+      "tax": {
+        "total_tax": "67.00",
+        "tax": [
+          {
+            "amount": "8.31",
+            "code": "XG",
+            "description": "Goods And Services Tax (gst)"
+          },
+          {
+            "amount": "35.00",
+            "code": "SQ",
+            "description": "Airport Improvement Fee (aif), (domestic/international)"
+          },
+          {
+            "amount": "16.57",
+            "code": "XQ",
+            "description": "Quebec Sales Tax"
+          },
+          {
+            "amount": "7.12",
+            "code": "CA",
+            "description": "Air Travellers Security Charge (domestic/international)"
+          }
+        ]
+      },
+      "surcharge": {
+        "total_surcharge": "0.00",
+        "surcharge": []
+      }
+    },
+    "fare_information": {
+      "offerings": ["313.54 KgCo2e total emissions"],
+      "discount": null,
+      "cabin_codes": [
+        {
+          "departure": "YUL",
+          "arrival": "YYC",
+          "cabinClass": "Y"
+        },
+        {
+          "departure": "YYC",
+          "arrival": "YVR",
+          "cabinClass": "Y"
+        }
+      ],
+      "rewards": null
+    },
+    "excluded": false,
+    "expireAt": "2023-04-12T23:51:17.988Z",
+    "createdAt": "2023-04-12T21:51:18.204Z",
+    "public": "d692a169-f37f-49a6-91da-b94a43cce0cc"
+  },
+  "createdAt": "2023-04-12T21:51:22.513Z",
+  "public": "a5e56c0d-681c-4253-b6bb-fd0d7b0795ae",
+  "expireAt": "2023-04-12T23:51:17.988Z"
+}
+```
+
+## Order Flight Fare
+
+An **Order** flight fare is a representation of a bound that has **already been ordered**. It looks just like the [Itinerary Flight Fare](#itinerary-flight-fare), but it may also have some additional information.
+
+### Sub Properties
+
+It contains the same properties as a [Itinerary Flight Fare](#itinerary-flight-fare), but also contains:
+
+- `check_in`: (`Record?`) Information about the check in process.
+  - `check_in.check_in_link`: (`string?`) Link to airline's check in page.
+  - `check_in.check_in_window`: (`Array?`) Date and time of the beginning and the end of the check in window.
+
+### Type Definition
+
+```ts
+type OrderFlightFare = ItineraryFlightFare & {
+  check_in?: {
+    check_in_link?: string;
+    check_in_window?: [string, string];
+  };
+};
+```
+
 ## Seat Row
 
 An array representing a row of seat/seat-like objects on the aircraft.
@@ -582,6 +1392,22 @@ type SelectedSeatLike = SeatLike & {
 };
 ```
 
+## Order Seat-Like
+
+### Sub Properties
+
+Represents seat like, after it has been ordered. It contains the same properties as a [Selected Seat-Like](#selected-seat-like), but also contains:
+
+- `confirmed`: (`boolean?`) Whether or not the seat has been confirmed by the airline.
+
+### Type Definition
+
+```ts
+type OrderSeatLike = SelectedSeatLike & {
+  confirmed?: boolean;
+};
+```
+
 ## Pricing Strategy
 
 Depending on the selected fares, the pricing strategy will indicate whether the selected fares were priced as a bundle or as individual fares. The possible values are:
@@ -639,4 +1465,63 @@ Indicates the reason for a price change. The possible values are:
 
 ```ts
 type PriceChangeReason = "BUNDLED" | "REPRICED";
+```
+
+## Passenger Information
+
+Object describing a passenger.
+
+### Sub Properties
+
+- `phone_number`: (`string`) Passenger's phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
+- `email`: (`string`) Passenger's email.
+- `code`: ([Passenger Code](#passenger-code)) Passenger's age range code.
+- `personal_info`: (`Record`) Passenger's personal information
+  - `personal_info.date_of_birth`: (`string`) Passenger's date of birth [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) date format.
+  - `personal_info.first_name`: (`string`) Passenger's first name.
+  - `personal_info.last_name`: (`string`) Passenger's last name.
+  - `personal_info.middle_name`: (`string?`) Passenger's middle name.
+  - `personal_info.gender`: ([Passenger Gender](#passenger-gender)) Passenger's gender code.
+- `frequent_flyer`: (`Record?`) Passenger's frequent flyer information.
+  - `frequent_flyer.program_id`: (`string`) Passenger's frequent flyer program id, must be a IATA airline code.
+  - `frequent_flyer.id`: (`string`) Passenger's frequent flyer id.
+
+### Type Definition
+
+```ts
+interface PassengerInformation {
+  code: PassengerCode;
+  email: string;
+  phone_number: string;
+  passenger_id: string;
+  frequent_flyer?: {
+    program_id: string;
+    id: string;
+  };
+  personal_info: {
+    first_name: string;
+    last_name: string;
+    middle_name?: string;
+    gender: PassengerGender;
+    date_of_birth: string;
+  };
+}
+```
+
+## Flight Order Passenger Information
+
+**Flight Order** Passenger Information contains information about passengers within a flight order. It is the same as [Passenger Information](#passenger-information), but it also potentially has a `ticket_number` attached to it.
+
+### Sub Properties
+
+It looks just like [Passenger Information](#passenger-information) but it also contains:
+
+- `ticket_number`: (`string?`) Passenger's ticket number, if available.
+
+### Type Definition
+
+```ts
+type FlightOrderPassengerInformation = PassengerInformation & {
+  ticket_number?: string;
+};
 ```
