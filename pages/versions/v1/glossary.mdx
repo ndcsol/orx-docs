@@ -254,9 +254,9 @@ Represents the pricing information for a particular brand.
 
 ### Sub Properties
 
-- `total_amount`: (`number`) The total amount of the brand in the currency indicated.
-- `base_amount`: (`number`) The base amount of the brand in the currency indicated.
-- `starting_fare_amount`: (`number`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
+- `total_amount`: (`string`) The total amount of the brand in the currency indicated.
+- `base_amount`: (`string`) The base amount of the brand in the currency indicated.
+- `starting_fare_amount`: (`string`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
 - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
 - `tax`: ([Price Tax Information](#price-tax-information)) An object containing the tax information for the brand.
 - `surcharge`: ([Price Surcharge Information](#price-surcharge-information)) An object containing the surcharges information for the brand.
@@ -265,9 +265,9 @@ Represents the pricing information for a particular brand.
 
 ```ts
 interface BrandPriceInformation {
-  total_amount: number;
-  base_amount: number;
-  starting_fare_amount: number;
+  total_amount: string;
+  base_amount: string;
+  starting_fare_amount: string;
   currency: string;
   tax: PriceTaxInformation;
   surcharge: PriceSurchargeInformation;
@@ -280,14 +280,14 @@ Contains the total and the breakdown of the taxes for a particular price.
 
 ### Sub Properties
 
-- `total_tax` : (`number`) The total amount of tax in the context of its parent.
+- `total_tax` : (`string`) The total amount of tax in the context of its parent.
 - `tax` : (`Array<`[Charge Information](#charge-information)`>`)
 
 ### Type Definition
 
 ```ts
 interface PriceTaxInformation {
-  total_tax: number;
+  total_tax: string;
   tax: Array<ChargeInformation>;
 }
 ```
@@ -298,14 +298,14 @@ Contains the total and the breakdown of the surcharges for a particular price.
 
 ### Sub Properties
 
-- `total_surcharge` : (`number`) The total amount of surcharges in the context of its parent.
+- `total_surcharge` : (`string`) The total amount of surcharges in the context of its parent.
 - `surcharge` : (`Array<`[Charge Information](#charge-information)`>`)
 
 ### Type Definition
 
 ```ts
 interface PriceSurchargeInformation {
-  total_surcharge: number;
+  total_surcharge: string;
   surcharge: Array<ChargeInformation>;
 }
 ```
@@ -518,7 +518,7 @@ Represents information about an actual seat.
   - `total_price`: (`string`) The total price of the seat.
   - `total_tax`: (`string`) The total tax of the seat.
   - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the seat.
-  - `base_price`: (`number?`) The base price of the seat.
+  - `base_price`: (`string?`) The base price of the seat.
 
 ### Type Definition
 
@@ -530,7 +530,7 @@ interface Seat {
     total_price: string;
     total_tax: string;
     currency: string;
-    base_price: number;
+    base_price: string;
   };
   position: string;
   status: "paid" | "free";
