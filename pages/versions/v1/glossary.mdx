@@ -288,9 +288,9 @@ Represents the pricing information for a particular brand.
 
 ### Sub Properties
 
-- `total_amount`: (`number`) The total amount of the brand in the currency indicated.
-- `base_amount`: (`number`) The base amount of the brand in the currency indicated.
-- `starting_fare_amount`: (`number`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
+- `total_amount`: (`string`) The total amount of the brand in the currency indicated.
+- `base_amount`: (`string`) The base amount of the brand in the currency indicated.
+- `starting_fare_amount`: (`string`) The lowest return pricing for the brand in the currency indicated. This takes into account the only the brands and fares that can be combined with the brand in question.
 - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the prices.
 - `tax`: ([Price Tax Information](#price-tax-information)) An object containing the tax information for the brand.
 - `surcharge`: ([Price Surcharge Information](#price-surcharge-information)) An object containing the surcharges information for the brand.
@@ -299,9 +299,9 @@ Represents the pricing information for a particular brand.
 
 ```ts
 interface BrandPriceInformation {
-  total_amount: number;
-  base_amount: number;
-  starting_fare_amount: number;
+  total_amount: string;
+  base_amount: string;
+  starting_fare_amount: string;
   currency: string;
   tax: PriceTaxInformation;
   surcharge: PriceSurchargeInformation;
@@ -314,14 +314,14 @@ Contains the total and the breakdown of the taxes for a particular price.
 
 ### Sub Properties
 
-- `total_tax` : (`number`) The total amount of tax in the context of its parent.
+- `total_tax` : (`string`) The total amount of tax in the context of its parent.
 - `tax` : (`Array<`[Charge Information](#charge-information)`>`)
 
 ### Type Definition
 
 ```ts
 interface PriceTaxInformation {
-  total_tax: number;
+  total_tax: string;
   tax: Array<ChargeInformation>;
 }
 ```
@@ -332,14 +332,14 @@ Contains the total and the breakdown of the surcharges for a particular price.
 
 ### Sub Properties
 
-- `total_surcharge` : (`number`) The total amount of surcharges in the context of its parent.
+- `total_surcharge` : (`string`) The total amount of surcharges in the context of its parent.
 - `surcharge` : (`Array<`[Charge Information](#charge-information)`>`)
 
 ### Type Definition
 
 ```ts
 interface PriceSurchargeInformation {
-  total_surcharge: number;
+  total_surcharge: string;
   surcharge: Array<ChargeInformation>;
 }
 ```
@@ -638,7 +638,7 @@ interface FlightFare {
     "airline": ["Air Transat"],
     "stops": 0,
     "elapse_time": "5.45",
-    "cheapest_price": 0,
+    "cheapest_price": "0.00",
     "alliances": [],
     "emission": 255.55
   },
@@ -690,12 +690,12 @@ interface FlightFare {
     "Y": {
       "economy budget": {
         "price_information": {
-          "total_amount": 163.41,
-          "base_amount": 70,
-          "starting_fare_amount": 0,
+          "total_amount": "163.41",
+          "base_amount": "70.00",
+          "starting_fare_amount": "0.00",
           "currency": "CAD",
           "tax": {
-            "total_tax": 93.41,
+            "total_tax": "93.41",
             "tax": [
               {
                 "amount": "7.11",
@@ -725,7 +725,7 @@ interface FlightFare {
             ]
           },
           "surcharge": {
-            "total_surcharge": 0,
+            "total_surcharge": "0.00",
             "surcharge": []
           }
         },
@@ -752,7 +752,7 @@ interface FlightFare {
           "free_baggages": [
             {
               "messages": ["Free 0 for segments "],
-              "charge": 0,
+              "charge": "0.00",
               "piece": "0"
             }
           ],
@@ -808,12 +808,12 @@ interface FlightFare {
     "PY": {
       "club standard": {
         "price_information": {
-          "total_amount": 623.31,
-          "base_amount": 470,
-          "starting_fare_amount": 459.9,
+          "total_amount": "623.31",
+          "base_amount": "470.00",
+          "starting_fare_amount": "459.90",
           "currency": "CAD",
           "tax": {
-            "total_tax": 153.31,
+            "total_tax": "153.31",
             "tax": [
               {
                 "amount": "27.11",
@@ -843,7 +843,7 @@ interface FlightFare {
             ]
           },
           "surcharge": {
-            "total_surcharge": 0,
+            "total_surcharge": "0.00",
             "surcharge": []
           }
         },
@@ -872,7 +872,7 @@ interface FlightFare {
           "free_baggages": [
             {
               "messages": ["Free 2 for segments "],
-              "charge": 0,
+              "charge": "0.00",
               "piece": "2"
             }
           ],
@@ -893,12 +893,12 @@ interface FlightFare {
       },
       "club flex": {
         "price_information": {
-          "total_amount": 1175.19,
-          "base_amount": 950,
-          "starting_fare_amount": 1011.78,
+          "total_amount": "1175.19",
+          "base_amount": "950.00",
+          "starting_fare_amount": "1011.78",
           "currency": "CAD",
           "tax": {
-            "total_tax": 225.19,
+            "total_tax": "225.19",
             "tax": [
               {
                 "amount": "51.11",
@@ -928,7 +928,7 @@ interface FlightFare {
             ]
           },
           "surcharge": {
-            "total_surcharge": 0,
+            "total_surcharge": "0.00",
             "surcharge": []
           }
         },
@@ -957,7 +957,7 @@ interface FlightFare {
           "free_baggages": [
             {
               "messages": ["Free 2 for segments "],
-              "charge": 0,
+              "charge": "0.00",
               "piece": "2"
             }
           ],
@@ -1038,7 +1038,7 @@ type ItineraryFlightFare = Omit<FlightFare, "brand_information"> & {
     "airline": ["WestJet"],
     "stops": 1,
     "elapse_time": "9.05",
-    "cheapest_price": 34.49,
+    "cheapest_price": "34.49",
     "alliances": [],
     "emission": 313.54
   },
@@ -1128,12 +1128,12 @@ type ItineraryFlightFare = Omit<FlightFare, "brand_information"> & {
   ],
   "brand_information": {
     "price_information": {
-      "total_amount": 191,
-      "base_amount": 124,
-      "starting_fare_amount": 34.49,
+      "total_amount": "191.00",
+      "base_amount": "124.00",
+      "starting_fare_amount": "34.49",
       "currency": "CAD",
       "tax": {
-        "total_tax": 67,
+        "total_tax": "67.00",
         "tax": [
           {
             "amount": "8.31",
@@ -1158,7 +1158,7 @@ type ItineraryFlightFare = Omit<FlightFare, "brand_information"> & {
         ]
       },
       "surcharge": {
-        "total_surcharge": 0,
+        "total_surcharge": "0.00",
         "surcharge": []
       }
     },
@@ -1288,8 +1288,8 @@ interface SeatLike {
       "description": "CENTER Seat",
       "service_type": "SEAT",
       "price": {
-          "total_price": "0",
-          "total_tax": "0",
+          "total_price": "0.00",
+          "total_tax": "0.00",
           "currency": "CAD",
       }
   },
@@ -1328,7 +1328,7 @@ Represents information about an actual seat.
   - `total_price`: (`string`) The total price of the seat.
   - `total_tax`: (`string`) The total tax of the seat.
   - `currency`: (`string`) The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the seat.
-  - `base_price`: (`number?`) The base price of the seat.
+  - `base_price`: (`string?`) The base price of the seat.
 
 ### Type Definition
 
@@ -1340,7 +1340,7 @@ interface Seat {
     total_price: string;
     total_tax: string;
     currency: string;
-    base_price: number;
+    base_price: string;
   };
   position: string;
   status: "paid" | "free";
@@ -1361,9 +1361,9 @@ interface Seat {
   "description": "CENTER Seat",
   "service_type": "SEAT",
   "price": {
-      "total_price": "0",
-      "base_price": "0",
-      "total_tax": "0",
+      "total_price": "0.00",
+      "base_price": "0.00",
+      "total_tax": "0.00",
       "currency": "CAD",
   }
 },
@@ -1448,7 +1448,7 @@ interface PriceChange {
 
 ```json
 {
-  "difference": "20",
+  "difference": "20.00",
   "reason": "REPRICED",
   "type": "MORE"
 }
