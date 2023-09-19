@@ -612,3 +612,15 @@ The response will look similar to an individual flight object, similar to the on
 ```
 
 The response will be of type [Itinerary Flight Fare](/versions/v1/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
+
+## Retrieving Selected Flights
+
+`GET /flight/[sessionId]/itinerary`
+
+At any point during your selection process, you can retrieve the selected flights using the get itinerary endpoint.
+
+> 🛎 This endpoint is only intended for active search [sessions](/versions/v1/session#session-object). Requesting the itinerary for a session of type FLIGHT_BOOKING will result in a 400 error.
+
+### Response
+
+The response will be an array of type [Itinerary Flight Fare](/versions/v1/glossary#itinerary-flight-fare), representing the selected flights in order.
