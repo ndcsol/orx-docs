@@ -59,4 +59,6 @@ Use this endpoint to place an order for the selected flights using the specified
 
 The response will be a new [session](/versions/v1/session#session-object). The order session serves as a reference to manage and access specific orders.
 
-> 🛎 The session returned will be set to expire after the booking is completed.
+> 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v1/glossary#public-id) returned in this response.
+
+> 🛎 The session returned will be of flow `FLIGHT_BOOKING`. This session is a long-lived one that will expire after the travel date of the last flight in the itinerary. You can see the details of the session using the [Get Session](/versions/v1/session#accessing-session-information) endpoint.
