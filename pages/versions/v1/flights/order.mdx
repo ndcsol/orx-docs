@@ -6,7 +6,9 @@ Once you have selected your flights, added the necessary ancillaries, and obtain
 
 `POST /flight/[sessionId]/order`
 
-Use this endpoint to place an order for the selected flights using the specified payment details. See [Payment Initialization](/versions/v1/payment/initiate) to understand the tokenization process.
+Use this endpoint to place an order for the selected flights using the specified payment details.
+
+You may provide a new payment method here, or create one using the [update payment](/versions/v1/payment/management#update-payment) endpoint. If you choose to use the payment endpoints, you do not need to provide the payment information in this request.
 
 > 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized with its [CVV/CVC attached to it](https://docs.tokenex.com/docs/pci-w-cvv-configuration).
 
@@ -32,19 +34,7 @@ Use this endpoint to place an order for the selected flights using the specified
 }
 ```
 
-- `payment`: (Payment Information) An object containing the payment details.
-  - `payment.code`: (`masterCard` | `americanExpress` | `discover` | `visa` | `diners` | `jcb`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
-  - `payment.first_name`: (`string`) The first name of the cardholder.
-  - `payment.last_name`: (`string`) The last name of the cardholder.
-  - `payment.token`: (`string`) The payment token associated with the card.
-  - `payment.expiry`: (`string`) The expiry date of the card.
-  - `payment.billing_information`: (`Record`) An object containing the billing address details.
-    - `payment.billing_information.unit`: (`string?`) The unit number (optional).
-    - `payment.billing_information.country`: (`string`) [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166-2) code for the country.
-    - `payment.billing_information.state`: (`string`) The two letter abbreviation of the state/province.
-    - `payment.billing_information.address`: (`string`) The street address.
-    - `payment.billing_information.city`: (`string`) The name of the city.
-    - `payment.billing_information.postal_code`: (`string`) The postal code/zip code.
+- `payment`: ([Payment Information](/versions/v1/glossary#payment-information)?) Payment to be used for the order.
 
 ### Response
 

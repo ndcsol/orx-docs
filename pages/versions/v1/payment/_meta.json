@@ -1,3 +1,4 @@
 {
-    "initiate": "Payment Initialization"
+  "initiate": "Payment Initialization",
+  "management": "Payment Management"
 }

@@ -1525,3 +1525,48 @@ type FlightOrderPassengerInformation = PassengerInformation & {
   ticket_number?: string;
 };
 ```
+
+## Payment Information
+
+Object describing a payment method.
+
+### Sub Properties
+
+- `code`: (`masterCard` | `americanExpress` | `discover` | `visa` | `diners` | `jcb`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
+- `first_name`: (`string`) The first name of the cardholder.
+- `last_name`: (`string`) The last name of the cardholder.
+- `token`: (`string`) The payment token associated with the card.
+- `expiry`: (`string`) The expiry date of the card.
+- `billing_information`: (`Record`) An object containing the billing address details.
+  - `billing_information.unit`: (`string?`) The unit number (optional).
+  - `billing_information.country`: (`string`) [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166-2) code for the country.
+  - `billing_information.state`: (`string`) The two letter abbreviation of the state/province.
+  - `billing_information.address`: (`string`) The street address.
+  - `billing_information.city`: (`string`) The name of the city.
+  - `billing_information.postal_code`: (`string`) The postal code/zip code.
+
+### Type Definition
+
+```ts
+interface PaymentInformation {
+  code:
+    | "masterCard"
+    | "americanExpress"
+    | "discover"
+    | "visa"
+    | "diners"
+    | "jcb";
+  first_name: string;
+  last_name: string;
+  token: string;
+  expiry: string;
+  billing_information: {
+    unit?: string;
+    country: string;
+    state: string;
+    address: string;
+    city: string;
+    postal_code: string;
+  };
+}
+```

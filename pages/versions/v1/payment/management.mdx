@@ -1,0 +1,105 @@
+# Payment Management
+
+You can create/update a payment for a specific session. This is useful if you want to progressively update the payment information for a session, prior to performing an order.
+
+> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/v1/payment/initiate).
+
+> 🛎 Currently, only a single payment method can be added to each session. Having multiple forms of payment will be supported in the future.
+
+## Update Payment
+
+`PUT /payment/[sessionId]/[paymentId?]`
+
+Use this endpoint to update the payment information for a specific session. Since having multiple forms of payment is not yet supported, the `paymentId` is optional. If no `paymentId` is provided, the payment information will be updated for the session's current payment.
+
+**If the session does not yet have a payment, a new payment will be created.**
+
+### Payload
+
+```json filename="PUT /payment/[sessionId]/[paymentId?]" copy
+{
+  "code": "visa",
+  "first_name": "John",
+  "last_name": "Doe",
+  "token": "401299Hb1tTS9999",
+  "expiry": "10/25",
+  "billing_information": {
+    "unit": "211",
+    "country": "CA",
+    "state": "ON",
+    "address": "529 West Broadway",
+    "city": "Toronto",
+    "postal_code": "L5W1N6"
+  }
+}
+```
+
+The payload needs to be of type [payment information](/versions/v1/glossary#payment-information).
+
+> 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
+
+### Response
+
+The updated properties will be reflected in the response of type [payment information](/versions/v1/glossary#payment-information).
+
+## Get Payments
+
+`GET /payment/[sessionId]`
+
+Retrieves all of the the payment information objects for a specific session.
+
+### Response
+
+The response will be an array of [payment information](/versions/v1/glossary#payment-information) objects.
+
+## Get a Single Payment
+
+`GET /payment/[sessionId]/[paymentId]`
+
+Retrieves a specific payment information object for a specific session.
+
+### Response
+
+The response will be a [payment information](/versions/v1/glossary#payment-information) object.
+
+## Create Payment
+
+`POST /payment/[sessionId]`
+
+Use this endpoint to create a payment for a specific session. Since having multiple forms of payment is not yet supported, you could use the [update payment](/versions/v1/payment/management#update-payment) endpoint to create and update a singular payment.
+
+### Request
+
+```json filename="PUT /payment/[sessionId]/[paymentId?]" copy
+{
+  "code": "visa",
+  "first_name": "John",
+  "last_name": "Doe",
+  "token": "401299Hb1tTS9999",
+  "expiry": "10/25",
+  "billing_information": {
+    "unit": "211",
+    "country": "CA",
+    "state": "ON",
+    "address": "529 West Broadway",
+    "city": "Toronto",
+    "postal_code": "L5W1N6"
+  }
+}
+```
+
+The payload needs to be of type [payment information](/versions/v1/glossary#payment-information).
+
+> 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
+
+### Response
+
+The response will contain the created payment [payment information](/versions/v1/glossary#payment-information).
+
+## Delete Payment
+
+`DELETE /payment/[sessionId]/[paymentId]`
+
+### Response
+
+If successful, the response will be empty with a status code of `204`.
