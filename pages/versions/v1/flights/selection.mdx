@@ -4,15 +4,22 @@ Now that you have initiated a flight search; and, received a session public ID i
 
 ## Query and Selection Order
 
-### Flights Querying Order
+### Flights Querying and Selection Order
 
-> 🧨 It is important to keep in mind that not **all fares provided are combinable**. When querying bound 0 and selecting a fare and brand, querying bound 1 will only yield compatible results. Therefore, it is advised that you query each bound after selecting bounds prior to it to ensure compatibility of all results.
+> 🧨 **Important**: Not all fares provided are combinable. When querying and selecting bounds, remember that choosing a fare and brand in one bound will affect compatibility in subsequent bounds. To ensure the API returns combinable fares, follow one of the two workflows below.
 
----
+> 🧨 **Equally Important**: Once a fare and a brand have been selected, ORX will only return combinable options for the consecutive bounds. If you wish to see all available options, you need to query all of the bounds, prior to selecting any fares and brands.
 
-### Flights Selection Order
+There are two sequential workflows for querying and selecting flights:
 
-> 🧨 It is also important to note that **flight selection needs to happen in order**. If someone re-selects a bound, the following bounds will be de-selected.
+| Simple Workflow (recommended)                                                                            | Advanced Workflow                                                                                                 |
+| -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 1. Query bound 1.                                                                                        | 1. Query bound 1. Query bound 2. _Since no selection has been made, all options will be present in both queries._ |
+| 2. Select fare and brand for bound 1.                                                                    | 2. Find desirable fares and brands for both bounds. Use the `matching_key` properties to find compatible options. |
+| 3. Query bound 2. _ORX will return **only** the options that are compatible with the bound 1 selection._ | 3. Select fares and brands for bound 1.                                                                           |
+| 4. Select fare and brand for bound 2.                                                                    | 4. Select fares and bounds for bound 2.                                                                           |
+
+> 🧨 **Important**: In both workflows, flight selection must occur in order. If a bound is re-selected, the following bounds will be de-selected.
 
 ## Querying Flights
 
