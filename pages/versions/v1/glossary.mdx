@@ -1482,9 +1482,7 @@ Object describing a passenger.
   - `personal_info.last_name`: (`string`) Passenger's last name.
   - `personal_info.middle_name`: (`string?`) Passenger's middle name.
   - `personal_info.gender`: ([Passenger Gender](#passenger-gender)) Passenger's gender code.
-- `frequent_flyer`: (`Record?`) Passenger's frequent flyer information.
-  - `frequent_flyer.program_id`: (`string`) Passenger's frequent flyer program id, must be a IATA airline code.
-  - `frequent_flyer.id`: (`string`) Passenger's frequent flyer id.
+- `frequent_flyer`: ([Flight Frequent Flyer Information](#flight-frequent-flyer-information)?) Passenger's frequent flyer information.
 
 ### Type Definition
 
@@ -1494,10 +1492,7 @@ interface PassengerInformation {
   email: string;
   phone_number: string;
   passenger_id: string;
-  frequent_flyer?: {
-    program_id: string;
-    id: string;
-  };
+  frequent_flyer?: FlightFrequentFlyerInformation;
   personal_info: {
     first_name: string;
     last_name: string;
@@ -1507,6 +1502,33 @@ interface PassengerInformation {
   };
 }
 ```
+
+## Flight Frequent Flyer Information
+
+A Passenger's frequent flyer information.
+
+### Sub Properties
+
+- `program_id`: (`string`) Passenger's frequent flyer program id, must be an IATA airline code.
+- `id`: (`string`) Passenger's frequent flyer id.
+
+### Type Definition
+
+```ts
+interface FlightFrequentFlyerInformation {
+  program_id: string;
+  id: string;
+};
+```
+
+### Validation
+
+The following programs have specific validation rules for the `id` field:
+
+| `program_id` | `id` validation |
+| ------------ | --------------- |
+| `AC`         | `/^[0-9]{9}$/`  |
+
 
 ## Flight Order Passenger Information
 
