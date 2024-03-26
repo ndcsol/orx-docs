@@ -655,3 +655,12 @@ At any point during your selection process, you can retrieve the selected flight
 ### Response
 
 The response will be an array of type [Itinerary Flight Fare](/versions/v1/glossary#itinerary-flight-fare), representing the selected flights in order.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | Retrieve itinerary is only allowed for active search sessions | The session in the request is not of type FLIGHT . |
+| 404 | Session not found or expired | Request targeting a non-existent session |
+
+
