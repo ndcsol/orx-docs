@@ -89,3 +89,13 @@ The endpoint will return the pricing information for the selected flights, and w
 - `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
 - `itinerary_price`: ([Pricing Itinerary Price Information](/versions/v1/glossary#pricing-itinerary-price-information)) An object containing all the information about the pricing of the session.
 - `itinerary_notice`: (`Array<string>`) A list of notices for the itinerary. These notices are usually related to baggage allowances, and other information that may be relevant to the itinerary.
+
+### Possible Errors 
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation. |
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 500 | NDCx Internal Error | Unknown |
+| 412 | Not all flights are selected | The Itinerary has not yet been fully selected.  |
+
