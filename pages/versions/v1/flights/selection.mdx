@@ -407,6 +407,15 @@ The response contains an array of [Flight Fares](/versions/v1/glossary#flight-fa
 
 > 🛎 The `public` ID of the Flight Fare and the Brand Information of choice will be necessary to select and retrieve the brand.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+| --- | --- | --- |
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 409 | Bound [bound] is not available for this session | Request is attempting to retrieve flights for a non-existent bound. |
+| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |
+
+
 ## Selecting a Flight
 
 `POST /flight/[sessionId]/bound/[boundIndex]`
@@ -619,6 +628,21 @@ The response will look similar to an individual flight object, similar to the on
 ```
 
 The response will be of type [Itinerary Flight Fare](/versions/v1/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+| --- | --- | --- |
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 400 | [Validation Error] | Failed Validation |
+| 412 | No flight selected for bound [bound] Flights can only be selected in order. | Request is selecting fares for a bound without having selected the fare for its preceding bound(s). |
+| 404 | Flight brand not found or expired. | Selected flight brand is not found. |
+| 404 | Could not find fare. | Selected flight fare is not found. |
+| 409 | The fare requested does not belong to bound [bound]. | Selected flight fare does not belong to the bound it is selected for. |
+| 409 | The brand and the fare provided are not compatible. | The selected brand does not belong to the selected fare. |
+| 409 | The fare or the brand provided are not compatible selections of the previous bound. | The brand and/or the fare cannot be combined with the brand and/or the fares that have previously been selected. |
+| 404 | Seat not found or expired | The request is attempt to select non-existent seats. |
+| 404 | Passenger not found or expired | The request is attempt to select non-existent seats. |
 
 ## Retrieving Selected Flights
 

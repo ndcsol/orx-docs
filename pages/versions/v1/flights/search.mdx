@@ -66,6 +66,13 @@ The response for `POST /flight/search` will include a session public ID that you
 
 The `public` property is what you'll use to identify the session. You can retrieve the same information about your session using the [`GET /session`](../session) endpoint.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+| --- | --- | --- |
+| 400 | [VALIDATION ERROR] | Failed Validation |
+| 500 | NDCx Internal Error | Unknown |
+
 ## Advanced Usage
 
 You can also pass in additional search preferences in the `preferences` object in the payload.
