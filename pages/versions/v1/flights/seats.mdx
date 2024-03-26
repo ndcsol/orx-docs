@@ -296,6 +296,13 @@ Depending on whether the boundIndex is specified, the response will be an array 
 - `destination_name`: (`string`) The name of the destination city of the segment the seat map belongs to.
 - `seat_map`: (`Array<`[Seat Row](/versions/v1/glossary#seat-row)`>` `?`) The seat map for the segment. Consisting of an array of rows.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 500 | NDCx Internal Error | Unknown |
+
 ## Seat Selection Requirements
 
 Before selecting a seat, please ensure that the following requirements are met:
@@ -361,6 +368,19 @@ Where `passenger` is the `public` property of the passenger to be assigned to th
 The response will contain the [selected seat-like](/versions/v1/glossary#selected-seat-like) that was selected.
 
 - ([Selected seat-like](/versions/v1/glossary#selected-seat-like)): The seat-like that was selected containing minimal information about the passenger.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 400 | [Validation Error] | Failed Validation. |
+| 400 | One or more seats are not available. | The selected seat is not selectable. |
+| 400 | One or more passengers are not available | The given passenger does not exist. |
+| 400 | The seat is already selected by the passenger. | The request is attempting to assign an already-assigned seat to another passenger. |
+| 400 | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same flight. |
+| 404 | Seat not found or expired | The request is attempt to select non-existent seat. |
+| 404 | Passenger not found or expired | The request is attempt to select a non-existent seat. |
 
 ## Selecting Seats in Bulk
 
@@ -457,6 +477,20 @@ You can choose select multiple seats for a multiple passengers are the same time
 The response will contain the an array of [Selected Seat-Likes](/versions/v1/glossary#selected-seat-like) selected.
 
 - (`Array<`[Selected seat-like](/versions/v1/glossary#selected-seat-like)`>`): The seat-likes selected containing minimal information about the passenger.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | One or more seats are duplicated | Multiple passengers are being assigned to the same seat, within the same request. |
+| 404 | Session not found or expired | Request targeting a non-existent session |
+| 400 | [Validation Error] | Failed Validation. |
+| 400 | One or more seats are not available. | One or more of the selected seats are not selectable. |
+| 400 | One or more passengers are not available | One or more of the given passenger IDs are incorrect. |
+| 400 | The seat is already selected by the passenger. | The request is attempting to assign an already-assigned seat to another passenger. |
+| 400 | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same floight |
+| 404 | Seat not found or expired | The request is attempt to select non-existent seats. |
+| 404 | Passenger not found or expired | The request is attempt to select non-existent seats. |
 
 ## Retrieving a Selected Seat
 
