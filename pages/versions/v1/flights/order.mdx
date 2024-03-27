@@ -52,3 +52,15 @@ The response will be a new [session](/versions/v1/session#session-object). The o
 > 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v1/glossary#public-id) returned in this response.
 
 > 🛎 The session returned will be of flow `FLIGHT_BOOKING`. This session is a long-lived one that will expire after the travel date of the last flight in the itinerary. You can see the details of the session using the [Get Session](/versions/v1/session#accessing-session-information) endpoint.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 500 | NDCx Internal Error | Unknown |
+| 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. |
+| 409 | Session is currently locked by another process. Please try again later. | Session is locked by another process. |
+| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. |
+| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |

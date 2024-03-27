@@ -56,6 +56,14 @@ These values are required to create a tokenex [iFrame configuration object](http
 - `timestamp`: This serves as the `timestamp` in the configuration object.
 - `expires_at`: Expiry time of the tokenex iFrame. This is not included in the tokenex configuration object.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 500 | NDCx Internal Error | Unknown |
+| 400 | Unauthorized origin | The requested origin has not been whitelisted. | 
+
 # Payment Management
 
 You can create/update a payment for a specific session. This is useful if you want to progressively update the payment information for a session, prior to performing an order.
@@ -100,6 +108,13 @@ The payload needs to be of type [payment information](/versions/v1/glossary#paym
 
 The updated properties will be reflected in the response of type [payment information](/versions/v1/glossary#payment-information).
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
 ## Get Payments
 
 `GET /payment/[sessionId]`
@@ -110,6 +125,13 @@ Retrieves all of the the payment information objects for a specific session.
 
 The response will be an array of [payment information](/versions/v1/glossary#payment-information) objects.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | There are no payments attached to the given session. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
 ## Get a Single Payment
 
 `GET /payment/[sessionId]/[paymentId]`
@@ -119,6 +141,13 @@ Retrieves a specific payment information object for a specific session.
 ### Response
 
 The response will be a [payment information](/versions/v1/glossary#payment-information) object.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | Payment referenced does not exist. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
 
 ## Create Payment
 

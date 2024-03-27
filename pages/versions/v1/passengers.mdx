@@ -89,6 +89,13 @@ The response, if complete, will of type [Passenger Information](/versions/v1/glo
 
 > 🛎 If the specified passenger is not found within the session, the endpoint will return a 404 status code.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Passenger not found or expired | Passenger referenced does not exist. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
 ## Updating a Passenger
 
 `PUT /versions/v1/passenger/[session_id]/[passenger_public]`
@@ -122,3 +129,11 @@ The payload needs to be of type [Passenger Information](/versions/v1/glossary#pa
 ### Response
 
 The response will be the same as the response of the [Retrieving a Single Passenger](#retrieving-a-single-passenger) endpoint.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 404 | Passenger not found or expired | Passenger referenced does not exist. |
