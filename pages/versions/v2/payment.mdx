@@ -1,0 +1,192 @@
+# Payment Overview
+
+ORX uses [TokenEx](https://www.tokenex.com/) to tokenize credit card information. This allows ORX to collect sensitive credit card information without having to store it.
+
+To pass the payment information securely to ORX, start by collecting credit card details through a [payment initialization](#initiate-payment). Then, configure your [TokenEx iFrame](https://docs.tokenex.com/docs/iframe-new) iFrame using the `authentication_key` and `client_id` returned from the initialize endpoint. The iFrame will generate a tokenized version of the credit card data. This token, along with the card type (also provided by TokenEx), billing information, and the cardholder's name, can be used in the [update payment](#update-payment) or [create payment](#create-payment) endpoints to process the payment securely.
+
+```mermaid
+flowchart TD
+    A[Initiate Payment Request] -->|TokenEX IFrame Config| B[Load TokenEx Party iframe]
+    B --> C[Tokenize Card Data]
+    C -->|Tokenized Data| D[Attach Token to the session]
+    C -->|Tokenized Data| E[Use Directly in the Order Request]
+```
+
+# Payment Initialization
+
+Sensitive credit card data is collected using tokenex iFrames, which generate a tokenized version of the card when an order is placed. This tokenized credit card can be used for any future booking requests. In order to generate these iFrames, configuration information must be obtained using the `POST /payment/[sessionId]/initiate` endpoint.
+
+> More information about generating tokenex iFrames can be found in the [tokenex docs](https://docs.tokenex.com/docs/iframe-new).
+
+## Initiate Payment
+
+`POST /payment/[sessionId]/initiate`
+
+This endpoint is used to obtain configuration credentials required to generate tokenex iFrames.
+
+### Payload
+
+```json filename="POST /payment/[sessionId]/initiate" copy
+{ "origin": "http://localhost:3000", "token": "411111Z6hasQ1111" }
+```
+
+This payload may include the following fields:
+
+- `origin`: The URL of the application embedding the iFrames.
+
+> 🛎 The origin used will have to be whitelisted in production. Please contact our support team for assistance.
+
+- `token` : (optional) The tokenized credit card number. This parameter is included when collecting sensitive information (e.g CVC/CVV) for an already tokenized credit card.
+
+### Response
+
+```json filename="POST /payment/[sessionId]/initiate" copy
+{
+  "authentication_key": "fBQRtlK5E1SBWJytXMSex7VeSPvAhI8w3A4vgxPD6FC=",
+  "expires_at": "2023-06-23T18:46:27.036794Z",
+  "client_id": "828643986532625",
+  "timestamp": "20230623182627"
+}
+```
+
+These values are required to create a tokenex [iFrame configuration object](https://docs.tokenex.com/docs/building-the-configuration-object).
+
+- `authentication_key`: This key serves as the `authenticationKey` in the configuration object.
+- `client_id`: This id serves as the `tokenExID` in the configuration object.
+- `timestamp`: This serves as the `timestamp` in the configuration object.
+- `expires_at`: Expiry time of the tokenex iFrame. This is not included in the tokenex configuration object.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 500 | NDCx Internal Error | Unknown |
+| 400 | Unauthorized origin | The requested origin has not been whitelisted. | 
+
+# Payment Management
+
+You can create/update a payment for a specific session. This is useful if you want to progressively update the payment information for a session, prior to performing an order.
+
+> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/v2/payment/initiate).
+
+> 🛎 Currently, only a single payment method can be added to each session. Having multiple forms of payment will be supported in the future.
+
+## Update Payment
+
+`PUT /payment/[sessionId]/[paymentId?]`
+
+Use this endpoint to update the payment information for a specific session. Since having multiple forms of payment is not yet supported, the `paymentId` is optional. If no `paymentId` is provided, the payment information will be updated for the session's current payment.
+
+**If the session does not yet have a payment, a new payment will be created.**
+
+### Payload
+
+```json filename="PUT /payment/[sessionId]/[paymentId?]" copy
+{
+  "code": "visa",
+  "first_name": "John",
+  "last_name": "Doe",
+  "token": "401299Hb1tTS9999",
+  "expiry": "10/25",
+  "billing_information": {
+    "unit": "211",
+    "country": "CA",
+    "state": "ON",
+    "address": "529 West Broadway",
+    "city": "Toronto",
+    "postal_code": "L5W1N6"
+  }
+}
+```
+
+The payload needs to be of type [payment information](/versions/v2/glossary#payment-information).
+
+> 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
+
+### Response
+
+The updated properties will be reflected in the response of type [payment information](/versions/v2/glossary#payment-information).
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Get Payments
+
+`GET /payment/[sessionId]`
+
+Retrieves all of the the payment information objects for a specific session.
+
+### Response
+
+The response will be an array of [payment information](/versions/v2/glossary#payment-information) objects.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | There are no payments attached to the given session. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Get a Single Payment
+
+`GET /payment/[sessionId]/[paymentId]`
+
+Retrieves a specific payment information object for a specific session.
+
+### Response
+
+The response will be a [payment information](/versions/v2/glossary#payment-information) object.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | Payment referenced does not exist. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Create Payment
+
+`POST /payment/[sessionId]`
+
+Use this endpoint to create a payment for a specific session. Since having multiple forms of payment is not yet supported, you could use the [update payment](/versions/v2/payment/management#update-payment) endpoint to create and update a singular payment.
+
+### Request
+
+```json filename="PUT /payment/[sessionId]/[paymentId?]" copy
+{
+  "code": "visa",
+  "first_name": "John",
+  "last_name": "Doe",
+  "token": "401299Hb1tTS9999",
+  "expiry": "10/25",
+  "billing_information": {
+    "unit": "211",
+    "country": "CA",
+    "state": "ON",
+    "address": "529 West Broadway",
+    "city": "Toronto",
+    "postal_code": "L5W1N6"
+  }
+}
+```
+
+The payload needs to be of type [payment information](/versions/v2/glossary#payment-information).
+
+> 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
+
+### Response
+
+The response will contain the created payment [payment information](/versions/v2/glossary#payment-information).
+
+## Delete Payment
+
+`DELETE /payment/[sessionId]/[paymentId]`
+
+### Response
+
+If successful, the response will be empty with a status code of `204`.

@@ -1,0 +1,64 @@
+# Forward Looking Selection
+
+We realize that the [Flight Selection](/versions/v2/flights/selection) process can be a bit cumbersome, especially when trying to progressively compute the different possibilities when selecting certain brands and fares. To make this process easier, we've created the Forward Looking Selection endpoints. These endpoints are designed to help you create more advanced selection flows, where you can progressively receive more granular information about the itinerary that is being selected.
+
+## Estimate Commission
+
+`POST /flight/[sessionId]/[boundIndex]/estimate-commission`
+
+Use this endpoint to estimate the possible the hightest and the lowest commission that can be earned from selecting a fare brand in a specific bound. This endpoint requires the [Public ID](/versions/v2/glossary#public-id) of the flight fares that had been selected in the previous steps. You may optionally include the [Public ID](/versions/v2/glossary#public-id) of the brands that had been selected in the previous steps.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/[boundIndex]/estimate-commission" copy
+{
+  "currentBrands": [
+    "d61e1c3e-9f78-4228-befb-0e704548e164",
+    "ee51db09-3bac-4b1e-b77f-4bc1cf295b75",
+    "e667ed2a-9c96-49cf-a1ca-549825394cca",
+    "5a9057c3-26d1-4501-812e-42d78e0d74b0",
+    "311ddebd-f486-4110-89d0-04fc8256ba37"
+  ],
+  "selectedFare": ["fc3de66b-88ee-463d-b2d8-81f9d09969b6"],
+  "selectedBrands": ["cb718a38-694c-49e0-b78a-b6ba0dc23753"]
+}
+```
+
+- `currentBrands`: (`Array<`[Public ID](/versions/v2/glossary#public-id)`>`) The public ids of the brands you want to receive the commission estimate for.
+- `selectedFare`: (`Array<`[Public ID](/versions/v2/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
+- `selectedBrands`: (`Array<`[Public ID](/versions/v2/glossary#public-id)`>?`) The public ids of the bounds selected in the previous bounds, in order. Each of selected brands is associated with the fare of the same index in the `selectedFares` array.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/[boundIndex]/estimate-commission" copy
+{
+  "brands": [
+    {
+      "public": "0b0cf94a-dcc8-40d8-8ceb-49c6da72bcb3",
+      "maximum_itinerary_price": "744.37",
+      "minimum_itinerary_price": "744.37"
+    },
+    {
+      "public": "c051f2c3-29c5-41fd-a54f-8fe3239366e0",
+      "maximum_itinerary_price": "744.37",
+      "minimum_itinerary_price": "744.37"
+    }
+  ]
+}
+```
+
+- `brands`: (`Array<Record>`) The pricing and commission estimates for the brands that were passed as `currentBrands`.
+  - `brands[].public` : ([Public ID](/versions/v2/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
+  - `brands[].maximum_itinerary_price` : (`string`) The maximum price of the itinerary that can be achieved by selecting the brand.
+  - `brands[].minimum_itinerary_price` : (`string`) The minimum price of the itinerary that can be achieved by selecting the brand.
+
+### Possible Errors
+
+| Status Code | Error                                                             | Reason                                                                                                                         |
+| ----------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 400         | [Validation Error]                                                | Failed Validation                                                                                                              |
+| 404         | Session not found or expired                                      | Request targeting a non-existent. session.                                                                                     |
+| 400         | Invalid bound                                                     | The bound that the request is asking for is exceeding the number of bounds in this session.                                    |
+| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         |
+| 400         | Number of selected entities must correspond to the bound index    | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. |
+| 400         | Selected entities must represent consecutive bounds.              | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   |

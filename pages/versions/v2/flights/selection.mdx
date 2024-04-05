@@ -1,0 +1,659 @@
+# Querying Flights
+
+Now that you have initiated a flight search; and, received a session public ID in response, you are ready to query and select individual flights.
+
+## Query and Selection Order
+
+### Flights Querying and Selection Order
+
+> 🧨 **Important**: Not all fares provided are combinable. When querying and selecting bounds, remember that choosing a fare and brand in one bound will affect compatibility in subsequent bounds. Once a fare and a brand have been selected, ORX will only return combinable options for the consecutive bounds.
+
+To ensure a smooth selection process, follow the steps below:
+
+1. Query bound 1.
+2. Select fare and brand for bound 1.
+3. Query bound 2. ORX will return **only** the options that are compatible with the bound 1 selection.
+4. Select fare and brand for bound 2.
+
+> 🧨 **Important**: Flight selection must occur in order. If a bound is re-selected, the following bounds will be de-selected.
+
+## Querying Flights
+
+`GET /flight/[sessionId]/bound/[boundIndex]`
+
+This endpoint is used to query individual flights, where `[sessionId]` is the public session ID, and `[bound]` is the index of the bound being queried, starting from 0.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/bound/[boundIndex]" copy
+[
+  {
+    "airports": [
+      {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-04-15 20:30:00",
+        "flight_number": "772",
+        "layover_time": ""
+      },
+      {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-04-15 23:15:00",
+        "flight_number": "",
+        "layover_time": ""
+      }
+    ],
+    "sort_field": {
+      "departure_date_time": "2023-04-15 20:30:00",
+      "arrival_date_time": "2023-04-15 23:15:00",
+      "airline": ["Air Transat"],
+      "stops": 0,
+      "elapse_time": "5.45",
+      "cheapest_price": "0.00",
+      "alliances": [],
+      "emission": 255.55
+    },
+    "segments": [
+      {
+        "departure_information": {
+          "airport_code": "YUL",
+          "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+          "airport_city_name": "Montreal",
+          "date_time": "2023-04-15 20:30:00",
+          "terminal": null
+        },
+        "arrival_information": {
+          "airport_code": "YVR",
+          "airport_name": "Vancouver International Airport",
+          "airport_city_name": "Vancouver",
+          "date_time": "2023-04-15 23:15:00",
+          "terminal": "M"
+        },
+        "marketing_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "operating_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "additional_information": {
+          "equipment": {
+            "code": "32Q",
+            "name": "Airbus A321neo",
+            "graphic": null
+          },
+          "e_ticket": "true",
+          "mileage": "2295",
+          "flight_detail": {
+            "duration": "345"
+          }
+        },
+        "emission": 255.55,
+        "distance": 2295
+      }
+    ],
+    "brand_information": {
+      "Y": {
+        "economy budget": {
+          "price_information": {
+            "total_amount": "163.41",
+            "base_amount": "70.00",
+            "starting_fare_amount": "0.00",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "93.41",
+              "tax": [
+                {
+                  "amount": "7.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "14.18",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Paid Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Paid Light Meal",
+              "All Rows have Power/usb Available",
+              "255.55 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "Y"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 0 for segments "],
+                "charge": "0.00",
+                "piece": "0"
+              }
+            ],
+            "charged_baggages": [
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "40.00",
+                "piece": "1"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "70.00",
+                "piece": "2"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              }
+            ]
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "economy budget",
+          "cabin": "Y",
+          "createdAt": "2023-04-10T21:23:29.950Z",
+          "public": "9407ae91-625f-4e81-9188-584c979b744f"
+        }
+      },
+      "PY": {
+        "club standard": {
+          "price_information": {
+            "total_amount": "623.31",
+            "base_amount": "470.00",
+            "starting_fare_amount": "459.90",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "153.31",
+              "tax": [
+                {
+                  "amount": "27.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "54.08",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": "0.00",
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club standard",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.951Z",
+          "public": "21959f67-db5c-43b0-899a-f2b44dea25f3"
+        },
+        "club flex": {
+          "price_information": {
+            "total_amount": "1175.19",
+            "base_amount": "950.00",
+            "starting_fare_amount": "1011.78",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "225.19",
+              "tax": [
+                {
+                  "amount": "51.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "101.96",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": "0.00",
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club flex",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.952Z",
+          "public": "8d504db7-544c-4679-93de-fdb88efe8e55"
+        }
+      }
+    },
+    "expireAt": "2023-04-10T23:23:29.711Z",
+    "createdAt": "2023-04-10T21:23:36.239Z",
+    "public": "eb02945c-f793-4c00-8053-edd756de4b15"
+  }
+]
+```
+
+The response contains an array of [Flight Fares](/versions/v2/glossary#flight-fare), each representing of set of segments fulfilling the bound at hand.
+
+> 🛎 The `public` ID of the Flight Fare and the Brand Information of choice will be necessary to select and retrieve the brand.
+
+### Possible Errors
+
+| Status Code | Error                                           | Reason                                                              |
+| ----------- | ----------------------------------------------- | ------------------------------------------------------------------- |
+| 404         | Session not found or expired                    | Request targeting a non-existent session.                           |
+| 409         | Bound [bound] is not available for this session | Request is attempting to retrieve flights for a non-existent bound. |
+| 412         | Not all flights are selected                    | The Itinerary has not yet been fully selected.                      |
+
+## Selecting a Flight
+
+`POST /flight/[sessionId]/bound/[boundIndex]`
+
+Once you have queried individual flights, you can select a flight.
+
+This endpoint is used to select individual flights, where [sessionId] is the public session ID, and [bound] is the index of the bound being selected, starting from 0.
+
+### Request
+
+The body of the `POST` request should contain the following parameters:
+
+```json copy
+{
+  "fare": "[flight public ID]",
+  "brand": "[brand information public ID]"
+}
+```
+
+> 🧨 It is important to note that flights must be selected in order. Re-selecting a flight will cause the following bounds to be unselected.
+
+### Response
+
+The response will look similar to an individual flight object, similar to the one returned in the original flight search response. However, the response will **only include the `brand_information` selected, rather than an object containing all brands available**.
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]" copy
+{
+  "airports": [
+    {
+      "airport_code": "YUL",
+      "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+      "airport_city_name": "Montreal",
+      "date_time": "2023-05-15 22:00:00",
+      "flight_number": "8533",
+      "layover_time": ""
+    },
+    {
+      "airport_code": "YYC",
+      "airport_name": "Calgary International Airport",
+      "airport_city_name": "Calgary",
+      "date_time": "2023-05-16 04:00:00",
+      "flight_number": "8591",
+      "layover_time": "03.30"
+    },
+    {
+      "airport_code": "YVR",
+      "airport_name": "Vancouver International Airport",
+      "airport_city_name": "Vancouver",
+      "date_time": "2023-05-16 04:05:00",
+      "flight_number": "",
+      "layover_time": ""
+    }
+  ],
+  "sort_field": {
+    "departure_date_time": "2023-05-15 22:00:00",
+    "arrival_date_time": "2023-05-16 04:05:00",
+    "airline": ["WestJet"],
+    "stops": 1,
+    "elapse_time": "9.05",
+    "cheapest_price": "34.49",
+    "alliances": [],
+    "emission": 313.54
+  },
+  "segments": [
+    {
+      "departure_information": {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-05-15 22:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 00:30:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "1873",
+        "flight_detail": {
+          "duration": "270"
+        }
+      },
+      "emission": 255.22,
+      "distance": 1873
+    },
+    {
+      "departure_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 04:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-05-16 04:05:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "428",
+        "flight_detail": {
+          "duration": "65"
+        }
+      },
+      "emission": 58.32,
+      "distance": 428
+    }
+  ],
+  "brand_information": {
+    "price_information": {
+      "total_amount": "191.00",
+      "base_amount": "124.00",
+      "starting_fare_amount": "34.49",
+      "currency": "CAD",
+      "tax": {
+        "total_tax": "67.00",
+        "tax": [
+          {
+            "amount": "8.31",
+            "code": "XG",
+            "description": "Goods And Services Tax (gst)"
+          },
+          {
+            "amount": "35.00",
+            "code": "SQ",
+            "description": "Airport Improvement Fee (aif), (domestic/international)"
+          },
+          {
+            "amount": "16.57",
+            "code": "XQ",
+            "description": "Quebec Sales Tax"
+          },
+          {
+            "amount": "7.12",
+            "code": "CA",
+            "description": "Air Travellers Security Charge (domestic/international)"
+          }
+        ]
+      },
+      "surcharge": {
+        "total_surcharge": "0.00",
+        "surcharge": []
+      }
+    },
+    "fare_information": {
+      "offerings": ["313.54 KgCo2e total emissions"],
+      "discount": null,
+      "cabin_codes": [
+        {
+          "departure": "YUL",
+          "arrival": "YYC",
+          "cabinClass": "Y"
+        },
+        {
+          "departure": "YYC",
+          "arrival": "YVR",
+          "cabinClass": "Y"
+        }
+      ],
+      "rewards": null
+    },
+    "excluded": false,
+    "expireAt": "2023-04-12T23:51:17.988Z",
+    "createdAt": "2023-04-12T21:51:18.204Z",
+    "public": "d692a169-f37f-49a6-91da-b94a43cce0cc"
+  },
+  "createdAt": "2023-04-12T21:51:22.513Z",
+  "public": "a5e56c0d-681c-4253-b6bb-fd0d7b0795ae",
+  "expireAt": "2023-04-12T23:51:17.988Z"
+}
+```
+
+The response will be of type [Itinerary Flight Fare](/versions/v2/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
+
+### Possible Errors
+
+| Status Code | Error                                                                              | Reason                                                                                                           |
+| ----------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 404         | Session not found or expired                                                       | Request targeting a non-existent session.                                                                        |
+| 400         | [Validation Error]                                                                 | Failed Validation                                                                                                |
+| 412         | No flight selected for bound [bound] Flights can only be selected in order         | Request is selecting fares for a bound without having selected the fare for its preceding bound(s).              |
+| 404         | Flight brand not found or expired                                                  | Selected flight brand is not found.                                                                              |
+| 404         | Could not find fare                                                                | Selected flight fare is not found.                                                                               |
+| 409         | The fare requested does not belong to bound [bound]                                | Selected flight fare does not belong to the bound it is selected for.                                            |
+| 409         | The brand and the fare provided are not compatible                                 | The selected brand does not belong to the selected fare.                                                         |
+| 409         | The fare or the brand provided are not compatible selections of the previous bound | The brand and/or the fare cannot be combined with the brand and/or the fares that have previously been selected. |
+| 404         | Seat not found or expired                                                          | The request is attempt to select non-existent seats.                                                             |
+| 404         | Passenger not found or expired                                                     | The request is attempt to select non-existent seats.                                                             |
+
+## Retrieving Selected Flights
+
+`GET /flight/[sessionId]/itinerary`
+
+At any point during your selection process, you can retrieve the selected flights using the get itinerary endpoint.
+
+> 🛎 This endpoint is only intended for active search [sessions](/versions/v2/session#session-object). Requesting the itinerary for a session of type FLIGHT_BOOKING will result in a 400 error.
+
+### Response
+
+The response will be an array of type [Itinerary Flight Fare](/versions/v2/glossary#itinerary-flight-fare), representing the selected flights in order.
+
+### Possible Errors
+
+| Status Code | Error                                                         | Reason                                            |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------------- |
+| 400         | Retrieve itinerary is only allowed for active search sessions | The session in the request is not of type FLIGHT. |
+| 404         | Session not found or expired                                  | Request targeting a non-existent session.         |
