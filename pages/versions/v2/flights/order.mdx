@@ -1,0 +1,66 @@
+# Ordering Flights
+
+Once you have selected your flights, added the necessary ancillaries, and obtained the pricing information, you can proceed to place an order for the selected itinerary. This step finalizes the booking process and requires providing payment information.
+
+## Requesting Order
+
+`POST /flight/[sessionId]/order`
+
+Use this endpoint to place an order for the selected flights using the specified payment details.
+
+You may provide a new payment method here, or create one using the [update payment](/versions/v2/payment#update-payment) endpoint. If you choose to use the payment endpoints, you do not need to provide the payment information in this request.
+
+> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized with its [CVV/CVC attached to it](https://docs.tokenex.com/docs/pci-w-cvv-configuration).
+
+### Request
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "payment": {
+    "code": "visa",
+    "first_name": "John",
+    "last_name": "Doe",
+    "token": "401299Hb1tTS9999",
+    "expiry": "10/25",
+    "billing_information": {
+      "unit": "211",
+      "country": "CA",
+      "state": "ON",
+      "address": "529 West Broadway",
+      "city": "Toronto",
+      "postal_code": "L5W1N6"
+    }
+  }
+}
+```
+
+- `payment`: ([Payment Information](/versions/v2/glossary#payment-information)?) Payment to be used for the order.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "flow": "FLIGHT_BOOKING",
+  "expireAt": "2023-07-31T00:00:00.000Z",
+  "createdAt": "2023-06-27T22:24:45.817Z",
+  "public": "aa27fbad-5c63-4938-86df-cf4a2207fc59"
+}
+```
+
+The response will be a new [session](/versions/v2/session#session-object). The order session serves as a reference to manage and access specific orders.
+
+> 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v2/glossary#public-id) returned in this response.
+
+> 🛎 The session returned will be of flow `FLIGHT_BOOKING`. This session is a long-lived one that will expire after the travel date of the last flight in the itinerary. You can see the details of the session using the [Get Session](/versions/v2/session#accessing-session-information) endpoint.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 500 | NDCx Internal Error | Unknown |
+| 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. |
+| 409 | Session is currently locked by another process. Please try again later. | Session is locked by another process. |
+| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. |
+| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |

@@ -1,0 +1,33 @@
+# Session Management
+
+Session management is an important part of using the ORX API. When a you initiates a search, they will receive a session ID that they can use to build their itinerary for flights, cars, or hotels. Sessions typically expire within two hours of their creation, although the exact expiration time will be included in the session object.
+
+## Session Object
+
+The session object includes the following fields:
+
+```json copy
+{
+  "flow": "FLIGHT",
+  "id": "60d67317-2529-4e10-ae3e-9ba5c0746a3b",
+  "expireAt": "2023-03-17T23:05:24.944Z",
+  "createdAt": "2023-03-17T21:05:24.945Z"
+}
+```
+
+- `flow`: (`FLIGHT` | `FLIGHT_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking.
+- `public`: ([Public ID](/versions/v2/glossary#public-id)) The public ID of the session.
+- `expireAt`: (`string`) The date and time when the session will expire.
+- `createdAt`: (`string`) The date and time when the session was created.
+
+## Accessing Session Information
+
+`GET /session/[sessionId]`
+
+Clients can retrieve information about a session using this endpoint. This will return the session object described above, providing the client with important details about their search.
+
+```shell copy
+curl -H "x-api-key: your-api-key" -H "x-api-version: 1" https://your-api-url.com/session/60d67317-2529-4e10-ae3e-9ba5c0746a3b
+```
+
+> 🧨 It's important to manage sessions carefully to ensure that they don't expire before the client has completed their search. If the session expires, the client will need to initiate a new search and create a new session ID.
