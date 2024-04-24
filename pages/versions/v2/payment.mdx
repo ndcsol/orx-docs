@@ -191,6 +191,13 @@ The response will contain the created payment [payment information](/versions/v2
 
 If successful, the response will be empty with a status code of `204`.
 
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | | Payment referenced was not found. |
+
+
 # Alternative Payments
 
 You may also pay for orders using alternative payment methods. Currently the only supported alternative payment method is [Verto](https://ver.to/). While all alternative payment methods will use the same set of endpoint, each payment method will have its own payload schema.
@@ -287,7 +294,7 @@ Use this endpoint to create an alternative payment for a specific session. Since
 }
 ```
 
-The payload needs to be of type [payment information](/versions/v2/glossary#payment-information).
+The payload needs to be of type [alternative payment information](/versions/v2/glossary#alternative-payment-information).
 
 ### Response
 
@@ -300,4 +307,10 @@ The response will contain the created alternative payment [alternative payment i
 ### Response
 
 If successful, the response will be empty with a status code of `204`. If the alternative payment does not exist, the response will be a status code of `404`.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | | Alternative payment referenced was not found. |
 
