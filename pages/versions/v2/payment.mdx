@@ -209,10 +209,10 @@ If successful, the response will be empty with a status code of `204`.
 
 # Alternative Payments
 
-You may also pay for orders using alternative payment methods. Currently the only supported alternative payment method is [Verto](https://ver.to/). While all alternative payment methods will use the same set of endpoint, each payment method will have its own payload schema.
+You may also pay for orders using alternative payment methods. Currently the only supported alternative payment method is [Verto](https://ver.to/). While all alternative payment methods will use the same set of endpoints, each payment method will have its own payload schema.
 Just like regular payments, alternative payments may be attached to a session before making an order, or directly in the order request. Prior to processing an order, the provided alternative payment will be validated and verified. If the payment is not valid, the order will not be created. 
 
-> 🧨 Each session may only have a single regular `payment` or a single `alternativePayment`, but not more. If you attempt to provide more using one of the endpoints, or using the order endpoint, you will receive an error.
+> 🧨 Each session may have a single regular `payment` or a single `alternativePayment`. If you attempt to provide more using one of the endpoints or using the order endpoint, you will receive an error.
 
 ## Alternative Payment Management
 
