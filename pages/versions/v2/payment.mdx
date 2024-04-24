@@ -68,9 +68,9 @@ These values are required to create a tokenex [iFrame configuration object](http
 
 You can create/update a payment for a specific session. This is useful if you want to progressively update the payment information for a session, prior to performing an order.
 
-> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/v2/payment/initiate).
+> 🧨 The endpoint requires a payment object, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/v2/payment/initiate).
 
-> 🛎 Currently, only a single payment method can be added to each session. Having multiple forms of payment will be supported in the future.
+> 🛎 Currently, only a single payment object can be added to each session. Having multiple forms of payment will be supported in the future.
 
 ## Update Payment
 
@@ -190,3 +190,114 @@ The response will contain the created payment [payment information](/versions/v2
 ### Response
 
 If successful, the response will be empty with a status code of `204`.
+
+# Alternative Payments
+
+You may also pay for orders using alternative payment methods. Currently the only supported alternative payment method is [Verto](https://ver.to/). While all alternative payment methods will use the same set of endpoint, each payment method will have its own payload schema.
+Just like regular payments, alternative payments may be attached to a session before making an order, or directly in the order request. Prior to processing an order, the provided alternative payment will be validated and verified. If the payment is not valid, the order will not be created. 
+
+> 🧨 Each session may only have a single regular `payment` or a single `alternativePayment`, but not more. If you attempt to provide more using one of the endpoints, or using the order endpoint, you will receive an error.
+
+## Alternative Payment Management
+
+Below we will outline the endpoints for managing alternative payments. These endpoints can be used for CRUD operations on alternative payments.
+
+## Update Alternative Payment
+
+`PUT /alternative-payment/[sessionId]/[alternativePaymentId?]`
+
+Use this endpoint to update the alternative payment information for a specific session. Since having multiple forms of payment is not yet supported, the `alternativePaymentId` is optional. If no `alternativePaymentId` is provided, the alternative payment information will be updated for the session's current alternative payment.
+
+**If the session does not yet have an alternative payment, a new one will be created.**
+
+### Payload
+
+```json filename="PUT /alternative-payment/[sessionId]/[alternativePaymentId?]" copy
+{
+  "method": "VERTO",
+  "payload": {
+    "token" : "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+  }
+}
+```
+
+The payload needs to be of type [alternative payment information](/versions/v2/glossary#alternative-payment-information).
+
+> 🛎 You do not need to send the payment information all at once, but you do need to provide the `method` when creating a new alternative payment. 
+
+### Response
+
+The updated properties will be reflected in the response of type [alternative payment information](/versions/v2/glossary#alternative-payment-information).
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Get Alternative Payments
+
+`GET /alternative-payment/[sessionId]`
+
+Retrieves all of the alternative payment information objects for a specific session.
+
+### Response
+
+The response will be an array of [alternative payment information](/versions/v2/glossary#alternative-payment-information) objects.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | There are no payments attached to the given session. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Get a Single Alternative Payment
+
+`GET /alternative-payment/[sessionId]/[alternativePaymentId]`
+
+Retrieves a specific alternative payment information object for a specific session.
+
+### Response
+
+The response will be a [alternative payment information](/versions/v2/glossary#alternative-payment-information) object.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Payment information not found or expired | Payment referenced does not exist. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Create Alternative Payment
+
+`POST /alternative-payment/[sessionId]`
+
+Use this endpoint to create an alternative payment for a specific session. Since having multiple payment/alternative payment is not yet supported, you could use the [update alternative payment](/versions/v2/payment#update-alternative-payment) endpoint to create and update a singular payment.
+
+### Request
+
+```json filename="POST /alternative-payment/[sessionId]" copy
+{
+    "method": "VERTO",
+    "payload" : {
+        "token" : "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b"
+    }
+}
+```
+
+The payload needs to be of type [payment information](/versions/v2/glossary#payment-information).
+
+### Response
+
+The response will contain the created alternative payment [alternative payment information](/versions/v2/glossary#alternative-payment-information).
+
+## Delete Alternative Payment
+
+`DELETE /alternative-payment/[sessionId]/[alternativePaymentId]`
+
+### Response
+
+If successful, the response will be empty with a status code of `204`. If the alternative payment does not exist, the response will be a status code of `404`.
+

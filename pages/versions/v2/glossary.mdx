@@ -1550,7 +1550,7 @@ type FlightOrderPassengerInformation = PassengerInformation & {
 
 ## Payment Information
 
-Object describing a payment method.
+Object describing a payment.
 
 ### Sub Properties
 
@@ -1590,5 +1590,42 @@ interface PaymentInformation {
     city: string;
     postal_code: string;
   };
+}
+```
+
+
+## Alternative Payment Information
+
+Object describing an alternativePayment method.
+
+### Sub Properties
+
+- `method`: (`VERTO`) The alternative payment method. Currently only `VERTO` is supported.
+- `payload`: ([Verto Payment Method Payload](#verto-payment-method-payload)) The payload for the alternative payment method. Each method has its own payload structure.
+### Type Definition
+
+```ts
+interface AlternativePaymentInformation {
+  code: "VERTO";
+  payload: {
+    "sample": "payload"
+  };
+}
+```
+
+
+## Verto Payment Method Payload
+
+Object describing the payload for the Verto payment method.
+
+### Sub Properties
+
+- `token`: (`string`) The Verto token represneting the transaction. 
+
+### Type Definition
+
+```ts
+interface VertoPaymentMethodPayload {
+  token: string;
 }
 ```
