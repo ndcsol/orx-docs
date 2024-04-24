@@ -1,5 +1,4 @@
 # Payment Overview
-
 ORX uses [TokenEx](https://www.tokenex.com/) to tokenize credit card information. This allows ORX to collect sensitive credit card information without having to store it.
 
 To pass the payment information securely to ORX, start by collecting credit card details through a [payment initialization](#initiate-payment). Then, configure your [TokenEx iFrame](https://docs.tokenex.com/docs/iframe-new) iFrame using the `authentication_key` and `client_id` returned from the initialize endpoint. The iFrame will generate a tokenized version of the credit card data. This token, along with the card type (also provided by TokenEx), billing information, and the cardholder's name, can be used in the [update payment](#update-payment) or [create payment](#create-payment) endpoints to process the payment securely.
@@ -114,6 +113,7 @@ The updated properties will be reflected in the response of type [payment inform
 |---|---|---|
 | 400 | [Validation Error] | Failed Validation |
 | 404 | Session not found or expired | Request targeting a non-existent session. |
+| 409 | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
 
 ## Get Payments
 
@@ -182,6 +182,15 @@ The payload needs to be of type [payment information](/versions/v2/glossary#paym
 ### Response
 
 The response will contain the created payment [payment information](/versions/v2/glossary#payment-information).
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 409 | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
+| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. |
 
 ## Delete Payment
 

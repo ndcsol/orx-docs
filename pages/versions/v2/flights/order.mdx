@@ -8,11 +8,15 @@ Once you have selected your flights, added the necessary ancillaries, and obtain
 
 Use this endpoint to place an order for the selected flights using the specified payment details.
 
-You may provide a new payment method here, or create one using the [update payment](/versions/v2/payment#update-payment) endpoint. If you choose to use the payment endpoints, you do not need to provide the payment information in this request.
-
-> 🧨 The endpoint requires a payment method, including a TokenEx token which has been tokenized with its [CVV/CVC attached to it](https://docs.tokenex.com/docs/pci-w-cvv-configuration).
+You may provide a new payment or an alternative payment method here; or, create one using the [Payment Management](/versions/v2/payment) endpoint.
 
 ### Request
+
+> 💣 If you choose to use the payment management endpoints, you must not provide the payment information in this request. Doing so will result in an error.
+
+#### Order using a Payment Information Object
+
+If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v2/payment#update-payment) endpoint, you must provide the payment information in this request. 
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
@@ -35,6 +39,21 @@ You may provide a new payment method here, or create one using the [update payme
 ```
 
 - `payment`: ([Payment Information](/versions/v2/glossary#payment-information)?) Payment to be used for the order.
+
+#### Order using an Alternative Payment
+
+Alternatively, if you are planning to use an alternative payment method; and, [have not attached an alternative payment to the session](/versions/v2/payment#update-alternative-payment), you can provide the alternative payment information in this request.
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "alternativePayment" : {
+    "method": "VERTO",
+    "payload" : {
+      "token" : "bd12b3d4-5c63-4938-86df-cf4a2207fc59",
+    }
+  }
+}
+```
 
 ### Response
 
@@ -62,5 +81,8 @@ The response will be a new [session](/versions/v2/session#session-object). The o
 | 500 | NDCx Internal Error | Unknown |
 | 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. |
 | 409 | Session is currently locked by another process. Please try again later. | Session is locked by another process. |
+| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment are provided in the order. |
+| 412 | No payment method provided for the order | No payment of any kind has been provided for the order. |
+| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified. |
 | 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. |
 | 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |
