@@ -242,6 +242,8 @@ The updated properties will be reflected in the response of type [alternative pa
 |---|---|---|
 | 400 | [Validation Error] | Failed Validation |
 | 404 | Session not found or expired | Request targeting a non-existent session. |
+| 404 | Alternative payment information not found | Request contained an `alternativePaymentId` that does not exist |
+| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
 
 ## Get Alternative Payments
 
@@ -257,7 +259,7 @@ The response will be an array of [alternative payment information](/versions/v2/
 
 | Status Code | Error | Reason |
 |---|---|---|
-| 404 | Payment information not found or expired | There are no payments attached to the given session. |
+| 404 | Alternative payment information not found | There are no alternative payments attached to the given session. |
 | 404 | Session not found or expired | Request targeting a non-existent session. |
 
 ## Get a Single Alternative Payment
@@ -274,7 +276,7 @@ The response will be a [alternative payment information](/versions/v2/glossary#a
 
 | Status Code | Error | Reason |
 |---|---|---|
-| 404 | Payment information not found or expired | Payment referenced does not exist. |
+| 404 | Alternative payment information not found | Payment referenced does not exist. |
 | 404 | Session not found or expired | Request targeting a non-existent session. |
 
 ## Create Alternative Payment
@@ -299,6 +301,15 @@ The payload needs to be of type [alternative payment information](/versions/v2/g
 ### Response
 
 The response will contain the created alternative payment [alternative payment information](/versions/v2/glossary#alternative-payment-information).
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 409 | An alternative payment is already attached to session. Multiple alternative payments are not supported. | There is an existing alternative payment attached to the session. |
+| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
 
 ## Delete Alternative Payment
 
