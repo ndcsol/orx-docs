@@ -1518,7 +1518,7 @@ A Passenger's frequent flyer information.
 interface FlightFrequentFlyerInformation {
   program_id: string;
   id: string;
-};
+}
 ```
 
 ### Validation
@@ -1528,7 +1528,6 @@ The following programs have specific validation rules for the `id` field:
 | `program_id` | `id` validation |
 | ------------ | --------------- |
 | `AC`         | `/^[0-9]{9}$/`  |
-
 
 ## Flight Order Passenger Information
 
@@ -1593,7 +1592,6 @@ interface PaymentInformation {
 }
 ```
 
-
 ## Alternative Payment Information
 
 Object describing an alternativePayment method.
@@ -1602,17 +1600,17 @@ Object describing an alternativePayment method.
 
 - `method`: (`VERTO`) The alternative payment method. Currently only `VERTO` is supported.
 - `payload`: ([Verto Payment Method Payload](#verto-payment-method-payload)) The payload for the alternative payment method. Each method has its own payload structure.
+
 ### Type Definition
 
 ```ts
 interface AlternativePaymentInformation {
   code: "VERTO";
   payload: {
-    "sample": "payload"
+    sample: "payload";
   };
 }
 ```
-
 
 ## Verto Payment Method Payload
 
@@ -1620,12 +1618,78 @@ Object describing the payload for the Verto payment method.
 
 ### Sub Properties
 
-- `token`: (`string`) The Verto token represneting the transaction. 
+- `token`: (`string`) The Verto token represneting the transaction.
 
 ### Type Definition
 
 ```ts
 interface VertoPaymentMethodPayload {
   token: string;
+}
+```
+
+## Fare Matching
+
+Object describing a matching fare
+
+### Sub Properties
+
+- `public` : ([Public ID](/versions/v2/glossary#public-id)) The public ID of the matching fare.
+- `airline`: (`Array<string>`) The marketing airlines of the flights included in the fare.
+- `duration`: (`string`) The flight duration of the fare (TODO: Includes stopover or not?).
+- `departure`: (`string`) The departure time of the fare.
+- `departureAirport`: (`string`) The departure location of the fare.
+- `arrival`: (`string`) The arrival time of the fare.
+- `arrivalAirport`: (`string`) The arrival location of the fare.
+- `brands`: (`Array<`[Brand Matching](/versions/v2/glossary#brand-matching)`>`) The brands of the given fare that can be matched with the queried fares.
+
+### Type Definition
+
+```ts
+interface FareMatching {
+  airline: string[];
+  duration: string;
+  departure: string;
+  departureAirport: string;
+  arrival: string;
+  arrivalAirport: string;
+  layovers: Record<string, string>;
+  public: string;
+  brands: BrandMatching[];
+}
+```
+
+## Brand Matching
+
+Object describing a matching brand
+
+### Sub Properties
+
+    - `total_amount` : (`string`) The total price of the brand.
+    - `starting_fare_amount` : (`string`) For the first bound, this is the minimum priced itinerary that can be created with the given brand. For subsequent bounds, this is the price increase compared to the minimum branded fare for the given bound.
+    - `currency` : (`string`) : The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the `total_amount` and `starting_fare_amount`
+    - `name` : (`string`) The airline's name for the given brand class.
+    - `cabin` : ([Cabin Code](/versions/v2/glossary#cabin-code)) The cabin to which the brand belongs.
+    - `fare_matchings` : (`Array<Record>`) The brands from the `selectedFares` with which the current brand can be matched.
+      - `fare_matchings[].public`: ([Public ID](/versions/v2/glossary#public-id)) The public ID of the fare given in `selectedFares`.
+      - `fare_matchings[].brand_matchings`: (`Array<Record>`) The brands of the `selectedFares` with which the brand from `fares[].brands[]` can be matched.
+        - `fare_matchings[].brand_matchings[].public` : ([Public ID](/versions/v2/glossary#public-id)) The public ID of the given brand.
+        - `fare_matchings[].brand_matchings[].name` : (`string`) The airline's name for the given brand class.
+        - `fare_matchings[].brand_matchings[].cabin` : ([Cabin Code](/versions/v2/glossary#cabin-code)) The cabin to which the brand belongs.
+
+### Type Definition
+
+```ts
+interface BrandMatching {
+  public: string;
+  total_amount: string;
+  starting_fare_amount: string;
+  name: string;
+  cabin: string;
+  currency: string;
+  fare_matchings: Array<{
+    public: string;
+    brand_matchings: Record<string, string>;
+  }>;
 }
 ```
