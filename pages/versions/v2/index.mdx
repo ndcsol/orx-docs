@@ -65,3 +65,12 @@ Authorization errors will have a response code of `401`:
   "error": "Forbidden"
 }
 ```
+
+## Preference Headers
+
+In some cases, the API allows you to specify preferences for certain behaviors by including a Prefer header in your request. The Prefer header should contain a comma-separated list of preference values. Each feature will document its available preference flags and default values, marked with the ⛳ icon.
+
+```json
+curl -X GET http://api.orx.travel/some-route \
+  -H "Prefer: some-flag=false, some-other-flag=true"
+```
