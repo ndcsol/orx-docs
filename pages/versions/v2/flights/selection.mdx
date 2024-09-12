@@ -733,7 +733,7 @@ Use this endpoint to get an array of fares that could be matched with the select
 
 ```json filename="POST /flight/[sessionId]/bound/[boundIndex]/matching" copy
 {
-  "selectedFares": ["060ae8d1-9566-496b-8f4b-eb74470bf778"]
+  "selectedFares": ["7c62d6be-04b5-4c8c-8741-34e506f75db9"]
 }
 ```
 
@@ -745,68 +745,38 @@ Use this endpoint to get an array of fares that could be matched with the select
 {
   "fares": [
     {
-      "public": "bc346c45-a497-4ad0-9d22-b7c489afac1d",
-      "airline": ["WestJet"],
-      "duration": "03.46",
-      "departure": "2024-08-19 00:20:00",
+      "public": "126fd709-c55d-4663-90bd-c1b29a912dc6",
+      "airline": ["Air Canada"],
+      "duration": "3.50",
+      "departure": "2024-10-21 00:10",
       "departureAirport": "YYC",
-      "arrival": "2024-08-19 06:06:00",
+      "arrival": "2024-10-21 06:00",
       "arrivalAirport": "YYZ",
       "brands": [
         {
-          "public": "a08fe91c-cd3c-46be-9a24-6f9fe14413e7",
-          "total_amount": "499.44",
+          "public": "65d217f1-e0aa-40c0-813d-84e865928e03",
+          "total_amount": "131.06",
           "starting_fare_amount": "0.00",
           "currency": "CAD",
-          "name": "premium",
-          "cabin": "PY",
-          "fare_matchings": [
-            {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
-              "brand_matchings": [
-                {
-                  "public": "d949c9e9-3c64-4945-a949-c1ffbb3a9527",
-                  "name": "premium",
-                  "cabin": "PY"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "public": "68c9bb9d-8b29-4c3f-a2e3-01ce7726bb03",
-          "total_amount": "1728.88",
-          "starting_fare_amount": "0.00",
-          "currency": "CAD",
-          "name": "premiumflex",
-          "cabin": "PY",
-          "fare_matchings": [
-            {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
-              "brand_matchings": [
-                {
-                  "public": "2dfe9bc1-5a02-4295-8170-3d29784367b0",
-                  "name": "premiumflex",
-                  "cabin": "PY"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "public": "e81d07ec-b902-4765-a6ed-5ae335f58847",
-          "total_amount": "250.84",
-          "starting_fare_amount": "0.00",
-          "currency": "CAD",
-          "name": "ultrabasic",
+          "name": "basic",
           "cabin": "Y",
+          "offering": [
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "No changes",
+            "10% Aeroplan pts/No SQM",
+            "Meals and beverages for a fee",
+            "No same-day standby",
+            "No refund, no credit",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "64c287e1-c9fe-4b7f-a9a5-b2fcb83ee677",
-                  "name": "ultrabasic",
+                  "public": "62868d3e-577a-4005-a423-7c6698918de1",
+                  "name": "basic",
                   "cabin": "Y"
                 }
               ]
@@ -814,40 +784,330 @@ Use this endpoint to get an array of fares that could be matched with the select
           ]
         },
         {
-          "public": "bdbf3fe9-826b-4867-8d42-a1bf569e27e2",
-          "total_amount": "307.34",
+          "public": "15e6468b-4baa-46da-bc05-95e412569e9b",
+          "total_amount": "159.31",
           "starting_fare_amount": "0.00",
           "currency": "CAD",
-          "name": "econo",
+          "name": "standard",
           "cabin": "Y",
+          "offering": [
+            "No refund",
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "Changes for a fee",
+            "25% Aeroplan pts/50% SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "f10df5d3-3dd8-4374-a413-b4938abbaa0f",
-                  "name": "econo",
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
                   "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
                 }
               ]
             }
           ]
         },
         {
-          "public": "4654fabd-b44d-4782-85ef-635c5529f582",
-          "total_amount": "375.14",
-          "starting_fare_amount": "0.00",
+          "public": "2a9df3f0-8a6d-424a-bad0-d0a3d0f85123",
+          "total_amount": "306.21",
+          "starting_fare_amount": "146.90",
           "currency": "CAD",
-          "name": "econoflex",
+          "name": "comfort",
           "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "115% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "cb774eb8-8022-4389-a53f-b78704845d31",
-                  "name": "econoflex",
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
                   "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "93fb7c95-649e-4189-99ab-b08b167df1b3",
+          "total_amount": "1279.14",
+          "starting_fare_amount": "1119.83",
+          "currency": "CAD",
+          "name": "latitude",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "2 checked bags free",
+            "Free changes and cancellation",
+            "125% Aeroplan points/SQM",
+            "Air Canada Bistro meal",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "3b95e10e-f32a-42ef-8f40-95d25f58224a",
+          "total_amount": "221.46",
+          "starting_fare_amount": "62.15",
+          "currency": "CAD",
+          "name": "flex",
+          "cabin": "Y",
+          "offering": [
+            "Free standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "100% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "No refund",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "1acd95ee-a8ac-4134-a1f6-a29efd38d18c",
+          "total_amount": "804.54",
+          "starting_fare_amount": "645.23",
+          "currency": "CAD",
+          "name": "lowest",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby on select routes",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Changes for a fee",
+            "No refund",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a097e65a-01a4-486b-a8d4-38f58de214a7",
+          "total_amount": "1143.54",
+          "starting_fare_amount": "984.23",
+          "currency": "CAD",
+          "name": "flexible",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Free changes, cancellation and standby",
+            "Fully refundable",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
                 }
               ]
             }
@@ -857,68 +1117,38 @@ Use this endpoint to get an array of fares that could be matched with the select
       "layovers": {}
     },
     {
-      "public": "d2e8a5a2-963e-4d5d-b0b3-c52b507b081a",
-      "airline": ["WestJet"],
-      "duration": "03.46",
-      "departure": "2024-08-19 00:59:00",
+      "public": "a125b255-237c-4c0a-8f3a-a0c925d367da",
+      "airline": ["Air Canada"],
+      "duration": "3.50",
+      "departure": "2024-10-21 01:00",
       "departureAirport": "YYC",
-      "arrival": "2024-08-19 06:45:00",
+      "arrival": "2024-10-21 06:50",
       "arrivalAirport": "YYZ",
       "brands": [
         {
-          "public": "f07278d2-2b64-4be0-8766-75c730c931e4",
-          "total_amount": "499.44",
+          "public": "1e87fd4d-2803-4f70-9296-4110fb227387",
+          "total_amount": "131.06",
           "starting_fare_amount": "0.00",
           "currency": "CAD",
-          "name": "premium",
-          "cabin": "PY",
-          "fare_matchings": [
-            {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
-              "brand_matchings": [
-                {
-                  "public": "d949c9e9-3c64-4945-a949-c1ffbb3a9527",
-                  "name": "premium",
-                  "cabin": "PY"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "public": "e5c4e691-0807-43ca-9c21-8099d4dfb567",
-          "total_amount": "1728.88",
-          "starting_fare_amount": "0.00",
-          "currency": "CAD",
-          "name": "premiumflex",
-          "cabin": "PY",
-          "fare_matchings": [
-            {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
-              "brand_matchings": [
-                {
-                  "public": "2dfe9bc1-5a02-4295-8170-3d29784367b0",
-                  "name": "premiumflex",
-                  "cabin": "PY"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "public": "dbbe8772-57ae-4030-b466-a6c7fb6c2a67",
-          "total_amount": "250.84",
-          "starting_fare_amount": "0.00",
-          "currency": "CAD",
-          "name": "ultrabasic",
+          "name": "basic",
           "cabin": "Y",
+          "offering": [
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "No changes",
+            "10% Aeroplan pts/No SQM",
+            "Meals and beverages for a fee",
+            "No same-day standby",
+            "No refund, no credit",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "64c287e1-c9fe-4b7f-a9a5-b2fcb83ee677",
-                  "name": "ultrabasic",
+                  "public": "62868d3e-577a-4005-a423-7c6698918de1",
+                  "name": "basic",
                   "cabin": "Y"
                 }
               ]
@@ -926,40 +1156,330 @@ Use this endpoint to get an array of fares that could be matched with the select
           ]
         },
         {
-          "public": "417e4520-d332-411c-800a-26d1154a1631",
-          "total_amount": "307.34",
+          "public": "100d53a8-15ea-4625-bb76-1ad2f3ec0d5b",
+          "total_amount": "159.31",
           "starting_fare_amount": "0.00",
           "currency": "CAD",
-          "name": "econo",
+          "name": "standard",
           "cabin": "Y",
+          "offering": [
+            "No refund",
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "Changes for a fee",
+            "25% Aeroplan pts/50% SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "f10df5d3-3dd8-4374-a413-b4938abbaa0f",
-                  "name": "econo",
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
                   "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
                 }
               ]
             }
           ]
         },
         {
-          "public": "c10d51c4-1935-4520-bb04-f73a55066986",
-          "total_amount": "375.14",
-          "starting_fare_amount": "0.00",
+          "public": "d73ea526-fde2-4735-96e2-e605d3358b79",
+          "total_amount": "306.21",
+          "starting_fare_amount": "146.90",
           "currency": "CAD",
-          "name": "econoflex",
+          "name": "comfort",
           "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "115% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
           "fare_matchings": [
             {
-              "public": "060ae8d1-9566-496b-8f4b-eb74470bf778",
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
               "brand_matchings": [
                 {
-                  "public": "cb774eb8-8022-4389-a53f-b78704845d31",
-                  "name": "econoflex",
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
                   "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a6b0ab7f-5431-41cd-8b4e-9da9b4c2c033",
+          "total_amount": "221.46",
+          "starting_fare_amount": "62.15",
+          "currency": "CAD",
+          "name": "flex",
+          "cabin": "Y",
+          "offering": [
+            "Free standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "100% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "No refund",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "dc584dc2-72da-45ec-a50a-4ebdd8c857d7",
+          "total_amount": "1279.14",
+          "starting_fare_amount": "1119.83",
+          "currency": "CAD",
+          "name": "latitude",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "2 checked bags free",
+            "Free changes and cancellation",
+            "125% Aeroplan points/SQM",
+            "Air Canada Bistro meal",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "47d02741-3cb9-4817-b4a6-4f7426cdc336",
+          "total_amount": "804.54",
+          "starting_fare_amount": "645.23",
+          "currency": "CAD",
+          "name": "lowest",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby on select routes",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Changes for a fee",
+            "No refund",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a6ea5338-4e06-4a33-86ef-ece6e9b4992c",
+          "total_amount": "1143.54",
+          "starting_fare_amount": "984.23",
+          "currency": "CAD",
+          "name": "flexible",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Free changes, cancellation and standby",
+            "Fully refundable",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
                 }
               ]
             }
