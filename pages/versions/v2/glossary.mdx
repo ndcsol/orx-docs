@@ -1670,6 +1670,7 @@ Object describing a matching brand
     - `currency` : (`string`) : The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the `total_amount` and `starting_fare_amount`
     - `name` : (`string`) The airline's name for the given brand class.
     - `cabin` : ([Cabin Code](/versions/v2/glossary#cabin-code)) The cabin to which the brand belongs.
+    - `offering` : (`string[]`) All of the additional amenities offered with the flight
     - `fare_matchings` : (`Array<Record>`) The brands from the `selectedFares` with which the current brand can be matched.
       - `fare_matchings[].public`: ([Public ID](/versions/v2/glossary#public-id)) The public ID of the fare given in `selectedFares`.
       - `fare_matchings[].brand_matchings`: (`Array<Record>`) The brands of the `selectedFares` with which the brand from `fares[].brands[]` can be matched.
