@@ -14,11 +14,7 @@ The session object includes the following fields:
   "createdAt": "2023-03-17T21:05:24.945Z"
 }
 ```
-
-- `flow`: (`FLIGHT` | `FLIGHT_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking.
-- `public`: ([Public ID](/versions/v2/glossary#public-id)) The public ID of the session.
-- `expireAt`: (`string`) The date and time when the session will expire.
-- `createdAt`: (`string`) The date and time when the session was created.
+- `session`: ([Session](/versions/v2/glossary#session)) the session object describing the expiry, the creation time and the flow of the session.  
 
 ## Accessing Session Information
 
