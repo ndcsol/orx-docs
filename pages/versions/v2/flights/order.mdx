@@ -57,6 +57,20 @@ Alternatively, if you are planning to use an alternative payment method; and, [h
 
 - `alternativePayment`: ([Alternative Payment Information](/versions/v2/glossary#alternative-payment-information)?) Alternative Payment to be used for the order.
 
+#### Attaching Meta Data to the Order Session 
+
+You may attach a set of meta-data properties to the order session. This can be useful for filtering and searching orders later on. These must be string key-value pairs set in the `clientMeta` object. 
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "clientMeta" : {
+    "arbitrary-key" : "arbitrary-value"
+  }
+}
+```
+
+> 🔔 Please ensure that the meta-data properties are URL safe, as will be used in the URL for filtering and searching orders.
+
 ### Response
 
 ```json filename="POST /flight/[sessionId]/order" copy

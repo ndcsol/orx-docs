@@ -14,6 +14,7 @@ At this stage, it is assumed that you have successfully created an order session
 - `page`: (`number`) The page number of the results, starting from `1`.  
 - `provider`: (`string?`) Filter the results by the provider of the order.
 - `status`: (`QUEUED` | `ISSUED` | `CANCELLED` `?`) Filter the results by the status of the order.
+- `client-meta-[key]`: (`string?`) Filter the results by the client meta data key-value pairs. Multiple keys can be provided by adding the key to the query parameter.  
 
 You can request a list of all flight orders that you have made. This endpoint will give you a shortened version of the each order. If you wish to retrieve all of the details about each of the order, you can use the [Retrieve Order](#requesting-order-retrieve) endpoint. 
 
