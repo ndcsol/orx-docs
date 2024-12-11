@@ -1,0 +1,76 @@
+# Getting Started
+
+This page covers essential information related to authentication, versioning, throttling, and authorization errors for the ORX API. We'll explain how to use authentication tokens, how versioning works, what throttling is and how it works, and how to handle authorization errors.
+
+## Authentication
+
+To ensure the security and privacy of our users, the ORX API requires authentication for all requests. All requests must include an authentication token in the `x-api-key` HTTP header.
+
+### Using the Authentication Token
+
+After receiving an authentication token, you must attach it to the `x-api-key` HTTP header of every request you make to the ORX API. This header should contain your authentication token as its value.
+
+```shell copy
+curl -H "x-api-key: your-authentication-token" https://api.orxapi.com/flight/search
+```
+
+If you do not include an authentication token in your request or provide an invalid token, the ORX API will respond with an error message and will not process the request:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+> 🧨 Keep your authentication token secure and do not share it with anyone. If you suspect that your authentication token has been compromised, contact us immediately to revoke the token and generate a new one.
+
+## Versioning
+
+To ensure compatibility between different versions of the ORX API, we use versioning.
+
+When making requests to the API, the version number should be included in the `x-api-version` HTTP header. This ensures that the correct version of the API is used to process the request:
+
+```shell copy
+curl -H "x-api-version: 2" https://api.orx.travel/example
+```
+
+> 🧨 We strongly recommend that you always specify the version of the API you are using in your requests. This ensures that your application will continue to function correctly even if we make changes to the API.
+
+## Throttling
+
+The ORX API limits the number of requests that can be made in a given time period. If you exceed the limit, the API will respond with an error message indicating that you have been throttled. A throttled request will have a response code of `429`:
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+> 🛎 The throttling limits for the ORX API may change over time. We will provide notice before making any significant changes to the throttling limits.
+
+## Authorization Errors
+
+If you receive an authorization error when making a request to the ORX API, it means that your authentication token is not valid for the requested resource. Double-check that you have provided the correct authentication token and that it is still valid.
+
+If you continue to receive authorization errors after verifying your authentication token, please contact our support team for assistance.
+
+Authorization errors will have a response code of `401`:
+
+```json
+{
+  "statusCode": 403,
+  "message": "Forbidden resource",
+  "error": "Forbidden"
+}
+```
+
+## Preference Headers
+
+In some cases, the API allows you to specify preferences for certain behaviors by including a Prefer header in your request. The Prefer header should contain a comma-separated list of preference values. Each feature will document its available preference flags and default values, marked with the ⛳ icon.
+
+```json
+curl -X GET http://api.orx.travel/some-route \
+  -H "Prefer: some-flag=false, some-other-flag=true"
+```

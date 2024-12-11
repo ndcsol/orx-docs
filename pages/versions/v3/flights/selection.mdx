@@ -1,0 +1,1521 @@
+# Querying Flights
+
+Now that you have initiated a flight search; and, received a session public ID in response, you are ready to query and select individual flights.
+
+## Query and Selection Order
+
+### Flights Querying and Selection Order
+
+> 🧨 **Important**: Not all fares provided are combinable. When querying and selecting bounds, remember that choosing a fare and brand in one bound will affect compatibility in subsequent bounds. Once a fare and a brand have been selected, ORX will only return combinable options for the consecutive bounds.
+
+To ensure a smooth selection process, follow the steps below:
+
+1. Query bound 1.
+2. Select fare and brand for bound 1.
+3. Query bound 2. ORX will return **only** the options that are compatible with the bound 1 selection.
+4. Select fare and brand for bound 2.
+
+> 🧨 **Important**: Flight selection must occur in order. If a bound is re-selected, the following bounds will be de-selected.
+
+## Querying Flights
+
+`GET /flight/[sessionId]/bound/[boundIndex]`
+
+This endpoint is used to query individual flights, where `[sessionId]` is the public session ID, and `[bound]` is the index of the bound being queried, starting from 0.
+
+### Response
+
+```json filename="GET /flight/[sessionId]/bound/[boundIndex]" copy
+[
+  {
+    "airports": [
+      {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-04-15 20:30:00",
+        "flight_number": "772",
+        "layover_time": ""
+      },
+      {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-04-15 23:15:00",
+        "flight_number": "",
+        "layover_time": ""
+      }
+    ],
+    "sort_field": {
+      "departure_date_time": "2023-04-15 20:30:00",
+      "arrival_date_time": "2023-04-15 23:15:00",
+      "airline": ["Air Transat"],
+      "stops": 0,
+      "elapse_time": "5.45",
+      "cheapest_price": "0.00",
+      "alliances": [],
+      "emission": 255.55
+    },
+    "segments": [
+      {
+        "departure_information": {
+          "airport_code": "YUL",
+          "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+          "airport_city_name": "Montreal",
+          "date_time": "2023-04-15 20:30:00",
+          "terminal": null
+        },
+        "arrival_information": {
+          "airport_code": "YVR",
+          "airport_name": "Vancouver International Airport",
+          "airport_city_name": "Vancouver",
+          "date_time": "2023-04-15 23:15:00",
+          "terminal": "M"
+        },
+        "marketing_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "operating_airline_information": {
+          "airline_code": "TS",
+          "airline_name": "Air Transat",
+          "flight_number": "772",
+          "alliance": null
+        },
+        "additional_information": {
+          "equipment": {
+            "code": "32Q",
+            "name": "Airbus A321neo",
+            "graphic": null
+          },
+          "e_ticket": "true",
+          "mileage": "2295",
+          "flight_detail": {
+            "duration": "345"
+          }
+        },
+        "emission": 255.55,
+        "distance": 2295
+      }
+    ],
+    "brand_information": {
+      "Y": {
+        "economy budget": {
+          "price_information": {
+            "total_amount": "163.41",
+            "base_amount": "70.00",
+            "starting_fare_amount": "0.00",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "93.41",
+              "tax": [
+                {
+                  "amount": "7.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "14.18",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Paid Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Paid Light Meal",
+              "All Rows have Power/usb Available",
+              "255.55 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "Y"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 0 for segments "],
+                "charge": "0.00",
+                "piece": "0"
+              }
+            ],
+            "charged_baggages": [
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "40.00",
+                "piece": "1"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "70.00",
+                "piece": "2"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              },
+              {
+                "messages": [
+                  "UP TO 50 POUNDS/23 KILOGRAMS",
+                  "UP TO 62 LINEAR INCHES/158 LINEAR CENTIMETERS"
+                ],
+                "charge": "225.00",
+                "piece": "3"
+              }
+            ]
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "economy budget",
+          "cabin": "Y",
+          "createdAt": "2023-04-10T21:23:29.950Z",
+          "public": "9407ae91-625f-4e81-9188-584c979b744f"
+        }
+      },
+      "PY": {
+        "club standard": {
+          "price_information": {
+            "total_amount": "623.31",
+            "base_amount": "470.00",
+            "starting_fare_amount": "459.90",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "153.31",
+              "tax": [
+                {
+                  "amount": "27.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "54.08",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": "0.00",
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club standard",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.951Z",
+          "public": "21959f67-db5c-43b0-899a-f2b44dea25f3"
+        },
+        "club flex": {
+          "price_information": {
+            "total_amount": "1175.19",
+            "base_amount": "950.00",
+            "starting_fare_amount": "1011.78",
+            "currency": "CAD",
+            "tax": {
+              "total_tax": "225.19",
+              "tax": [
+                {
+                  "amount": "51.11",
+                  "code": "XG",
+                  "description": "Goods And Services Tax (gst)"
+                },
+                {
+                  "amount": "35.00",
+                  "code": "SQ",
+                  "description": "Airport Improvement Fee (aif), (domestic/international)"
+                },
+                {
+                  "amount": "101.96",
+                  "code": "XQ",
+                  "description": "Quebec Sales Tax"
+                },
+                {
+                  "amount": "30.00",
+                  "code": "YQ",
+                  "description": "Airline Fuel And Insurance Surcharge"
+                },
+                {
+                  "amount": "7.12",
+                  "code": "CA",
+                  "description": "Air Travellers Security Charge (domestic/international)"
+                }
+              ]
+            },
+            "surcharge": {
+              "total_surcharge": "0.00",
+              "surcharge": []
+            }
+          },
+          "fare_information": {
+            "offerings": [
+              "Free Alcoholic Drinks and Free Non-Alcoholic Drinks",
+              "On-demand Entertainment Available",
+              "Free Premium Meal",
+              "All Rows have Power/usb Available",
+              "Fully refundable",
+              "2 checked bags free",
+              "383.325 KgCo2e total emissions"
+            ],
+            "discount": null,
+            "cabin_codes": [
+              {
+                "departure": "YUL",
+                "arrival": "YVR",
+                "cabinClass": "PY"
+              }
+            ],
+            "rewards": null
+          },
+          "media_information": [],
+          "baggage_information": {
+            "free_baggages": [
+              {
+                "messages": ["Free 2 for segments "],
+                "charge": "0.00",
+                "piece": "2"
+              }
+            ],
+            "charged_baggages": []
+          },
+          "optional_information": {
+            "offer": {
+              "offer_id": null,
+              "offer_expiration": "2023-04-10T23:22:28.079883Z"
+            }
+          },
+          "excluded": false,
+          "expireAt": "2023-04-10T23:23:29.711Z",
+          "brand": "club flex",
+          "cabin": "PY",
+          "createdAt": "2023-04-10T21:23:29.952Z",
+          "public": "8d504db7-544c-4679-93de-fdb88efe8e55"
+        }
+      }
+    },
+    "expireAt": "2023-04-10T23:23:29.711Z",
+    "createdAt": "2023-04-10T21:23:36.239Z",
+    "public": "eb02945c-f793-4c00-8053-edd756de4b15"
+  }
+]
+```
+
+The response contains an array of [Flight Fares](/versions/vv3glossary#flight-fare), each representing of set of segments fulfilling the bound at hand.
+
+> 🛎 The `public` ID of the Flight Fare and the Brand Information of choice will be necessary to select and retrieve the brand.
+
+### Possible Errors
+
+| Status Code | Error                                           | Reason                                                              |
+| ----------- | ----------------------------------------------- | ------------------------------------------------------------------- |
+| 404         | Session not found or expired                    | Request targeting a non-existent session.                           |
+| 409         | Bound [bound] is not available for this session | Request is attempting to retrieve flights for a non-existent bound. |
+| 412         | Not all flights are selected                    | The Itinerary has not yet been fully selected.                      |
+
+## Selecting a Flight
+
+`POST /flight/[sessionId]/bound/[boundIndex]`
+
+Once you have queried individual flights, you can select a flight.
+
+This endpoint is used to select individual flights, where [sessionId] is the public session ID, and [bound] is the index of the bound being selected, starting from 0.
+
+### Request
+
+The body of the `POST` request should contain the following parameters:
+
+```json copy
+{
+  "fare": "[flight public ID]",
+  "brand": "[brand information public ID]"
+}
+```
+
+> 🧨 It is important to note that flights must be selected in order. Re-selecting a flight will cause the following bounds to be unselected.
+
+### Response
+
+The response will look similar to an individual flight object, similar to the one returned in the original flight search response. However, the response will **only include the `brand_information` selected, rather than an object containing all brands available**.
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]" copy
+{
+  "airports": [
+    {
+      "airport_code": "YUL",
+      "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+      "airport_city_name": "Montreal",
+      "date_time": "2023-05-15 22:00:00",
+      "flight_number": "8533",
+      "layover_time": ""
+    },
+    {
+      "airport_code": "YYC",
+      "airport_name": "Calgary International Airport",
+      "airport_city_name": "Calgary",
+      "date_time": "2023-05-16 04:00:00",
+      "flight_number": "8591",
+      "layover_time": "03.30"
+    },
+    {
+      "airport_code": "YVR",
+      "airport_name": "Vancouver International Airport",
+      "airport_city_name": "Vancouver",
+      "date_time": "2023-05-16 04:05:00",
+      "flight_number": "",
+      "layover_time": ""
+    }
+  ],
+  "sort_field": {
+    "departure_date_time": "2023-05-15 22:00:00",
+    "arrival_date_time": "2023-05-16 04:05:00",
+    "airline": ["WestJet"],
+    "stops": 1,
+    "elapse_time": "9.05",
+    "cheapest_price": "34.49",
+    "alliances": [],
+    "emission": 313.54
+  },
+  "segments": [
+    {
+      "departure_information": {
+        "airport_code": "YUL",
+        "airport_name": "Montreal / Pierre Elliott Trudeau International Airport",
+        "airport_city_name": "Montreal",
+        "date_time": "2023-05-15 22:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 00:30:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8533",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "1873",
+        "flight_detail": {
+          "duration": "270"
+        }
+      },
+      "emission": 255.22,
+      "distance": 1873
+    },
+    {
+      "departure_information": {
+        "airport_code": "YYC",
+        "airport_name": "Calgary International Airport",
+        "airport_city_name": "Calgary",
+        "date_time": "2023-05-16 04:00:00",
+        "terminal": null
+      },
+      "arrival_information": {
+        "airport_code": "YVR",
+        "airport_name": "Vancouver International Airport",
+        "airport_city_name": "Vancouver",
+        "date_time": "2023-05-16 04:05:00",
+        "terminal": null
+      },
+      "marketing_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "operating_airline_information": {
+        "airline_code": "WS",
+        "airline_name": "WestJet",
+        "flight_number": "8591",
+        "alliance": null
+      },
+      "additional_information": {
+        "equipment": {
+          "code": "73H",
+          "name": "Boeing 737-800",
+          "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/WS/73H.png"
+        },
+        "mileage": "428",
+        "flight_detail": {
+          "duration": "65"
+        }
+      },
+      "emission": 58.32,
+      "distance": 428
+    }
+  ],
+  "brand_information": {
+    "price_information": {
+      "total_amount": "191.00",
+      "base_amount": "124.00",
+      "starting_fare_amount": "34.49",
+      "currency": "CAD",
+      "tax": {
+        "total_tax": "67.00",
+        "tax": [
+          {
+            "amount": "8.31",
+            "code": "XG",
+            "description": "Goods And Services Tax (gst)"
+          },
+          {
+            "amount": "35.00",
+            "code": "SQ",
+            "description": "Airport Improvement Fee (aif), (domestic/international)"
+          },
+          {
+            "amount": "16.57",
+            "code": "XQ",
+            "description": "Quebec Sales Tax"
+          },
+          {
+            "amount": "7.12",
+            "code": "CA",
+            "description": "Air Travellers Security Charge (domestic/international)"
+          }
+        ]
+      },
+      "surcharge": {
+        "total_surcharge": "0.00",
+        "surcharge": []
+      }
+    },
+    "fare_information": {
+      "offerings": ["313.54 KgCo2e total emissions"],
+      "discount": null,
+      "cabin_codes": [
+        {
+          "departure": "YUL",
+          "arrival": "YYC",
+          "cabinClass": "Y"
+        },
+        {
+          "departure": "YYC",
+          "arrival": "YVR",
+          "cabinClass": "Y"
+        }
+      ],
+      "rewards": null
+    },
+    "excluded": false,
+    "expireAt": "2023-04-12T23:51:17.988Z",
+    "createdAt": "2023-04-12T21:51:18.204Z",
+    "public": "d692a169-f37f-49a6-91da-b94a43cce0cc"
+  },
+  "createdAt": "2023-04-12T21:51:22.513Z",
+  "public": "a5e56c0d-681c-4253-b6bb-fd0d7b0795ae",
+  "expireAt": "2023-04-12T23:51:17.988Z"
+}
+```
+
+The response will be of type [Itinerary Flight Fare](/versions/v3/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
+
+### Possible Errors
+
+| Status Code | Error                                                                              | Reason                                                                                                           |
+| ----------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 404         | Session not found or expired                                                       | Request targeting a non-existent session.                                                                        |
+| 400         | [Validation Error]                                                                 | Failed Validation                                                                                                |
+| 412         | No flight selected for bound [bound] Flights can only be selected in order         | Request is selecting fares for a bound without having selected the fare for its preceding bound(s).              |
+| 404         | Flight brand not found or expired                                                  | Selected flight brand is not found.                                                                              |
+| 404         | Could not find fare                                                                | Selected flight fare is not found.                                                                               |
+| 409         | The fare requested does not belong to bound [bound]                                | Selected flight fare does not belong to the bound it is selected for.                                            |
+| 409         | The brand and the fare provided are not compatible                                 | The selected brand does not belong to the selected fare.                                                         |
+| 409         | The fare or the brand provided are not compatible selections of the previous bound | The brand and/or the fare cannot be combined with the brand and/or the fares that have previously been selected. |
+| 404         | Seat not found or expired                                                          | The request is attempt to select non-existent seats.                                                             |
+| 404         | Passenger not found or expired                                                     | The request is attempt to select non-existent seats.                                                             |
+
+## Retrieving Selected Flights
+
+`GET /flight/[sessionId]/itinerary`
+
+At any point during your selection process, you can retrieve the selected flights using the get itinerary endpoint.
+
+> 🛎 This endpoint is only intended for active search [sessions](/versions/v3/session#session-object). Requesting the itinerary for a session of type FLIGHT_BOOKING will result in a 400 error.
+
+### Response
+
+The response will be an array of type [Itinerary Flight Fare](/versions/v3/glossary#itinerary-flight-fare), representing the selected flights in order.
+
+### Possible Errors
+
+| Status Code | Error                                                         | Reason                                            |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------------- |
+| 400         | Retrieve itinerary is only allowed for active search sessions | The session in the request is not of type FLIGHT. |
+| 404         | Session not found or expired                                  | Request targeting a non-existent session.         |
+
+# Forward-Looking Selection
+
+We realize that the [Flight Selection](/versions/v3/flights/selection) process can be a bit cumbersome, especially when trying to progressively compute the different possibilities when selecting certain brands and fares. To make this process easier, we've created the Forward Looking Selection endpoints. These endpoints are designed to help you create more advanced selection flows, where you can progressively receive more granular information about the itinerary that is being selected.
+
+## Estimate Commission
+
+`POST /flight/[sessionId]/bound/[boundIndex]/estimate-commission`
+
+Use this endpoint to estimate the possible the hightest and the lowest commission that can be earned from selecting a fare brand in a specific bound. This endpoint requires the [Public ID](/versions/v3/glossary#public-id) of the flight fares that had been selected in the previous steps. You may optionally include the [Public ID](/versions/v3/glossary#public-id) of the brands that had been selected in the previous steps.
+
+### Request
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]/estimate-commission" copy
+{
+  "currentBrands": [
+    "d61e1c3e-9f78-4228-befb-0e704548e164",
+    "ee51db09-3bac-4b1e-b77f-4bc1cf295b75",
+    "e667ed2a-9c96-49cf-a1ca-549825394cca"
+  ],
+  "selectedFare": ["fc3de66b-88ee-463d-b2d8-81f9d09969b6"],
+  "selectedBrands": ["cb718a38-694c-49e0-b78a-b6ba0dc23753"]
+}
+```
+
+- `currentBrands`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the brands you want to receive the commission estimate for.
+- `selectedFare`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
+- `selectedBrands`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>?`) The public ids of the bounds selected in the previous bounds, in order. Each of selected brands is associated with the fare of the same index in the `selectedFares` array.
+
+### Response
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]/estimate-commission" copy
+{
+    "brands": [
+        {
+            "public": "d61e1c3e-9f78-4228-befb-0e704548e164",
+            "minimum_commission": "36.96",
+            "maximum_commission": "81.12",
+            "minimum_non_zero_commission": "36.96",
+            "minimum_itinerary_price": "1468.04",
+            "maximum_itinerary_price": "3210.50"
+        },
+        {
+            "public": "ee51db09-3bac-4b1e-b77f-4bc1cf295b75",
+            "minimum_commission": "36.96",
+            "maximum_commission": "81.12",
+            "minimum_non_zero_commission": "36.96",
+            "minimum_itinerary_price": "2544.93",
+            "maximum_itinerary_price": "4287.39"
+        },
+        {
+            "public": "e667ed2a-9c96-49cf-a1ca-549825394cca",
+            "minimum_commission": "118.26",
+            "maximum_commission": "162.42",
+            "minimum_non_zero_commission": "118.26",
+            "minimum_itinerary_price": "4530.34",
+            "maximum_itinerary_price": "6272.80"
+        }
+    ]
+}
+```
+
+- `brands`: (`Array<Record>`) The pricing and commission estimates for the brands that were passed as `currentBrands`.
+  - `brands[].public` : ([Public ID](/versions/v3/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
+  - `brands[].maximum_itinerary_price` : (`string`) The maximum price of the itinerary that can be achieved by selecting the brand.
+  - `brands[].minimum_itinerary_price` : (`string`) The minimum price of the itinerary that can be achieved by selecting the brand.
+  - `brands[].minimum_commission` : (`string?`) The minimum commission that can be earned from selecting the brand and its matching brands.
+  - `brands[].maximum_commission` : (`string?`) The maximum commission that can be earned from selecting the brand and its matching brands.
+  - `brands[].minimum_non_zero_commission` : (`string?`) The minimum commission that can be earned from selecting the brand, excluding zero commissions. This property will be equal to `minimum_commission` if the minimum commission is not zero.
+
+### Possible Errors
+
+| Status Code | Error                                                           | Reason                                                                                                                         |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 400         | [Validation Error]                                              | Failed Validation                                                                                                              |
+| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     |
+| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    |
+| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         |
+| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. |
+| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   |
+
+## Matching Fares
+
+`POST /flight/[sessionId]/bound/[boundIndex]/matching`
+
+Use this endpoint to get an array of fares that could be matched with the selected fare(s) and their associated brand that may be compatible with the brands associated with the selected fare(s).
+
+### Request
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]/matching" copy
+{
+  "selectedFares": ["7c62d6be-04b5-4c8c-8741-34e506f75db9"]
+}
+```
+
+- `selectedFare`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
+
+### Response
+
+```json filename="POST /flight/[sessionId]/bound/[boundIndex]/matching" copy
+{
+  "fares": [
+    {
+      "public": "126fd709-c55d-4663-90bd-c1b29a912dc6",
+      "airline": ["Air Canada"],
+      "duration": "3.50",
+      "departure": "2024-10-21 00:10",
+      "departureAirport": "YYC",
+      "arrival": "2024-10-21 06:00",
+      "arrivalAirport": "YYZ",
+      "brands": [
+        {
+          "public": "65d217f1-e0aa-40c0-813d-84e865928e03",
+          "total_amount": "131.06",
+          "starting_fare_amount": "0.00",
+          "currency": "CAD",
+          "name": "basic",
+          "cabin": "Y",
+          "offering": [
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "No changes",
+            "10% Aeroplan pts/No SQM",
+            "Meals and beverages for a fee",
+            "No same-day standby",
+            "No refund, no credit",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "62868d3e-577a-4005-a423-7c6698918de1",
+                  "name": "basic",
+                  "cabin": "Y"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "15e6468b-4baa-46da-bc05-95e412569e9b",
+          "total_amount": "159.31",
+          "starting_fare_amount": "0.00",
+          "currency": "CAD",
+          "name": "standard",
+          "cabin": "Y",
+          "offering": [
+            "No refund",
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "Changes for a fee",
+            "25% Aeroplan pts/50% SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "2a9df3f0-8a6d-424a-bad0-d0a3d0f85123",
+          "total_amount": "306.21",
+          "starting_fare_amount": "146.90",
+          "currency": "CAD",
+          "name": "comfort",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "115% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "93fb7c95-649e-4189-99ab-b08b167df1b3",
+          "total_amount": "1279.14",
+          "starting_fare_amount": "1119.83",
+          "currency": "CAD",
+          "name": "latitude",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "2 checked bags free",
+            "Free changes and cancellation",
+            "125% Aeroplan points/SQM",
+            "Air Canada Bistro meal",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "3b95e10e-f32a-42ef-8f40-95d25f58224a",
+          "total_amount": "221.46",
+          "starting_fare_amount": "62.15",
+          "currency": "CAD",
+          "name": "flex",
+          "cabin": "Y",
+          "offering": [
+            "Free standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "100% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "No refund",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "1acd95ee-a8ac-4134-a1f6-a29efd38d18c",
+          "total_amount": "804.54",
+          "starting_fare_amount": "645.23",
+          "currency": "CAD",
+          "name": "lowest",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby on select routes",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Changes for a fee",
+            "No refund",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a097e65a-01a4-486b-a8d4-38f58de214a7",
+          "total_amount": "1143.54",
+          "starting_fare_amount": "984.23",
+          "currency": "CAD",
+          "name": "flexible",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Free changes, cancellation and standby",
+            "Fully refundable",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "layovers": {}
+    },
+    {
+      "public": "a125b255-237c-4c0a-8f3a-a0c925d367da",
+      "airline": ["Air Canada"],
+      "duration": "3.50",
+      "departure": "2024-10-21 01:00",
+      "departureAirport": "YYC",
+      "arrival": "2024-10-21 06:50",
+      "arrivalAirport": "YYZ",
+      "brands": [
+        {
+          "public": "1e87fd4d-2803-4f70-9296-4110fb227387",
+          "total_amount": "131.06",
+          "starting_fare_amount": "0.00",
+          "currency": "CAD",
+          "name": "basic",
+          "cabin": "Y",
+          "offering": [
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "No changes",
+            "10% Aeroplan pts/No SQM",
+            "Meals and beverages for a fee",
+            "No same-day standby",
+            "No refund, no credit",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "62868d3e-577a-4005-a423-7c6698918de1",
+                  "name": "basic",
+                  "cabin": "Y"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "100d53a8-15ea-4625-bb76-1ad2f3ec0d5b",
+          "total_amount": "159.31",
+          "starting_fare_amount": "0.00",
+          "currency": "CAD",
+          "name": "standard",
+          "cabin": "Y",
+          "offering": [
+            "No refund",
+            "Seat selection for a fee",
+            "Checked bags for a fee",
+            "Changes for a fee",
+            "25% Aeroplan pts/50% SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "d73ea526-fde2-4735-96e2-e605d3358b79",
+          "total_amount": "306.21",
+          "starting_fare_amount": "146.90",
+          "currency": "CAD",
+          "name": "comfort",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "115% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a6b0ab7f-5431-41cd-8b4e-9da9b4c2c033",
+          "total_amount": "221.46",
+          "starting_fare_amount": "62.15",
+          "currency": "CAD",
+          "name": "flex",
+          "cabin": "Y",
+          "offering": [
+            "Free standard seat selection",
+            "1st checked bag free",
+            "Free changes",
+            "100% Aeroplan points/SQM",
+            "Meals and beverages for a fee",
+            "Free same-day standby on select routes",
+            "No refund",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "dc584dc2-72da-45ec-a50a-4ebdd8c857d7",
+          "total_amount": "1279.14",
+          "starting_fare_amount": "1119.83",
+          "currency": "CAD",
+          "name": "latitude",
+          "cabin": "Y",
+          "offering": [
+            "Free Preferred and standard seat selection",
+            "2 checked bags free",
+            "Free changes and cancellation",
+            "125% Aeroplan points/SQM",
+            "Air Canada Bistro meal",
+            "Free same-day standby",
+            "Fully refundable",
+            "250.18 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "47d02741-3cb9-4817-b4a6-4f7426cdc336",
+          "total_amount": "804.54",
+          "starting_fare_amount": "645.23",
+          "currency": "CAD",
+          "name": "lowest",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby on select routes",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Changes for a fee",
+            "No refund",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "public": "a6ea5338-4e06-4a33-86ef-ece6e9b4992c",
+          "total_amount": "1143.54",
+          "starting_fare_amount": "984.23",
+          "currency": "CAD",
+          "name": "flexible",
+          "cabin": "J",
+          "offering": [
+            "2 checked bags free",
+            "150% Aeroplan points/SQM",
+            "Free same-day standby",
+            "Access to Maple Leaf Lounges on select routes",
+            "Priority check-in, security, baggage and boarding",
+            "Free changes, cancellation and standby",
+            "Fully refundable",
+            "375.27 KgCo2e total emissions"
+          ],
+          "fare_matchings": [
+            {
+              "public": "7c62d6be-04b5-4c8c-8741-34e506f75db9",
+              "brand_matchings": [
+                {
+                  "public": "b7570417-b393-4514-8417-14da6886b28d",
+                  "name": "flex",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "2f029ff8-fb47-4133-bdcf-bc9d932e0869",
+                  "name": "comfort",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "7cb09e7e-e22f-428b-a5d6-09da0f10720e",
+                  "name": "latitude",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "d6351c30-080f-4836-a9ad-914e0451ec69",
+                  "name": "standard",
+                  "cabin": "Y"
+                },
+                {
+                  "public": "c0bddf05-ff13-4534-a793-850709b5021c",
+                  "name": "flexible",
+                  "cabin": "J"
+                },
+                {
+                  "public": "e6458a7b-1d12-472e-971f-f65fc44247b6",
+                  "name": "lowest",
+                  "cabin": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "layovers": {}
+    }
+  ]
+}
+```
+
+- `fares`: (`Array<`[Fare Matching](/versions/v3/glossary#fare-matching)`>`) The array representing the fares that could be matched with the selected fare(s) in the immediate next bound.
+
+### Possible Errors
+
+| Status Code | Error                                                           | Reason                                                                                                                         |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 400         | [Validation Error]                                              | Failed Validation                                                                                                              |
+| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     |
+| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    |
+| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         |
+| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. |
+| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   |
