@@ -719,6 +719,10 @@ Use this endpoint to estimate the possible the hightest and the lowest commissio
 }
 ```
 
+> 🧨 The endpoint currently only supports one-way and round-trip itineraries. Multi-city itineraries are not supported. 
+
+> 🧨 There is a limit of 10 brands that can be passed in the `currentBrands` array. 
+
 - `brands`: (`Array<Record>`) The pricing and commission estimates for the brands that were passed as `currentBrands`.
   - `brands[].public` : ([Public ID](/versions/v3/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
   - `brands[].maximum_itinerary_price` : (`string`) The maximum price of the itinerary that can be achieved by selecting the brand.
