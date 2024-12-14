@@ -1,0 +1,37 @@
+# Webhooks
+
+ORX provides a webhook mechanism to notify clients about important events in the flight booking process.
+
+## Webhook Events
+
+The webhook supports the following event types:
+
+- `FLIGHT_BOOKING_QUEUED`: Triggered when a flight booking request is initially processed and queued.
+- `FLIGHT_BOOKING_ISSUED`: Triggered when a flight booking is successfully issued.
+- `FLIGHT_BOOKING_CANCELLED`: Triggered when a flight booking is cancelled.
+
+## Payload Structure
+
+```json
+{
+  "session": Session,
+  "eventType": "FLIGHT_BOOKING_QUEUED" | "FLIGHT_BOOKING_ISSUED" | "FLIGHT_BOOKING_CANCELLED"
+}
+```
+
+- `eventType`: (`FLIGHT_BOOKING_QUEUED` | `FLIGHT_BOOKING_ISSUED` | `FLIGHT_BOOKING_CANCELLED`) The event that occured.
+- `session`: ([Session](/versions/v3/glossary#session)) the session object concerned with the event.    
+
+## Response
+
+Your webhook endpoint **must** return a 200 (OK) status code to indicate successful processing of the webhook event. Any response other than a 200 status code will be considered a failed delivery.
+
+> 🔔 If your webhook endpoint does not return a 200 status code, our API will retry the call up to 10 times using an exponential backoff pattern. 
+
+## Security
+
+### Webhook Secret Verification
+
+To ensure the authenticity of webhook requests, we will provide you with a secret during webhook configuration. Each webhook request will include an `x-webhook-secret` header, containing SHA-256 hash of the secret.
+
+
