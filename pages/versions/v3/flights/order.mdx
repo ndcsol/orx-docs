@@ -71,6 +71,15 @@ You may attach a set of meta-data properties to the order session. This can be u
 
 > 🔔 Please ensure that the meta-data properties are URL safe, as will be used in the URL for filtering and searching orders.
 
+
+#### Automatically Cancelling an Order 
+
+You may request the order to be cancelled automatically right after the booking is made. This is useful for testing purposes. This can be done by attaching a `x-cancel-ttl` http header, which accepts a time-to-live value in milliseconds. The accepted range is between 1000 and 300000. If any other value is passed in, the API will default to 60000. 
+
+```shell copy
+curl -X POST -H "x-cancel-ttl: 3000" https://api.orx.travel/flight/[sessionId]/order
+```
+
 ### Response
 
 ```json filename="POST /flight/[sessionId]/order" copy
