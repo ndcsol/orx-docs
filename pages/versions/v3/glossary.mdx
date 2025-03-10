@@ -1726,3 +1726,66 @@ interface BrandMatching {
   }>;
 }
 ```
+
+## 3D Secure Action 
+
+Object describing a 3D Secure action that needs to be handled by the browser SDK.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The 3D Secure provider processing the authentication.
+    - `payload` : (`Record<string,any>`) The details required by the provider for the authentication.
+    - `action` : (`three_d_s`) The action that needs to be taken by the browser SDK.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureAction {
+  gateway: string;
+  payload: Record<string, any>;
+  action: "three_d_s";
+}
+```
+
+## 3D Secure Success
+
+This object is produced by the browser SDK after a successful 3D Secure authentication.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The payment provider processing the transaction.
+    - `payload` : (`Record<string,any>`) The successful authentication details returned by the provider.
+    - `status` : (`success`) The status of the 3D Secure authentication.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureSuccess {
+  gateway: string;
+  payload: Record<string, any>;
+  status: "success";
+}
+```
+
+## 3D Secure Failure
+
+This object is produced by the browser SDK after a failed 3D Secure authentication.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The payment provider processing the transaction.
+    - `status` : (`error`) The status of the 3D Secure authentication.
+    - `error` : (`any`?) The error object returned by the provider or the SDK, intended for tracking. This can may or may not be a JavaScript error object.  
+    - `message` : (`string`?) The error message returned by the provider or the SDK, intended for display to the user.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureFailure {
+  gateway: string;
+  status: "error";
+  error?: any;
+  message?: string;
+}
+```
+

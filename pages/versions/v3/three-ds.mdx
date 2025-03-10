@@ -1,34 +1,37 @@
 # 3D Secure Overview
 
-3D Secure is a security protocol that provides an additional layer of security against unauthorized use of a credit card.  
+ORX provides 3D Secure authentication to add an extra layer of security against unauthorized credit card use. The process is triggered when a payment request is made with the `three-ds` feature flag enabled. If 3D Secure authentication is required, ORX will return a 3D Secure action object instead of an immediate success response.
 
-
-The 3D Secure workflow involved opting into the feature using the `three-ds` feature flag. Once passed, the 3D Secure process will be initiated when a payment is made. The 3D Secure process will be initiated when a payment is made. The process will involve the following steps: 
+To complete the 3D Secure authentication, pass the returned object to the `threeDs` method in `@ndcsol/orx`, which will handle the authentication flow. Once successfully authenticated, the returned payload can be included in the order request to complete the payment.
 
 ```mermaid
 sequenceDiagram
-    participant Browser
-    participant SDK
-    participant ORX API
-    Browser->>ORX API: Call /order endpoint
-    ORX API-->>Browser: Return 3 DS object response
-    Browser->>SDK: Pass 3 DS object to threeDs method
+    participant A as Payment Request
+    participant C as SDK
+    participant B as ORX API
+    A->>B: Call /order endpoint
+    B-->>A: Return 3D Secure action object
+    A->>C: Pass action object to threeDs method
     alt Success
-      SDK-->>Browser: Return 3DS object response
-      Browser->>ORX API: Call /order endpoint with threeDs object
-      ORX API-->>Browser: Return flight booking session response
-    else Error
-      SDK-->>Browser: Return 3DS error object
+      C-->>A: Return authenticated payload
+      A->>B: Call /order with authenticated payload
+      B-->>A: Return flight booking session response
+    else Failure
+      C-->>A: Return 3D Secure error
     end
 ```
 
-## 3D Secure Trigger
+# 3D Secure Trigger
 
-When an endpoint involving a payment is called (e.g. `/flights/[sessionId]/order` endpoint), you might recieve a 3D Secure action object, instead of the usual success response. This object will contain a `action` property set to `three_d_s`. This indicates that you need to pass the response to the `threeDs` function exposed by `@ndcsol/orx`. 
+3D Secure authentication may be required when calling a payment-related endpoint, such as `POST /flights/[sessionId]/order`. If required, the response will include an `action` property set to `three_d_s`, along with authentication details.
 
-Example of the 3D Secure action object:
+## Initiate 3D Secure
 
-```json copy
+When a payment requires 3D Secure authentication, the API will return a response containing a 3D Secure action object.
+
+### Response Example
+
+```json filename="POST /flights/[sessionId]/order" copy
 {
     "gateway": "stripe",
     "payload": {
@@ -40,28 +43,28 @@ Example of the 3D Secure action object:
 }
 ```
 
-You can then pass the 3D Secure object to the `threeDs` method to initiate the 3D Secure process:
+If 3D Secure is presented, the response object will be of type [3D Secure Action](/versions/v3/glossary#3d-secure-action).
 
-```typescript
-import { threeDs } from '@ndcsol/orx';
 
-const threeDsResult = await threeDs(
-  threeDsObject,
-  {
-    lcoale: 'en' //optionally may pass a locale to the options object
-  }
-);
+To proceed with 3D Secure authentication, pass this object to the `threeDs` function in `@ndcsol/orx`.
 
-```
+### Possible Errors
 
-## ORX SDK Response
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 400 | [Validation Error] | Failed Validation | ORX_VALIDATION_EXCEPTION |
+| 400 | Authentication Failure | 3D Secure authentication failed. | |
+| 400 | Payment Authorization Failed When Confirming a Successful 3DS | Payment Authorization Failed. Could not find a successful authorization attempt. | ORX_PAYMENT_AUTHORIZATION_FAILED |
+| 400 | Payment Authorization Failed When Triggering 3DS | Payment Authorization Failed. The payment intent was not successful. | ORX_PAYMENT_AUTHORIZATION_FAILED |
 
-After awaiting the `threeDs` method, the method will respond with either a `success` or an `error` object.
 
-### Successful 3D Secure
+## ORX SDK Authentication
 
-If the 3D Secure process is successful, the method will return an object containing a `status` property set to `success`. You can then pass the returned payload to the `/order` endpoint to complete the payment process.
+After passing the 3D Secure action object to the `threeDs` method, the function will return either a success or error response.
 
+### Successful Authentication
+
+If authentication succeeds, `threeDs` will return an object with a `status` of `success`. The returned payload should be included in the next order request to complete the payment.
 
 ```json copy
 {
@@ -76,9 +79,12 @@ If the 3D Secure process is successful, the method will return an object contain
 }
 ```
 
-You can then call the endpoint again, this time passing the returned payload along with the rest of the required parameters.
+Upon success, the response object will be of type [3d secure success](/versions/v3/glossary#3d-secure-success).
 
-```json copy
+
+Include this payload in the next request:
+
+```json filename="POST /flights/[sessionId]/order" copy
 {
   //... other parameters
   "threeDs" : {
@@ -94,9 +100,9 @@ You can then call the endpoint again, this time passing the returned payload alo
 }
 ```
 
-### Failed 3D Secure
+### Failed Authentication
 
-If the 3D Secure process fails for any reason, the method will return an object containing a `status` property set to `error`. The object might also contain a `message` property that you can use to inform the user of the error.
+If authentication fails, `threeDs` will return an object with a `status` of `"error"`. This object may include an error message detailing the issue.
 
 ```json copy
 {
@@ -110,7 +116,9 @@ If the 3D Secure process fails for any reason, the method will return an object 
 }
 ```
 
-1. Once the promise has resolved, the method will return an object containing a `status` property. If the status is `success`, you may attach the returned payload on a subsequent call to the `/order` endpoint. If the status is `error` a user-readable error may be provided, which you can use to inform the user.
+The response object will be of type [3d secure failure](/versions/v3/glossary#3d-secure-failure).
 
 
-#  Secure
+## Example
+
+You can find a minimal example of how to use the `threeDs` method, where you can paste the 3D Secure action object and recieve a 3D Secure success and/or failure objects [here](https://gist.github.com/parsasi/0f3634c8df62c974ce50cb9eda5c5682).
