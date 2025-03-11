@@ -4,6 +4,8 @@
   "flights": "Flights",
   "payment": "Payment Management",
   "passengers": "Passenger Management",
+  "webhook": "Webhook",
+  "three-ds": "3D Secure",
   "about": {
     "title": "About",
     "type": "page",
