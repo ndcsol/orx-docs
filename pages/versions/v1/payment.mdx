@@ -58,11 +58,11 @@ These values are required to create a tokenex [iFrame configuration object](http
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 500 | NDCx Internal Error | Unknown |
-| 400 | Unauthorized origin | The requested origin has not been whitelisted. | 
+| Status Code | Error               | Reason                                         |
+| ----------- | ------------------- | ---------------------------------------------- |
+| 400         | [Validation Error]  | Failed Validation                              |
+| 500         | NDCx Internal Error | Unknown                                        |
+| 400         | Unauthorized origin | The requested origin has not been whitelisted. |
 
 # Payment Management
 
@@ -110,10 +110,10 @@ The updated properties will be reflected in the response of type [payment inform
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                        | Reason                                    |
+| ----------- | ---------------------------- | ----------------------------------------- |
+| 400         | [Validation Error]           | Failed Validation                         |
+| 404         | Session not found or expired | Request targeting a non-existent session. |
 
 ## Get Payments
 
@@ -127,10 +127,10 @@ The response will be an array of [payment information](/versions/v1/glossary#pay
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Payment information not found or expired | There are no payments attached to the given session. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                    | Reason                                               |
+| ----------- | ---------------------------------------- | ---------------------------------------------------- |
+| 404         | Payment information not found or expired | There are no payments attached to the given session. |
+| 404         | Session not found or expired             | Request targeting a non-existent session.            |
 
 ## Get a Single Payment
 
@@ -144,10 +144,10 @@ The response will be a [payment information](/versions/v1/glossary#payment-infor
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Payment information not found or expired | Payment referenced does not exist. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                    | Reason                                    |
+| ----------- | ---------------------------------------- | ----------------------------------------- |
+| 404         | Payment information not found or expired | Payment referenced does not exist.        |
+| 404         | Session not found or expired             | Request targeting a non-existent session. |
 
 ## Create Payment
 

@@ -16,7 +16,7 @@ You may provide a new payment or an alternative payment method here; or, create 
 
 #### Order using a Payment Information Object
 
-If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v3/payment#update-payment) endpoint, you must provide the payment information in this request. 
+If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v3/payment#update-payment) endpoint, you must provide the payment information in this request.
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
@@ -46,10 +46,10 @@ Alternatively, if you are planning to use an alternative payment method; and, [h
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
-  "alternativePayment" : {
+  "alternativePayment": {
     "method": "VERTO",
-    "payload" : {
-      "token" : "bd12b3d4-5c63-4938-86df-cf4a2207fc59",
+    "payload": {
+      "token": "bd12b3d4-5c63-4938-86df-cf4a2207fc59"
     }
   }
 }
@@ -57,24 +57,23 @@ Alternatively, if you are planning to use an alternative payment method; and, [h
 
 - `alternativePayment`: ([Alternative Payment Information](/versions/v3/glossary#alternative-payment-information)?) Alternative Payment to be used for the order.
 
-#### Attaching Meta Data to the Order Session 
+#### Attaching Meta Data to the Order Session
 
-You may attach a set of meta-data properties to the order session. This can be useful for filtering and searching orders later on. These must be string key-value pairs set in the `clientMeta` object. 
+You may attach a set of meta-data properties to the order session. This can be useful for filtering and searching orders later on. These must be string key-value pairs set in the `clientMeta` object.
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
-  "clientMeta" : {
-    "arbitrary-key" : "arbitrary-value"
+  "clientMeta": {
+    "arbitrary-key": "arbitrary-value"
   }
 }
 ```
 
 > 🔔 Please ensure that the meta-data properties are URL safe, as will be used in the URL for filtering and searching orders.
 
+#### Automatically Cancelling an Order
 
-#### Automatically Cancelling an Order 
-
-You may request the order to be cancelled automatically right after the booking is made. This is useful for testing purposes. This can be done by attaching a `x-cancel-ttl` http header, which accepts a time-to-live value in milliseconds. The accepted range is between 1000 and 300000. If any other value is passed in, the API will default to 60000. 
+You may request the order to be cancelled automatically right after the booking is made. This is useful for testing purposes. This can be done by attaching a `x-cancel-ttl` http header, which accepts a time-to-live value in milliseconds. The accepted range is between 1000 and 300000. If any other value is passed in, the API will default to 60000.
 
 ```shell copy
 curl -X POST -H "x-cancel-ttl: 3000" https://api.orx.travel/flight/[sessionId]/order
@@ -99,15 +98,18 @@ The response will be a new [session](/versions/v3/session#session-object). The o
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 500 | NDCx Internal Error | Unknown |
-| 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. |
-| 409 | Session is currently locked by another process. Please try again later. | Session is locked by another process. |
-| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment are provided in the order. |
-| 412 | No payment method provided for the order | No payment of any kind has been provided for the order. |
-| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified. |
-| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. |
-| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |
+| Status Code | Error                                                                                             | Reason                                                                                                                | Reason Code                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 400         | [Validation Error]                                                                                | Failed Validation                                                                                                     | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors)          |
+| 404         | Session not found or expired                                                                      | Request targeting a non-existent session.                                                                             | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)             |
+| 500         | NDCx Internal Error                                                                               | Unknown                                                                                                               | [NDC_UNKNOWN_ERROR](/versions/v3/errors#ndc-errors)                 |
+| 500         | Sabre Token Not Created                                                                           | Credentials used to access this provider could not be authenticated                                                   | [NDC_PROVIDER_AUTHENTICATION_ERROR](/versions/v3/errors#ndc-errors) |
+| 500         | Unknown                                                                                           | An error occurred when requesting content from a provider                                                             | [NDC_PROVIDER_ERROR](/versions/v3/errors#ndc-errors)                |
+| 500         | The selected flight is not available. Please choose another selection.                            | The selection is no longer available                                                                                  | [NDC_ITINERARY_UNAVAILABLE](/versions/v3/errors#ndc-errors)         |
+| 412         | Pricing not found. Please price the session before attempting to order                            | Pricing call hasn’t been made for the current combination of fares, brands and seats.                                 | [ORX_PRICING_NOT_FOUND](/versions/v3/errors#orx-errors)             |
+| 409         | Session is currently locked by another process. Please try again later.                           | Session is locked by another process.                                                                                 | [ORX_SESSION_LOCKED](/versions/v3/errors#orx-errors)                |
+| 409         | Multiple payment methods provided for the order                                                   | There are multiple alternativePayment or payment are provided in the order.                                           | [ORX_MULTIPLE_FOP](/versions/v3/errors#orx-errors)                  |
+| 412         | No payment method provided for the order                                                          | No payment of any kind has been provided for the order.                                                               | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors)           |
+| 412         | Alternative payment method is not valid                                                           | The alternative payment provided cannot be verified.                                                                  | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors)           |
+| 422         | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. | [ORX_MALFORMED_PASSENGER_INFO](/versions/v3/errors#orx-errors)      |
+| 412         | Not all flights are selected                                                                      | The Itinerary has not yet been fully selected.                                                                        | [ORX_UNORDERED_FLIGHTS](/versions/v3/errors#orx-errors)             |

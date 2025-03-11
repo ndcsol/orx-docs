@@ -1,0 +1,67 @@
+# Errors
+
+When the preference header `Prefer: error-reason-codes=true` is provided with any request, if an error occurs, a corresponding error reason code will be returned.
+Errors will follow the format below:
+
+```json filename
+{
+  "message": ["Bound 3 is not available for this session"],
+  "reason": "ORX_INVALID_BOUND",
+  "statusCode": 409,
+  "error": "Conflict"
+}
+```
+
+## ORX Errors
+
+ORX returns error reason codes for any error thrown on the API. Below is a list of possible error reason codes.
+
+| Status Code | Reason                       | Description                                                                                        |
+| ----------- | ---------------------------- | -------------------------------------------------------------------------------------------------- |
+| 400         | ORX_VALIDATION_EXCEPTION     | The request data supplied is invalid                                                               |
+| 412         | ORX_UNORDERED_FLIGHTS        | The client is attempting to select flights in a non-consecutive order                              |
+| 400         | ORX_UNAUTHORIZED_ORIGIN      | The origin from which payment is attempting to be initiated through TokenEx is invalid             |
+| 404         | ORX_SESSION_NOT_FOUND        | The session that the client is attempting to access is invalid                                     |
+| 403         | ORX_SESSION_LOCKED           | The session cannot currently be accessed due to a concurrent request                               |
+| 404         | ORX_SEAT_NOT_FOUND           | The seat id requested by the client cannot be found                                                |
+| 404         | ORX_SEAT_MAP_NOT_FOUND       | The seat map id requested by the client cannot be found                                            |
+| 404         | ORX_PRICING_NOT_FOUND        | Could not find the pricing object required to complete the request                                 |
+| 404         | ORX_PASSENGER_NOT_FOUND      | Could not find the passenger object required to complete the request                               |
+| 404         | ORX_MISSING_FOP              | Could not find the form of payment object required to complete the request                         |
+| 412         | ORX_NO_PAYMENT_ATTACHED      | Could not complete action as no payment information is attached to the session                     |
+| 409         | ORX_MULTIPLE_FOP             | A second form of payment is being added to the session. Only a single form of payment is permitted |
+| 422         | ORX_MALFORMED_PASSENGER_INFO | The order was created, but the passenger information returned from NDC was malformed               |
+| 404         | ORX_INVALID_API_KEY          | API key is invalid                                                                                 |
+| 409         | ORX_INVALID_BOUND            | Requested bound is invalid for the given itinerary                                                 |
+| 412         | ORX_INVALID_BOOKING_STATUS   | Requested action cannot be performed on the given booking due to its status                        |
+| 500         | ORX_UNKNOWN_ERROR            | An unknown error occurred. Please contact support to report this error                             |
+| 404         | ORX_FARE_NOT_FOUND           | Could not find the fare object required to complete request                                        |
+| 400         | ORX_DUPLICATE_SEAT           | The requested seat has already been selected                                                       |
+| 404         | ORX_CLIENT_NOT_FOUND         | Could not find the requested client (Admin Only)                                                   |
+| 404         | ORX_BRAND_NOT_FOUND          | Could not find the brand object required to complete the request                                   |
+| 400         | ORX_BOUND_ENTITY_MISMATCH    | The requested entity does not belong to the requested bound                                        |
+| 404         | ORX_BRAND_NOT_FOUND          | Could not find the brand object required to complete the request                                   |
+| 409         | ORX_BRAND_FARE_MISMATCH      | The requested brand does not correspond to the requested fare                                      |
+
+## NDC Errors
+
+The API also return error reason codes for any error thrown on the underlying NDC service. Below is a list of these possible error reason codes.
+
+| Status Code | Reason                            | Description                                                                     |
+| ----------- | --------------------------------- | ------------------------------------------------------------------------------- |
+| 409         | NDC_BOOKING_CANCELLED             | The booking that the user is attempting to cancel has already been cancelled    |
+| 500         | NDC_PROVIDER_AUTHENTICATION_ERROR | The credentials used to access this provider could not be authenticated         |
+| 500         | NDC_CREDENTIAL_MISMATCH           | The credentials used to access this provider are not production credentials     |
+| 409         | NDC_INVALID_MARKUP                | The price markup cannot be added to the request                                 |
+| 400         | NDC_INVALID_REQUEST_FORM          | The request body sent to NDC is invalid                                         |
+| 500         | NDC_LOGGING_ERROR                 | An error occurred when storing a provider request/response log                  |
+| 400         | NDC_MISSING_REQUEST_DATA          | The request body is missing for an endpoint that requires it                    |
+| 500         | NDC_PROVIDER_ERROR                | A provider returned an unknown error message                                    |
+| 500         | NDC_MISSING_RESPONSE_DATA         | A provider did not respond to a request                                         |
+| 500         | NDC_REMOTE_PROCEDURE_ERROR        | An error occurred during an NDC remote procedure                                |
+| 500         | NDC_REQUEST_CREATION_ERROR        | An error occurred while creating the request body for a provider request        |
+| 422         | NDC_SERVICE_NOT_AVAILABLE         | The requested service is not available for the given entity or provider         |
+| 500         | NDC_UNKNOWN_ERROR                 | An unknown error occurred on the NDC service                                    |
+| 400         | NDC_UNSUPPORTED_CURRENCY          | The requested currency is not supported by NDC                                  |
+| 501         | NDC_UNSUPPORTED_ERROR             | The requested service is not available on NDC                                   |
+| 500         | NDC_ITINERARY_UNAVAILABLE         | The requested itinerary is no longer available, please choose another itinerary |

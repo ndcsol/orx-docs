@@ -298,10 +298,10 @@ Depending on whether the boundIndex is specified, the response will be an array 
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 500 | NDCx Internal Error | Unknown |
+| Status Code | Error                        | Reason                                    | Reason Code                                             |
+| ----------- | ---------------------------- | ----------------------------------------- | ------------------------------------------------------- |
+| 404         | Session not found or expired | Request targeting a non-existent session. | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors) |
+| 500         | NDCx Internal Error          | Unknown                                   | [NDC_UNKNOWN_ERROR](/versions/v3/errors#ndc-errors)     |
 
 ## Seat Selection Requirements
 
@@ -371,16 +371,16 @@ The response will contain the [selected seat-like](/versions/v3/glossary#selecte
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 400 | [Validation Error] | Failed Validation |
-| 400 | One or more seats are not available | The selected seat is not selectable. |
-| 400 | One or more passengers are not available | The given passenger does not exist. |
-| 400 | The seat is already selected by the passenger | The request is attempting to assign an already-assigned seat to another passenger. |
-| 400 | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same flight. |
-| 404 | Seat not found or expired | The request is attempt to select non-existent seat. |
-| 404 | Passenger not found or expired | The request is attempt to select a non-existent seat. |
+| Status Code | Error                                            | Reason                                                                                               | Reason Code                                                |
+| ----------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 404         | Session not found or expired                     | Request targeting a non-existent session.                                                            | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 400         | [Validation Error]                               | Failed Validation                                                                                    | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 400         | One or more seats are not available              | The selected seat is not selectable.                                                                 | [ORX_SEAT_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 400         | One or more passengers are not available         | The given passenger does not exist.                                                                  | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
+| 400         | The seat is already selected by the passenger    | The request is attempting to assign an already-assigned seat to another passenger.                   | [ORX_DUPLICATE_SEAT](/versions/v3/errors#orx-errors)       |
+| 400         | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same flight. | [ORX_DUPLICATE_SEAT](/versions/v3/errors#orx-errors)       |
+| 404         | Seat not found or expired                        | The request is attempt to select non-existent seat.                                                  | [ORX_SEAT_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 404         | Passenger not found or expired                   | The request is attempt to select a non-existent seat.                                                | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
 
 ## Selecting Seats in Bulk
 
@@ -480,17 +480,17 @@ The response will contain the an array of [Selected Seat-Likes](/versions/v3/glo
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | One or more seats are duplicated | Multiple passengers are being assigned to the same seat, within the same request. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 400 | [Validation Error] | Failed Validation |
-| 400 | One or more seats are not available | One or more of the selected seats are not selectable. |
-| 400 | One or more passengers are not available | One or more of the given passenger IDs are incorrect. |
-| 400 | The seat is already selected by the passenger | The request is attempting to assign an already-assigned seat to another passenger. |
-| 400 | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same fare. |
-| 404 | Seat not found or expired | The request is attempt to select non-existent seats. |
-| 404 | Passenger not found or expired | The request is attempt to select non-existent seats. |
+| Status Code | Error                                            | Reason                                                                                             | Reason Code                                                |
+| ----------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 400         | One or more seats are duplicated                 | Multiple passengers are being assigned to the same seat, within the same request.                  | [ORX_DUPLICATE_SEAT](/versions/v3/errors#orx-errors)       |
+| 404         | Session not found or expired                     | Request targeting a non-existent session.                                                          | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 400         | [Validation Error]                               | Failed Validation                                                                                  | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 400         | One or more seats are not available              | One or more of the selected seats are not selectable.                                              | [ORX_SEAT_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 400         | One or more passengers are not available         | One or more of the given passenger IDs are incorrect.                                              | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
+| 400         | The seat is already selected by the passenger    | The request is attempting to assign an already-assigned seat to another passenger.                 | [ORX_DUPLICATE_SEAT](/versions/v3/errors#orx-errors)       |
+| 400         | There are duplicate seats for the same passenger | The request is attempting to select multiple seats for the same passenger for the exact same fare. | [ORX_DUPLICATE_SEAT](/versions/v3/errors#orx-errors)       |
+| 404         | Seat not found or expired                        | The request is attempt to select non-existent seats.                                               | [ORX_SEAT_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 404         | Passenger not found or expired                   | The request is attempt to select non-existent seats.                                               | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
 
 ## Retrieving a Selected Seat
 

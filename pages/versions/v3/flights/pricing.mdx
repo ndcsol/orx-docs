@@ -90,12 +90,14 @@ The endpoint will return the pricing information for the selected flights, and w
 - `itinerary_price`: ([Pricing Itinerary Price Information](/versions/v3/glossary#pricing-itinerary-price-information)) An object containing all the information about the pricing of the session.
 - `itinerary_notice`: (`Array<string>`) A list of notices for the itinerary. These notices are usually related to baggage allowances, and other information that may be relevant to the itinerary.
 
-### Possible Errors 
+### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 500 | NDCx Internal Error | Unknown |
-| 412 | Not all flights are selected | The Itinerary has not yet been fully selected.  |
-
+| Status Code | Error                                                                  | Reason                                                              | Reason Code                                                         |
+| ----------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 400         | [Validation Error]                                                     | Failed Validation                                                   | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors)          |
+| 404         | Session not found or expired                                           | Request targeting a non-existent session.                           | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)             |
+| 500         | NDCx Internal Error                                                    | Unknown                                                             | [NDC_UNKNOWN_ERROR](/versions/v3/errors#ndc-errors)                 |
+| 500         | Sabre Token Not Created                                                | Credentials used to access this provider could not be authenticated | [NDC_PROVIDER_AUTHENTICATION_ERROR](/versions/v3/errors#ndc-errors) |
+| 500         | Unknown                                                                | An error occurred when requesting content from a provider           | [NDC_PROVIDER_ERROR](/versions/v3/errors#ndc-errors)                |
+| 500         | The selected flight is not available. Please choose another selection. | The selection is no longer available                                | [NDC_ITINERARY_UNAVAILABLE](/versions/v3/errors#ndc-errors)         |
+| 412         | Not all flights are selected                                           | The Itinerary has not yet been fully selected.                      | [ORX_UNORDERED_FLIGHTS](/versions/v3/errors#orx-errors)             |

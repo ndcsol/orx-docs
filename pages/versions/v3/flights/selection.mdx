@@ -405,11 +405,11 @@ The response contains an array of [Flight Fares](/versions/vv3glossary#flight-fa
 
 ### Possible Errors
 
-| Status Code | Error                                           | Reason                                                              |
-| ----------- | ----------------------------------------------- | ------------------------------------------------------------------- |
-| 404         | Session not found or expired                    | Request targeting a non-existent session.                           |
-| 409         | Bound [bound] is not available for this session | Request is attempting to retrieve flights for a non-existent bound. |
-| 412         | Not all flights are selected                    | The Itinerary has not yet been fully selected.                      |
+| Status Code | Error                                           | Reason                                                              | Reason Code                                             |
+| ----------- | ----------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------- |
+| 404         | Session not found or expired                    | Request targeting a non-existent session.                           | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors) |
+| 409         | Bound [bound] is not available for this session | Request is attempting to retrieve flights for a non-existent bound. | [ORX_INVALID_BOUND](/versions/v3/errors#orx-errors)     |
+| 412         | Not all flights are selected                    | The Itinerary has not yet been fully selected.                      | [ORX_UNORDERED_FLIGHTS](/versions/v3/errors#orx-errors) |
 
 ## Selecting a Flight
 
@@ -626,18 +626,18 @@ The response will be of type [Itinerary Flight Fare](/versions/v3/glossary#itine
 
 ### Possible Errors
 
-| Status Code | Error                                                                              | Reason                                                                                                           |
-| ----------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| 404         | Session not found or expired                                                       | Request targeting a non-existent session.                                                                        |
-| 400         | [Validation Error]                                                                 | Failed Validation                                                                                                |
-| 412         | No flight selected for bound [bound] Flights can only be selected in order         | Request is selecting fares for a bound without having selected the fare for its preceding bound(s).              |
-| 404         | Flight brand not found or expired                                                  | Selected flight brand is not found.                                                                              |
-| 404         | Could not find fare                                                                | Selected flight fare is not found.                                                                               |
-| 409         | The fare requested does not belong to bound [bound]                                | Selected flight fare does not belong to the bound it is selected for.                                            |
-| 409         | The brand and the fare provided are not compatible                                 | The selected brand does not belong to the selected fare.                                                         |
-| 409         | The fare or the brand provided are not compatible selections of the previous bound | The brand and/or the fare cannot be combined with the brand and/or the fares that have previously been selected. |
-| 404         | Seat not found or expired                                                          | The request is attempt to select non-existent seats.                                                             |
-| 404         | Passenger not found or expired                                                     | The request is attempt to select non-existent seats.                                                             |
+| Status Code | Error                                                                              | Reason                                                                                                           | Reason Code                                                |
+| ----------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 404         | Session not found or expired                                                       | Request targeting a non-existent session.                                                                        | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 400         | [Validation Error]                                                                 | Failed Validation                                                                                                | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 412         | No flight selected for bound [bound] Flights can only be selected in order         | Request is selecting fares for a bound without having selected the fare for its preceding bound(s).              | [ORX_UNORDERED_FLIGHTS](/versions/v3/errors#orx-errors)    |
+| 404         | Flight brand not found or expired                                                  | Selected flight brand is not found.                                                                              | [ORX_BRAND_NOT_FOUND](/versions/v3/errors#orx-errors)      |
+| 404         | Could not find fare                                                                | Selected flight fare is not found.                                                                               | [ORX_FARE_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 409         | The fare requested does not belong to bound [bound]                                | Selected flight fare does not belong to the bound it is selected for.                                            | [ORX_INVALID_BOUND](/versions/v3/errors#orx-errors)        |
+| 409         | The brand and the fare provided are not compatible                                 | The selected brand does not belong to the selected fare.                                                         | [ORX_BRAND_FARE_MISMATCH](/versions/v3/errors#orx-errors)  |
+| 409         | The fare or the brand provided are not compatible selections of the previous bound | The brand and/or the fare cannot be combined with the brand and/or the fares that have previously been selected. | [ORX_BRAND_FARE_MISMATCH](/versions/v3/errors#orx-errors)  |
+| 404         | Seat not found or expired                                                          | The request is attempt to select non-existent seats.                                                             | [ORX_SEAT_NOT_FOUND](/versions/v3/errors#orx-errors)       |
+| 404         | Passenger not found or expired                                                     | The request is attempt to select non-existent seats.                                                             | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
 
 ## Retrieving Selected Flights
 
@@ -653,10 +653,10 @@ The response will be an array of type [Itinerary Flight Fare](/versions/v3/gloss
 
 ### Possible Errors
 
-| Status Code | Error                                                         | Reason                                            |
-| ----------- | ------------------------------------------------------------- | ------------------------------------------------- |
-| 400         | Retrieve itinerary is only allowed for active search sessions | The session in the request is not of type FLIGHT. |
-| 404         | Session not found or expired                                  | Request targeting a non-existent session.         |
+| Status Code | Error                                                         | Reason                                            | Reason Code                                             |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| 400         | Retrieve itinerary is only allowed for active search sessions | The session in the request is not of type FLIGHT. | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired                                  | Request targeting a non-existent session.         | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors) |
 
 # Forward-Looking Selection
 
@@ -690,38 +690,38 @@ Use this endpoint to estimate the possible the hightest and the lowest commissio
 
 ```json filename="POST /flight/[sessionId]/bound/[boundIndex]/estimate-commission" copy
 {
-    "brands": [
-        {
-            "public": "d61e1c3e-9f78-4228-befb-0e704548e164",
-            "minimum_commission": "36.96",
-            "maximum_commission": "81.12",
-            "minimum_non_zero_commission": "36.96",
-            "minimum_itinerary_price": "1468.04",
-            "maximum_itinerary_price": "3210.50"
-        },
-        {
-            "public": "ee51db09-3bac-4b1e-b77f-4bc1cf295b75",
-            "minimum_commission": "36.96",
-            "maximum_commission": "81.12",
-            "minimum_non_zero_commission": "36.96",
-            "minimum_itinerary_price": "2544.93",
-            "maximum_itinerary_price": "4287.39"
-        },
-        {
-            "public": "e667ed2a-9c96-49cf-a1ca-549825394cca",
-            "minimum_commission": "118.26",
-            "maximum_commission": "162.42",
-            "minimum_non_zero_commission": "118.26",
-            "minimum_itinerary_price": "4530.34",
-            "maximum_itinerary_price": "6272.80"
-        }
-    ]
+  "brands": [
+    {
+      "public": "d61e1c3e-9f78-4228-befb-0e704548e164",
+      "minimum_commission": "36.96",
+      "maximum_commission": "81.12",
+      "minimum_non_zero_commission": "36.96",
+      "minimum_itinerary_price": "1468.04",
+      "maximum_itinerary_price": "3210.50"
+    },
+    {
+      "public": "ee51db09-3bac-4b1e-b77f-4bc1cf295b75",
+      "minimum_commission": "36.96",
+      "maximum_commission": "81.12",
+      "minimum_non_zero_commission": "36.96",
+      "minimum_itinerary_price": "2544.93",
+      "maximum_itinerary_price": "4287.39"
+    },
+    {
+      "public": "e667ed2a-9c96-49cf-a1ca-549825394cca",
+      "minimum_commission": "118.26",
+      "maximum_commission": "162.42",
+      "minimum_non_zero_commission": "118.26",
+      "minimum_itinerary_price": "4530.34",
+      "maximum_itinerary_price": "6272.80"
+    }
+  ]
 }
 ```
 
-> 🧨 The endpoint currently only supports one-way and round-trip itineraries. Multi-city itineraries are not supported. 
+> 🧨 The endpoint currently only supports one-way and round-trip itineraries. Multi-city itineraries are not supported.
 
-> 🧨 There is a limit of 10 brands that can be passed in the `currentBrands` array. 
+> 🧨 There is a limit of 10 brands that can be passed in the `currentBrands` array.
 
 - `brands`: (`Array<Record>`) The pricing and commission estimates for the brands that were passed as `currentBrands`.
   - `brands[].public` : ([Public ID](/versions/v3/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
@@ -733,14 +733,14 @@ Use this endpoint to estimate the possible the hightest and the lowest commissio
 
 ### Possible Errors
 
-| Status Code | Error                                                           | Reason                                                                                                                         |
-| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 400         | [Validation Error]                                              | Failed Validation                                                                                                              |
-| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     |
-| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    |
-| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         |
-| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. |
-| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   |
+| Status Code | Error                                                           | Reason                                                                                                                         | Reason Code                                                 |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| 400         | [Validation Error]                                              | Failed Validation                                                                                                              | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors)  |
+| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)     |
+| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    | [ORX_INVALID_BOUND](/versions/v3/errors#orx-errors)         |
+| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |
+| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |
+| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |
 
 ## Matching Fares
 
@@ -1515,11 +1515,11 @@ Use this endpoint to get an array of fares that could be matched with the select
 
 ### Possible Errors
 
-| Status Code | Error                                                           | Reason                                                                                                                         |
-| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 400         | [Validation Error]                                              | Failed Validation                                                                                                              |
-| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     |
-| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    |
-| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         |
-| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. |
-| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   |
+| Status Code | Error                                                           | Reason                                                                                                                         | Reason Code                                                 |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| 400         | [Validation Error]                                              | Failed Validation                                                                                                              | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors)  |
+| 404         | Session not found or expired                                    | Request targeting a non-existent. session.                                                                                     | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)     |
+| 400         | Invalid bound                                                   | The bound that the request is asking for is exceeding the number of bounds in this session.                                    | [ORX_INVALID_BOUND](/versions/v3/errors#orx-errors)         |
+| 400         | Selected fares or bounds are not applicable for the first bound | The bound index is 0, but the `selectedFare` and/or the `selectedBrand` are not empty.                                         | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |
+| 400         | Number of selected entities must correspond to the bound index  | The number of items in the `selectedFare` or `selectedBrand` arrays are not corresponding to the bound the in the request URL. | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |
+| 400         | Selected entities must represent consecutive bounds.            | The items in the `selectedFare` array are not corresponding to consecutive bounds, in order.                                   | [ORX_BOUND_ENTITY_MISMATCH](/versions/v3/errors#orx-errors) |

@@ -68,10 +68,11 @@ The `public` property is what you'll use to identify the session. You can retrie
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-| --- | --- | --- |
-| 400 | [VALIDATION ERROR] | Failed Validation |
-| 500 | NDCx Internal Error | Unknown |
+| Status Code | Error                   | Reason                                                              | Reason Code                                                         |
+| ----------- | ----------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 400         | [VALIDATION ERROR]      | Failed Validation                                                   | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors)          |
+| 500         | NDCx Internal Error     | Unknown                                                             | [NDC_UNKNOWN_ERROR](/versions/v3/errors#orx-errors)                 |
+| 500         | Sabre Token Not Created | Credentials used to access this provider could not be authenticated | [NDC_PROVIDER_AUTHENTICATION_ERROR](/versions/v3/errors#ndc-errors) |
 
 ## Advanced Usage
 

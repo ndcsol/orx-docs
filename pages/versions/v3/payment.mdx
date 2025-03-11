@@ -1,4 +1,5 @@
 # Payment Overview
+
 ORX uses [TokenEx](https://www.tokenex.com/) to tokenize credit card information. This allows ORX to collect sensitive credit card information without having to store it.
 
 To pass the payment information securely to ORX, start by collecting credit card details through a [payment initialization](#initiate-payment). Then, configure your [TokenEx iFrame](https://docs.tokenex.com/docs/iframe-new) iFrame using the `authentication_key` and `client_id` returned from the initialize endpoint. The iFrame will generate a tokenized version of the credit card data. This token, along with the card type (also provided by TokenEx), billing information, and the cardholder's name, can be used in the [update payment](#update-payment) or [create payment](#create-payment) endpoints to process the payment securely.
@@ -57,11 +58,11 @@ These values are required to create a tokenex [iFrame configuration object](http
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 500 | NDCx Internal Error | Unknown |
-| 400 | Unauthorized origin | The requested origin has not been whitelisted. | 
+| Status Code | Error               | Reason                                         | Reason Code                                                |
+| ----------- | ------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| 400         | [Validation Error]  | Failed Validation                              | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 500         | NDCx Internal Error | Unknown                                        | [NDC_UNKNOWN_ERROR](/versions/v3/errors#ndc-errors)        |
+| 400         | Unauthorized origin | The requested origin has not been whitelisted. | [ORX_UNAUTHORIZED_ORIGIN](/versions/v3/errors#orx-errors)  |
 
 # Payment Management
 
@@ -109,11 +110,11 @@ The updated properties will be reflected in the response of type [payment inform
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 409 | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
+| Status Code | Error                                                                                       | Reason                                                                                                                                     | Reason Code                                                |
+| ----------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| 400         | [Validation Error]                                                                          | Failed Validation                                                                                                                          | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired                                                                | Request targeting a non-existent session.                                                                                                  | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors)  |
+| 409         | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors)  |
 
 ## Get Payments
 
@@ -127,10 +128,10 @@ The response will be an array of [payment information](/versions/v3/glossary#pay
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Payment information not found or expired | There are no payments attached to the given session. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                    | Reason                                               | Reason Code                                               |
+| ----------- | ---------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------- |
+| 404         | Payment information not found or expired | There are no payments attached to the given session. | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired             | Request targeting a non-existent session.            | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)   |
 
 ## Get a Single Payment
 
@@ -144,10 +145,10 @@ The response will be a [payment information](/versions/v3/glossary#payment-infor
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Payment information not found or expired | Payment referenced does not exist. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                    | Reason                                    | Reason Code                                               |
+| ----------- | ---------------------------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| 404         | Payment information not found or expired | Payment referenced does not exist.        | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired             | Request targeting a non-existent session. | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)   |
 
 ## Create Payment
 
@@ -185,12 +186,12 @@ The response will contain the created payment [payment information](/versions/v3
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 409 | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
-| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. |
+| Status Code | Error                                                                                       | Reason                                                                                                                                     | Reason Code                                                |
+| ----------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| 400         | [Validation Error]                                                                          | Failed Validation                                                                                                                          | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired                                                                | Request targeting a non-existent session.                                                                                                  | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 409         | An alternative payment is already attached to session. Multiple payments are not supported. | There is an existing alternative payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. | [ORX_MULTIPLE_FOP](/versions/v3/errors#orx-errors)         |
+| 409         | A payment is already attached to session. Multiple payments are not supported.              | There is an existing payment attached to the session.                                                                                      | [ORX_MULTIPLE_FOP](/versions/v3/errors#orx-errors)         |
 
 ## Delete Payment
 
@@ -202,15 +203,14 @@ If successful, the response will be empty with a status code of `204`.
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | | Payment referenced was not found. |
-
+| Status Code | Error | Reason                            | Reason Code                                               |
+| ----------- | ----- | --------------------------------- | --------------------------------------------------------- |
+| 404         |       | Payment referenced was not found. | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |
 
 # Alternative Payments
 
 You may also pay for orders using alternative payment methods. Currently the only supported alternative payment method is [Verto](https://ver.to/). While all alternative payment methods will use the same set of endpoints, each payment method will have its own payload schema.
-Just like regular payments, alternative payments may be attached to a session before making an order, or directly in the order request. Prior to processing an order, the provided alternative payment will be validated and verified. If the payment is not valid, the order will not be created. 
+Just like regular payments, alternative payments may be attached to a session before making an order, or directly in the order request. Prior to processing an order, the provided alternative payment will be validated and verified. If the payment is not valid, the order will not be created.
 
 > 🧨 Each session may have a single regular `payment` or a single `alternativePayment`. If you attempt to provide more using one of the endpoints or using the order endpoint, you will receive an error.
 
@@ -232,14 +232,14 @@ Use this endpoint to update the alternative payment information for a specific s
 {
   "method": "VERTO",
   "payload": {
-    "token" : "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+    "token": "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b"
   }
 }
 ```
 
 The payload needs to be of type [alternative payment information](/versions/v3/glossary#alternative-payment-information).
 
-> 🛎 You do not need to send the payment information all at once, but you do need to provide the `method` when creating a new alternative payment. 
+> 🛎 You do not need to send the payment information all at once, but you do need to provide the `method` when creating a new alternative payment.
 
 ### Response
 
@@ -247,12 +247,12 @@ The updated properties will be reflected in the response of type [alternative pa
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 404 | Alternative payment information not found | Request contained an `alternativePaymentId` that does not exist |
-| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
+| Status Code | Error                                                                          | Reason                                                                                                                         | Reason Code                                                |
+| ----------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| 400         | [Validation Error]                                                             | Failed Validation                                                                                                              | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired                                                   | Request targeting a non-existent session.                                                                                      | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 404         | Alternative payment information not found                                      | Request contained an `alternativePaymentId` that does not exist                                                                | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors)  |
+| 409         | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. | [ORX_MULTIPLE_FOP](/versions/v3/errors#orx-errors)         |
 
 ## Get Alternative Payments
 
@@ -266,10 +266,10 @@ The response will be an array of [alternative payment information](/versions/v3/
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Alternative payment information not found | There are no alternative payments attached to the given session. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                     | Reason                                                           | Reason Code                                               |
+| ----------- | ----------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------- |
+| 404         | Alternative payment information not found | There are no alternative payments attached to the given session. | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired              | Request targeting a non-existent session.                        | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)   |
 
 ## Get a Single Alternative Payment
 
@@ -283,10 +283,10 @@ The response will be a [alternative payment information](/versions/v3/glossary#a
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | Alternative payment information not found | Payment referenced does not exist. |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
+| Status Code | Error                                     | Reason                                    | Reason Code                                               |
+| ----------- | ----------------------------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| 404         | Alternative payment information not found | Payment referenced does not exist.        | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired              | Request targeting a non-existent session. | [ORX_PASSENGER_NOT_FOUND](/versions/v3/errors#orx-errors) |
 
 ## Create Alternative Payment
 
@@ -298,10 +298,10 @@ Use this endpoint to create an alternative payment for a specific session. Since
 
 ```json filename="POST /alternative-payment/[sessionId]" copy
 {
-    "method": "VERTO",
-    "payload" : {
-        "token" : "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b"
-    }
+  "method": "VERTO",
+  "payload": {
+    "token": "f1203b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b"
+  }
 }
 ```
 
@@ -313,12 +313,12 @@ The response will contain the created alternative payment [alternative payment i
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 409 | An alternative payment is already attached to session. Multiple alternative payments are not supported. | There is an existing alternative payment attached to the session. |
-| 409 | A payment is already attached to session. Multiple payments are not supported. | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. |
+| Status Code | Error                                                                                                   | Reason                                                                                                                         | Reason Code                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| 400         | [Validation Error]                                                                                      | Failed Validation                                                                                                              | [ORX_VALIDATION_EXCEPTION](/versions/v3/errors#orx-errors) |
+| 404         | Session not found or expired                                                                            | Request targeting a non-existent session.                                                                                      | [ORX_SESSION_NOT_FOUND](/versions/v3/errors#orx-errors)    |
+| 409         | An alternative payment is already attached to session. Multiple alternative payments are not supported. | There is an existing alternative payment attached to the session.                                                              | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors)  |
+| 409         | A payment is already attached to session. Multiple payments are not supported.                          | There is an existing payment attached to the session. You may only attach a `payment` or an `alternativePayment` to a session. | [ORX_MULTIPLE_FOP](/versions/v3/errors#orx-errors)         |
 
 ## Delete Alternative Payment
 
@@ -330,7 +330,6 @@ If successful, the response will be empty with a status code of `204`. If the al
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | | Alternative payment referenced was not found. |
-
+| Status Code | Error | Reason                                        | Reason Code                                               |
+| ----------- | ----- | --------------------------------------------- | --------------------------------------------------------- |
+| 404         |       | Alternative payment referenced was not found. | [ORX_NO_PAYMENT_ATTACHED](/versions/v3/errors#orx-errors) |

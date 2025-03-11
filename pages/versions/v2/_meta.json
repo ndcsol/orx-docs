@@ -4,6 +4,7 @@
   "flights": "Flights",
   "payment": "Payment Management",
   "passengers": "Passenger Management",
+  "errors": "Errors",
   "about": {
     "title": "About",
     "type": "page",
