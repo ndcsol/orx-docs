@@ -45,9 +45,6 @@ When a payment requires 3D Secure authentication, the API will return a response
 
 If 3D Secure is presented, the response object will be of type [3D Secure Action](/versions/v3/glossary#3d-secure-action).
 
-
-To proceed with 3D Secure authentication, pass this object to the `threeDs` function in `@ndcsol/orx`.
-
 ### Possible Errors
 
 | Status Code | Error | Reason | Reason Code |
@@ -60,7 +57,20 @@ To proceed with 3D Secure authentication, pass this object to the `threeDs` func
 
 ## ORX SDK Authentication
 
-After passing the 3D Secure action object to the `threeDs` method, the function will return either a success or error response.
+
+To proceed with 3D Secure authentication, pass this object to the `threeDs` function in `@ndcsol/orx`.
+
+```bash copy
+npm install @ndcsol/orx
+```
+
+```ts copy
+import { threeDs } from '@ndcsol/orx';
+
+const threeDsResult = await threeDs(threeDsActionObject);
+```
+
+After passing the 3D Secure action object to the `threeDs` method, the function will return either a success or an error response.
 
 ### Successful Authentication
 
