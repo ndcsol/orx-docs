@@ -1807,3 +1807,40 @@ interface ThreeDSecureFailure {
 }
 ```
 
+## Risk Evaluation 
+
+This object represents the risk evaluation of an order upon completion of order.  
+
+### Sub Properties
+
+    - `riskLevel` : (`string`) The level of risk associated with the order. 
+    - `riskScore` : (`string`) The risk score associated with the order out of 100.
+
+### Type Definition
+
+```ts
+interface RiskEvaluation {
+  riskLevel: 'highest' | 'elevated' | 'normal';
+  riskScore: string;
+}
+```
+
+## Payment Authorization 
+
+This object represents the payment authorization attached to an order.  
+
+### Sub Properties
+- `gateway` : (`string`) The payment gateway used for the transaction.
+- `threeDsResult` : (`any`?) Details of the 3D Secure authentication result. You can assume that 3DS was performed if this property is present.
+- `public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the fare given in `selectedFares`.
+- `createdAt` : (`string`) The timestamp when the payment authorization was created.
+
+### Type Definition
+```ts
+interface PaymentAuthorization {
+  gateway: string;
+  threeDsResult: any;
+  public: string;
+  createdAt: string;
+}
+```
