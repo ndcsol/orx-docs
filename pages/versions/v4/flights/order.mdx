@@ -8,7 +8,7 @@ Once you have selected your flights, added the necessary ancillaries, and obtain
 
 Use this endpoint to place an order for the selected flights using the specified payment details.
 
-You may provide a new payment or an alternative payment method here; or, create one using the [Payment Management](/versions/v3/payment) endpoint.
+You may provide a new payment or an alternative payment method here; or, create one using the [Payment Management](/versions/v4/payment) endpoint.
 
 ### Request
 
@@ -16,7 +16,7 @@ You may provide a new payment or an alternative payment method here; or, create 
 
 #### Order using a Payment Information Object
 
-If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v3/payment#update-payment) endpoint, you must provide the payment information in this request. 
+If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v4/payment#update-payment) endpoint, you must provide the payment information in this request. 
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
@@ -38,11 +38,11 @@ If paying with a regular payment object and have not created a payment object us
 }
 ```
 
-- `payment`: ([Payment Information](/versions/v3/glossary#payment-information)?) Payment to be used for the order.
+- `payment`: ([Payment Information](/versions/v4/glossary#payment-information)?) Payment to be used for the order.
 
 #### Order using an Alternative Payment
 
-Alternatively, if you are planning to use an alternative payment method; and, [have not attached an alternative payment to the session](/versions/v3/payment#update-alternative-payment), you can provide the alternative payment information in this request.
+Alternatively, if you are planning to use an alternative payment method; and, [have not attached an alternative payment to the session](/versions/v4/payment#update-alternative-payment), you can provide the alternative payment information in this request.
 
 ```json filename="POST /flight/[sessionId]/order" copy
 {
@@ -55,7 +55,7 @@ Alternatively, if you are planning to use an alternative payment method; and, [h
 }
 ```
 
-- `alternativePayment`: ([Alternative Payment Information](/versions/v3/glossary#alternative-payment-information)?) Alternative Payment to be used for the order.
+- `alternativePayment`: ([Alternative Payment Information](/versions/v4/glossary#alternative-payment-information)?) Alternative Payment to be used for the order.
 
 #### Attaching Meta Data to the Order Session 
 
@@ -91,11 +91,11 @@ curl -X POST -H "x-cancel-ttl: 3000" https://api.orx.travel/flight/[sessionId]/o
 }
 ```
 
-The response will be a new [session](/versions/v3/session#session-object). The order session serves as a reference to manage and access specific orders.
+The response will be a new [session](/versions/v4/session#session-object). The order session serves as a reference to manage and access specific orders.
 
-> 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v3/glossary#public-id) returned in this response.
+> 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v4/glossary#public-id) returned in this response.
 
-> 🛎 The session returned will be of flow `FLIGHT_BOOKING`. This session is a long-lived one that will expire after the travel date of the last flight in the itinerary. You can see the details of the session using the [Get Session](/versions/v3/session#accessing-session-information) endpoint.
+> 🛎 The session returned will be of flow `FLIGHT_BOOKING`. This session is a long-lived one that will expire after the travel date of the last flight in the itinerary. You can see the details of the session using the [Get Session](/versions/v4/session#accessing-session-information) endpoint.
 
 ### Possible Errors
 

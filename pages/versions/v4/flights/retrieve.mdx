@@ -169,9 +169,9 @@ You can request a list of all flight orders that you have made. This endpoint wi
 - `locator`: (`string`) The unique identifier for the entire booking. This may or may not be the same as the booking references, depending on the channel.
 - `pcc`: (`string?`) The Pseudo City Code the booking was made with.
 - `provider`: (`string`) The source the booking was made through.
-- `itinerary_price`: ([Itinerary Price Information](/versions/v3/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
-- `itinerary`: (`Array<`[Order Flight Fare](/versions/v3/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
-- `session`: ([Session](/versions/v3/glossary#session)) Information about the long-lived booking session.  
+- `itinerary_price`: ([Itinerary Price Information](/versions/v4/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
+- `itinerary`: (`Array<`[Order Flight Fare](/versions/v4/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
+- `session`: ([Session](/versions/v4/glossary#session)) Information about the long-lived booking session.  
 
 > 🛎 The endpoint currently does not include any metadata about the pagination. If the empty array is returned, you can assume that there are no more results to be fetched.
 
@@ -540,9 +540,9 @@ This endpoint will provide you with the necessary information and details of the
   - `ticketing_info.ticketed`: (`boolean`) A boolean value indicating whether the ticket has been issued or not.
   - `ticketing_info.time_limit`: (`string?`) The time when the order will expire at, if not ticketed.
 - `booking_references`: (`Array<Record>`) An array containing booking reference information. There may or may not be one locator per marketing airline in the booking, depending on the type of the partnership.
-  - `booking_references[].airline`: ([Airline IATA Code](/versions/v3/glossary#airline-iata-code)) The IATA code of the airline.
+  - `booking_references[].airline`: ([Airline IATA Code](/versions/v4/glossary#airline-iata-code)) The IATA code of the airline.
   - `booking_references[].locator`: (`string`) The unique identifier for the booking reference provided by the airline.
-- `itinerary_price`: ([Itinerary Price Information](/versions/v3/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
-- `itinerary`: (`Array<`[Order Flight Fare](/versions/v3/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
-- `passengers`: (`Array<`[Flight Order Passenger Information](/versions/v3/glossary#flight-order-passenger-information).`>`) An array containing the details of all passengers.
-- `seats`: (`Array<`[Order Seat-Like](/versions/v3/glossary#order-seat-like)`>`) An array of all the seats within the order.
+- `itinerary_price`: ([Itinerary Price Information](/versions/v4/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
+- `itinerary`: (`Array<`[Order Flight Fare](/versions/v4/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
+- `passengers`: (`Array<`[Flight Order Passenger Information](/versions/v4/glossary#flight-order-passenger-information).`>`) An array containing the details of all passengers.
+- `seats`: (`Array<`[Order Seat-Like](/versions/v4/glossary#order-seat-like)`>`) An array of all the seats within the order.

@@ -600,13 +600,13 @@ export interface SegmentInformation {
 
 ## Flight Fare
 
-A flight fare is a representation of a bound. It may contain one or more [segments](#segment-information). It will also contain different [Brands](/versions/v3/glossary#flight-brand-information), one of which will have to be selected.
+A flight fare is a representation of a bound. It may contain one or more [segments](#segment-information). It will also contain different [Brands](/versions/v4/glossary#flight-brand-information), one of which will have to be selected.
 
 ### Sub Properties
 
-- `public`: ([Public ID](/versions/v3/glossary#public-id)) The public ID of the flight fare. This will be used to select and retrieve the flight.
-- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v3/session#session-object).
-- `airports`: (`Array<`[Flight Airport Information](/versions/v3/glossary#flight-airport-information)`>`) An array representing all of the airports visited.
+- `public`: ([Public ID](/versions/v4/glossary#public-id)) The public ID of the flight fare. This will be used to select and retrieve the flight.
+- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v4/session#session-object).
+- `airports`: (`Array<`[Flight Airport Information](/versions/v4/glossary#flight-airport-information)`>`) An array representing all of the airports visited.
 - `sort_field`: (`Record`) An object containing general information about the flight.
   - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
   - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
@@ -616,7 +616,7 @@ A flight fare is a representation of a bound. It may contain one or more [segmen
   - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
   - `sort_field.emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
 - `segments`: (`Array<`[Segment Information](#segment-information)`>`) An array of objects representing the flight segments.
-- `brand_information`: (`Record<`[Cabin Code](/versions/v3/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v3/glossary#brand-name) `,`[Brand Information](/versions/v3/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
+- `brand_information`: (`Record<`[Cabin Code](/versions/v4/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v4/glossary#brand-name) `,`[Brand Information](/versions/v4/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
 
 ### Type Definition
 
@@ -1018,13 +1018,13 @@ interface FlightFare {
 
 ## Itinerary Flight Fare
 
-An **itinerary** flight fare is a representation of a bound that has **already been selected**. It looks just like the [Flight Fare](#flight-fare), but it only has a single [Brand Information](/versions/v3/glossary#flight-brand-information); the one that has been selected.
+An **itinerary** flight fare is a representation of a bound that has **already been selected**. It looks just like the [Flight Fare](#flight-fare), but it only has a single [Brand Information](/versions/v4/glossary#flight-brand-information); the one that has been selected.
 
 ### Sub Properties
 
-It contains the same properties as a [Flight Fare](/versions/v3/glossary#flight-fare), with the exception of its `brand_information`:
+It contains the same properties as a [Flight Fare](/versions/v4/glossary#flight-fare), with the exception of its `brand_information`:
 
-- `brand_information`: ([Brand Information](/versions/v3/glossary#flight-brand-information)) The object containing the selected brand information.
+- `brand_information`: ([Brand Information](/versions/v4/glossary#flight-brand-information)) The object containing the selected brand information.
 
 ### Type Definition
 
@@ -1666,14 +1666,14 @@ Object describing a matching fare
 
 ### Sub Properties
 
-- `public` : ([Public ID](/versions/v3/glossary#public-id)) The public ID of the matching fare.
+- `public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the matching fare.
 - `airline`: (`Array<string>`) The marketing airlines of the flights included in the fare.
 - `duration`: (`string`) The flight duration of the fare (TODO: Includes stopover or not?).
 - `departure`: (`string`) The departure time of the fare.
 - `departureAirport`: (`string`) The departure location of the fare.
 - `arrival`: (`string`) The arrival time of the fare.
 - `arrivalAirport`: (`string`) The arrival location of the fare.
-- `brands`: (`Array<`[Brand Matching](/versions/v3/glossary#brand-matching)`>`) The brands of the given fare that can be matched with the queried fares.
+- `brands`: (`Array<`[Brand Matching](/versions/v4/glossary#brand-matching)`>`) The brands of the given fare that can be matched with the queried fares.
 
 ### Type Definition
 
@@ -1701,14 +1701,14 @@ Object describing a matching brand
     - `starting_fare_amount` : (`string`) For the first bound, this is the minimum priced itinerary that can be created with the given brand. For subsequent bounds, this is the price increase compared to the minimum branded fare for the given bound.
     - `currency` : (`string`) : The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the `total_amount` and `starting_fare_amount`
     - `name` : (`string`) The airline's name for the given brand class.
-    - `cabin` : ([Cabin Code](/versions/v3/glossary#cabin-code)) The cabin to which the brand belongs.
+    - `cabin` : ([Cabin Code](/versions/v4/glossary#cabin-code)) The cabin to which the brand belongs.
     - `offering` : (`string[]`) All of the additional amenities offered with the flight
     - `fare_matchings` : (`Array<Record>`) The brands from the `selectedFares` with which the current brand can be matched.
-      - `fare_matchings[].public`: ([Public ID](/versions/v3/glossary#public-id)) The public ID of the fare given in `selectedFares`.
+      - `fare_matchings[].public`: ([Public ID](/versions/v4/glossary#public-id)) The public ID of the fare given in `selectedFares`.
       - `fare_matchings[].brand_matchings`: (`Array<Record>`) The brands of the `selectedFares` with which the brand from `fares[].brands[]` can be matched.
-        - `fare_matchings[].brand_matchings[].public` : ([Public ID](/versions/v3/glossary#public-id)) The public ID of the given brand.
+        - `fare_matchings[].brand_matchings[].public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the given brand.
         - `fare_matchings[].brand_matchings[].name` : (`string`) The airline's name for the given brand class.
-        - `fare_matchings[].brand_matchings[].cabin` : ([Cabin Code](/versions/v3/glossary#cabin-code)) The cabin to which the brand belongs.
+        - `fare_matchings[].brand_matchings[].cabin` : ([Cabin Code](/versions/v4/glossary#cabin-code)) The cabin to which the brand belongs.
 
 ### Type Definition
 

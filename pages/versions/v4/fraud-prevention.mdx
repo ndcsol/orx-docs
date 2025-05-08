@@ -4,11 +4,10 @@
 
 The following content assumes that the [Browser SDK](/versions/v4/sdk) is configured and loaded. 
 
-## Context Overview
+## Context Creation
 
 The `createContext` method is used to generate a context object that should be included in the `context` property of the order endpoint. It returns a context object containing information necessary for fraud prevention.
 
-### Creating a Context 
 
 To create a context object, call the `createContext` method on the ORX instance.
 
@@ -18,7 +17,7 @@ const context = instance.createContext();
 
 The `context` object should then be included in the order request to enhance fraud prevention measures.
 
-#### Context Object Example
+### Successful Context Creation
 ```json
 {
     "gateway": "stripe",
@@ -62,11 +61,9 @@ sequenceDiagram
 
 3D Secure authentication may be required when calling a payment-related endpoint, such as `POST /flights/[sessionId]/order`. If required, the response will include an `action` property set to `three_d_s`, along with authentication details.
 
-### Initiate 3D Secure
-
 When a payment requires 3D Secure authentication, the API will return a response containing a 3D Secure action object.
 
-#### Response Example
+### Response Example
 
 ```json filename="POST /flights/[sessionId]/order" copy
 {
@@ -80,9 +77,9 @@ When a payment requires 3D Secure authentication, the API will return a response
 }
 ```
 
-If 3D Secure is presented, the response object will be of type [3D Secure Action](/versions/v3/glossary#3d-secure-action).
+If 3D Secure is presented, the response object will be of type [3D Secure Action](/versions/v4/glossary#3d-secure-action).
 
-#### possible errors
+### Possible Errors
 
 | status code | error | reason | reason code |
 |---|---|---|---|
@@ -92,7 +89,7 @@ If 3D Secure is presented, the response object will be of type [3D Secure Action
 | 400 | payment authorization failed when triggering 3ds | payment authorization failed. the payment intent was not successful. | orx_payment_authorization_failed |
 
 
-### ORX SDK Authentication
+## ORX SDK Authentication
 
 
 To proceed with 3D Secure authentication, pass this object to the `threeDs` function of the ORX instance.
@@ -103,7 +100,7 @@ const threeDsResult = await instance.threeDs(threeDsActionObject);
 
 After passing the 3D Secure action object to the `threeDs` method, the function will return either a success or an error response.
 
-#### Successful Authentication
+### Successful Authentication
 
 If authentication succeeds, `threeDs` will return an object with a `status` of `success`. The returned payload should be included in the next order request to complete the payment.
 
@@ -120,7 +117,7 @@ If authentication succeeds, `threeDs` will return an object with a `status` of `
 }
 ```
 
-Upon success, the response object will be of type [3d secure success](/versions/v3/glossary#3d-secure-success).
+Upon success, the response object will be of type [3d secure success](/versions/v4/glossary#3d-secure-success).
 
 
 Include this payload in the next request:
@@ -141,7 +138,7 @@ Include this payload in the next request:
 }
 ```
 
-#### Failed Authentication
+### Failed Authentication
 
 If authentication fails, `threeDs` will return an object with a `status` of `"error"`. This object may include an error message detailing the issue.
 
@@ -157,7 +154,7 @@ If authentication fails, `threeDs` will return an object with a `status` of `"er
 }
 ```
 
-The response object will be of type [3d secure failure](/versions/v3/glossary#3d-secure-failure).
+The response object will be of type [3d secure failure](/versions/v4/glossary#3d-secure-failure).
 
 
 ### Example

@@ -399,7 +399,7 @@ This endpoint is used to query individual flights, where `[sessionId]` is the pu
 ]
 ```
 
-The response contains an array of [Flight Fares](/versions/vv3glossary#flight-fare), each representing of set of segments fulfilling the bound at hand.
+The response contains an array of [Flight Fares](/versions/vv4glossary#flight-fare), each representing of set of segments fulfilling the bound at hand.
 
 > 🛎 The `public` ID of the Flight Fare and the Brand Information of choice will be necessary to select and retrieve the brand.
 
@@ -622,7 +622,7 @@ The response will look similar to an individual flight object, similar to the on
 }
 ```
 
-The response will be of type [Itinerary Flight Fare](/versions/v3/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
+The response will be of type [Itinerary Flight Fare](/versions/v4/glossary#itinerary-flight-fare), a Flight Fare only containing the selected Brand Information.
 
 ### Possible Errors
 
@@ -645,11 +645,11 @@ The response will be of type [Itinerary Flight Fare](/versions/v3/glossary#itine
 
 At any point during your selection process, you can retrieve the selected flights using the get itinerary endpoint.
 
-> 🛎 This endpoint is only intended for active search [sessions](/versions/v3/session#session-object). Requesting the itinerary for a session of type FLIGHT_BOOKING will result in a 400 error.
+> 🛎 This endpoint is only intended for active search [sessions](/versions/v4/session#session-object). Requesting the itinerary for a session of type FLIGHT_BOOKING will result in a 400 error.
 
 ### Response
 
-The response will be an array of type [Itinerary Flight Fare](/versions/v3/glossary#itinerary-flight-fare), representing the selected flights in order.
+The response will be an array of type [Itinerary Flight Fare](/versions/v4/glossary#itinerary-flight-fare), representing the selected flights in order.
 
 ### Possible Errors
 
@@ -660,13 +660,13 @@ The response will be an array of type [Itinerary Flight Fare](/versions/v3/gloss
 
 # Forward-Looking Selection
 
-We realize that the [Flight Selection](/versions/v3/flights/selection) process can be a bit cumbersome, especially when trying to progressively compute the different possibilities when selecting certain brands and fares. To make this process easier, we've created the Forward Looking Selection endpoints. These endpoints are designed to help you create more advanced selection flows, where you can progressively receive more granular information about the itinerary that is being selected.
+We realize that the [Flight Selection](/versions/v4/flights/selection) process can be a bit cumbersome, especially when trying to progressively compute the different possibilities when selecting certain brands and fares. To make this process easier, we've created the Forward Looking Selection endpoints. These endpoints are designed to help you create more advanced selection flows, where you can progressively receive more granular information about the itinerary that is being selected.
 
 ## Estimate Commission
 
 `POST /flight/[sessionId]/bound/[boundIndex]/estimate-commission`
 
-Use this endpoint to estimate the possible the hightest and the lowest commission that can be earned from selecting a fare brand in a specific bound. This endpoint requires the [Public ID](/versions/v3/glossary#public-id) of the flight fares that had been selected in the previous steps. You may optionally include the [Public ID](/versions/v3/glossary#public-id) of the brands that had been selected in the previous steps.
+Use this endpoint to estimate the possible the hightest and the lowest commission that can be earned from selecting a fare brand in a specific bound. This endpoint requires the [Public ID](/versions/v4/glossary#public-id) of the flight fares that had been selected in the previous steps. You may optionally include the [Public ID](/versions/v4/glossary#public-id) of the brands that had been selected in the previous steps.
 
 ### Request
 
@@ -682,9 +682,9 @@ Use this endpoint to estimate the possible the hightest and the lowest commissio
 }
 ```
 
-- `currentBrands`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the brands you want to receive the commission estimate for.
-- `selectedFare`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
-- `selectedBrands`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>?`) The public ids of the bounds selected in the previous bounds, in order. Each of selected brands is associated with the fare of the same index in the `selectedFares` array.
+- `currentBrands`: (`Array<`[Public ID](/versions/v4/glossary#public-id)`>`) The public ids of the brands you want to receive the commission estimate for.
+- `selectedFare`: (`Array<`[Public ID](/versions/v4/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
+- `selectedBrands`: (`Array<`[Public ID](/versions/v4/glossary#public-id)`>?`) The public ids of the bounds selected in the previous bounds, in order. Each of selected brands is associated with the fare of the same index in the `selectedFares` array.
 
 ### Response
 
@@ -724,7 +724,7 @@ Use this endpoint to estimate the possible the hightest and the lowest commissio
 > 🧨 There is a limit of 10 brands that can be passed in the `currentBrands` array. 
 
 - `brands`: (`Array<Record>`) The pricing and commission estimates for the brands that were passed as `currentBrands`.
-  - `brands[].public` : ([Public ID](/versions/v3/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
+  - `brands[].public` : ([Public ID](/versions/v4/glossary#public-id)) The public id of the current brand corresponding to the commission estimate.
   - `brands[].maximum_itinerary_price` : (`string`) The maximum price of the itinerary that can be achieved by selecting the brand.
   - `brands[].minimum_itinerary_price` : (`string`) The minimum price of the itinerary that can be achieved by selecting the brand.
   - `brands[].minimum_commission` : (`string?`) The minimum commission that can be earned from selecting the brand and its matching brands.
@@ -756,7 +756,7 @@ Use this endpoint to get an array of fares that could be matched with the select
 }
 ```
 
-- `selectedFare`: (`Array<`[Public ID](/versions/v3/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
+- `selectedFare`: (`Array<`[Public ID](/versions/v4/glossary#public-id)`>`) The public ids of the fares selected in the previous bounds, in order (from the first bound to the current bound.)
 
 ### Response
 
@@ -1511,7 +1511,7 @@ Use this endpoint to get an array of fares that could be matched with the select
 }
 ```
 
-- `fares`: (`Array<`[Fare Matching](/versions/v3/glossary#fare-matching)`>`) The array representing the fares that could be matched with the selected fare(s) in the immediate next bound.
+- `fares`: (`Array<`[Fare Matching](/versions/v4/glossary#fare-matching)`>`) The array representing the fares that could be matched with the selected fare(s) in the immediate next bound.
 
 ### Possible Errors
 

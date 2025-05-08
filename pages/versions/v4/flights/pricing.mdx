@@ -4,7 +4,7 @@ Once we have selected out flights, and optionally selected our ancillaries, we c
 
 ## Passenger Requirements
 
-By this point, all [Passenger](/versions/v3/glossary#passenger-information) need to have a complete `personal_info` object. At least one adult passenger needs to have their `email` and `phone_number` set.
+By this point, all [Passenger](/versions/v4/glossary#passenger-information) need to have a complete `personal_info` object. At least one adult passenger needs to have their `email` and `phone_number` set.
 
 > 🧨 If the passenger requirements are not met by this point, the request will return validation errors for the passengers.
 
@@ -85,9 +85,9 @@ The endpoint will return the pricing information for the selected flights, and w
 }
 ```
 
-- `public`: ([Public ID](/versions/v3/glossary#public-id)) The public ID of the pricing.
-- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v3/session#session-object).
-- `itinerary_price`: ([Pricing Itinerary Price Information](/versions/v3/glossary#pricing-itinerary-price-information)) An object containing all the information about the pricing of the session.
+- `public`: ([Public ID](/versions/v4/glossary#public-id)) The public ID of the pricing.
+- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v4/session#session-object).
+- `itinerary_price`: ([Pricing Itinerary Price Information](/versions/v4/glossary#pricing-itinerary-price-information)) An object containing all the information about the pricing of the session.
 - `itinerary_notice`: (`Array<string>`) A list of notices for the itinerary. These notices are usually related to baggage allowances, and other information that may be relevant to the itinerary.
 
 ### Possible Errors 

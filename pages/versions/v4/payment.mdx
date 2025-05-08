@@ -67,7 +67,7 @@ These values are required to create a tokenex [iFrame configuration object](http
 
 You can create/update a payment for a specific session. This is useful if you want to progressively update the payment information for a session, prior to performing an order.
 
-> 🧨 The endpoint requires a payment object, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/vv3payment/initiate).
+> 🧨 The endpoint requires a payment object, including a TokenEx token which has been tokenized [CVV/CVC attached to it](/versions/vv4payment/initiate).
 
 > 🛎 Currently, only a single payment object can be added to each session. Having multiple forms of payment will be supported in the future.
 
@@ -99,13 +99,13 @@ Use this endpoint to update the payment information for a specific session. Sinc
 }
 ```
 
-The payload needs to be of type [payment information](/versions/v3/glossary#payment-information).
+The payload needs to be of type [payment information](/versions/v4/glossary#payment-information).
 
 > 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
 
 ### Response
 
-The updated properties will be reflected in the response of type [payment information](/versions/v3/glossary#payment-information).
+The updated properties will be reflected in the response of type [payment information](/versions/v4/glossary#payment-information).
 
 ### Possible Errors
 
@@ -123,7 +123,7 @@ Retrieves all of the the payment information objects for a specific session.
 
 ### Response
 
-The response will be an array of [payment information](/versions/v3/glossary#payment-information) objects.
+The response will be an array of [payment information](/versions/v4/glossary#payment-information) objects.
 
 ### Possible Errors
 
@@ -140,7 +140,7 @@ Retrieves a specific payment information object for a specific session.
 
 ### Response
 
-The response will be a [payment information](/versions/v3/glossary#payment-information) object.
+The response will be a [payment information](/versions/v4/glossary#payment-information) object.
 
 ### Possible Errors
 
@@ -153,7 +153,7 @@ The response will be a [payment information](/versions/v3/glossary#payment-infor
 
 `POST /payment/[sessionId]`
 
-Use this endpoint to create a payment for a specific session. Since having multiple forms of payment is not yet supported, you could use the [update payment](/versions/v3/payment/management#update-payment) endpoint to create and update a singular payment.
+Use this endpoint to create a payment for a specific session. Since having multiple forms of payment is not yet supported, you could use the [update payment](/versions/v4/payment/management#update-payment) endpoint to create and update a singular payment.
 
 ### Request
 
@@ -175,13 +175,13 @@ Use this endpoint to create a payment for a specific session. Since having multi
 }
 ```
 
-The payload needs to be of type [payment information](/versions/v3/glossary#payment-information).
+The payload needs to be of type [payment information](/versions/v4/glossary#payment-information).
 
 > 🛎 You do not need to send the payment information all at once. You can do it in multiple separate calls. You will not receive a validation error if you do not send all the required fields.
 
 ### Response
 
-The response will contain the created payment [payment information](/versions/v3/glossary#payment-information).
+The response will contain the created payment [payment information](/versions/v4/glossary#payment-information).
 
 ### Possible Errors
 
@@ -237,13 +237,13 @@ Use this endpoint to update the alternative payment information for a specific s
 }
 ```
 
-The payload needs to be of type [alternative payment information](/versions/v3/glossary#alternative-payment-information).
+The payload needs to be of type [alternative payment information](/versions/v4/glossary#alternative-payment-information).
 
 > 🛎 You do not need to send the payment information all at once, but you do need to provide the `method` when creating a new alternative payment. 
 
 ### Response
 
-The updated properties will be reflected in the response of type [alternative payment information](/versions/v3/glossary#alternative-payment-information).
+The updated properties will be reflected in the response of type [alternative payment information](/versions/v4/glossary#alternative-payment-information).
 
 ### Possible Errors
 
@@ -262,7 +262,7 @@ Retrieves all of the alternative payment information objects for a specific sess
 
 ### Response
 
-The response will be an array of [alternative payment information](/versions/v3/glossary#alternative-payment-information) objects.
+The response will be an array of [alternative payment information](/versions/v4/glossary#alternative-payment-information) objects.
 
 ### Possible Errors
 
@@ -279,7 +279,7 @@ Retrieves a specific alternative payment information object for a specific sessi
 
 ### Response
 
-The response will be a [alternative payment information](/versions/v3/glossary#alternative-payment-information) object.
+The response will be a [alternative payment information](/versions/v4/glossary#alternative-payment-information) object.
 
 ### Possible Errors
 
@@ -292,7 +292,7 @@ The response will be a [alternative payment information](/versions/v3/glossary#a
 
 `POST /alternative-payment/[sessionId]`
 
-Use this endpoint to create an alternative payment for a specific session. Since having multiple payment/alternative payment is not yet supported, you could use the [update alternative payment](/versions/v3/payment#update-alternative-payment) endpoint to create and update a singular payment.
+Use this endpoint to create an alternative payment for a specific session. Since having multiple payment/alternative payment is not yet supported, you could use the [update alternative payment](/versions/v4/payment#update-alternative-payment) endpoint to create and update a singular payment.
 
 ### Request
 
@@ -305,11 +305,11 @@ Use this endpoint to create an alternative payment for a specific session. Since
 }
 ```
 
-The payload needs to be of type [alternative payment information](/versions/v3/glossary#alternative-payment-information).
+The payload needs to be of type [alternative payment information](/versions/v4/glossary#alternative-payment-information).
 
 ### Response
 
-The response will contain the created alternative payment [alternative payment information](/versions/v3/glossary#alternative-payment-information).
+The response will contain the created alternative payment [alternative payment information](/versions/v4/glossary#alternative-payment-information).
 
 ### Possible Errors
 
