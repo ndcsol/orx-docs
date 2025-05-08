@@ -71,6 +71,39 @@ You may attach a set of meta-data properties to the order session. This can be u
 
 > 🔔 Please ensure that the meta-data properties are URL safe, as will be used in the URL for filtering and searching orders.
 
+#### Attaching 3DS data to the Order 
+
+If a 3DS flow is requested and completed, the 3DS data should be attached to the order request under the `threeDs` object. 
+
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "threeDs" : {
+    "gateway": "stripe",
+    "payload": {
+      "paymentIntent" : {
+        "id": "pi_1J2f3sdf",
+        "status": "succeeded"
+      }
+    }
+  }
+}
+```
+
+#### Attaching a Context to the Order
+You may attach a context to the order session. This will help the fraud prevention mechanism to understand the context of the order more accurately. 
+```json filename="POST /flight/[sessionId]/order" copy
+{
+  "context" : {
+    "gateway": "stripe",
+    "payload": {
+      "radarSession": {
+          "id": "rse_1RMZ41KO2Vs5OgwIcWS8C7oA",
+          "passive_captcha_site_key": "9883b18b-8cd9-4469-b478-05c06d8252d8"
+      }
+    }
+  }
+}
+```
 
 #### Automatically Cancelling an Order 
 
