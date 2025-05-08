@@ -1844,3 +1844,40 @@ interface PaymentAuthorization {
   createdAt: string;
 }
 ```
+
+
+## Commission Details
+
+The object describing the details of the commission calculation for a fare.
+
+### Sub Properties
+- `calculation` : (`Record`) Details of the commission calculation.
+  - `calculation` : (`Record`) Additional calculation details.
+    - `calculation.calculation.rbd` : (`Array<string>`) The RBD codes for the applicable fare class.
+    - `calculation.calculation.amount` : (`number`) The commission amount/percentage.
+    - `calculation.calculation.type` : (`PERCENTAGE`|`FIXED`) The type of commission calculation (e.g., percentage).
+    - `calculation.calculation.tour_code` : (`string`?) The tour code associated with the commission calculation.
+  - `calculation.fare_combination_rule` : (`LOWEST`|`HIGHEST`) Indicates whether the commission is applied to the highest or lowest fare in the itinerary.
+  - `calculation.applied_to` : (`BASE_FARE`|`TOTAL_FARE`) Indicates whether the commission is applied to the base fare or total fare.
+  - `pax_type` : (`Array<PassengerCode>`?) The passenger types to which the commission applies.
+- `bookingRule` : (`string`) The ID of the booking rule associated with the commission. Could be used for tracking purposes.
+- `estimatedCommission` : (`string`) The estimated commission amount in the currency of the fare.
+
+### Type Definition
+```ts
+interface CommissionDetails {
+  calculation: {
+    calculation: {
+      rbd: string[];
+      amount: number;
+      type: "FIXED" | "PERCENTAGE"
+      tour_code?: string;
+    };
+    fare_combination_rule: "LOWEST" | "HIGHEST";
+    applied_to: "BASE_FARE" | "TOTAL_FARE";
+    pax_type: PassengerCode[];
+  };
+  bookingRule: string;
+  estimatedCommission: string;
+}
+```
