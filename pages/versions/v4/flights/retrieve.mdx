@@ -2,6 +2,179 @@
 
 At this stage, it is assumed that you have successfully created an order session and obtained the necessary session identifier. The order session allows you to perform various operations related to the management of flight orders, such as retrieving order details.
 
+## Get List of Orders 
+
+### Request
+
+`GET /flight/list`
+
+
+#### Query Parameters
+
+- `page`: (`number`) The page number of the results, starting from `1`.  
+- `provider`: (`string?`) Filter the results by the provider of the order.
+- `status`: (`QUEUED` | `ISSUED` | `CANCELLED` `?`) Filter the results by the status of the order.
+- `client-meta-[key]`: (`string?`) Filter the results by the client meta data key-value pairs. Multiple keys can be provided by adding the key to the query parameter.  
+
+You can request a list of all flight orders that you have made. This endpoint will give you a shortened version of the each order. If you wish to retrieve all of the details about each of the order, you can use the [Retrieve Order](#requesting-order-retrieve) endpoint. 
+
+### Response
+
+```json filename="GET /flight/list" copy
+[
+    {
+        "session": {
+            "flow": "FLIGHT_BOOKING",
+            "expireAt": "2024-12-17T00:00:00.001Z",
+            "createdAt": "2024-09-18T14:48:16.443Z",
+            "public": "fe3bd8d3-0952-4885-b739-bf4518da2cd9"
+        },
+        "status": "ISSUED",
+        "locator": "FRYJUZ",
+        "pcc": "7J8K",
+        "provider": "SABRE",
+        "itinerary_price": {
+            "tax": {
+                "total_tax": "59.34",
+                "tax": [
+                    {
+                        "amount": "14.88",
+                        "code": [],
+                        "description": "Harmonized Sales Tax Hst Inclu",
+                        "_id": "66eae8303f740bf077735203"
+                    },
+                    {
+                        "amount": "35.00",
+                        "code": [],
+                        "description": "Airport Improvement Fee  Aif",
+                        "_id": "66eae8303f740bf077735204"
+                    },
+                    {
+                        "amount": "9.46",
+                        "code": [],
+                        "description": "Air Travellers Security Charge",
+                        "_id": "66eae8303f740bf077735205"
+                    }
+                ]
+            },
+            "surcharge": {
+                "total_surcharge": "0.00",
+                "surcharge": []
+            },
+            "total_amount": "129.34",
+            "base_amount": "70.00",
+            "currency": "CAD"
+        },
+        "itinerary": [
+            {
+                "airports": [
+                    {
+                        "airport_code": "YYZ",
+                        "airport_name": "Lester B. Pearson International Airport",
+                        "airport_city_name": "Toronto",
+                        "date_time": "2024-12-10 10:15:00",
+                        "flight_number": "305",
+                        "layover_time": ""
+                    },
+                    {
+                        "airport_code": "YVR",
+                        "airport_name": "Vancouver International Airport",
+                        "airport_city_name": "Vancouver",
+                        "date_time": "2024-12-10 12:34:00",
+                        "flight_number": "",
+                        "layover_time": ""
+                    }
+                ],
+                "sort_field": {
+                    "provider": "SABRE",
+                    "departure_date_time": "2024-12-10 10:15:00",
+                    "arrival_date_time": "2024-12-10 12:34:00",
+                    "airline": [
+                        "Porter Airlines"
+                    ],
+                    "stops": 0,
+                    "elapse_time": "5.19",
+                    "cheapest_price": "129.34",
+                    "alliances": [],
+                    "emission": 332.87,
+                    "onlyExcluded": false
+                },
+                "segments": [
+                    {
+                        "departure_information": {
+                            "airport_code": "YYZ",
+                            "airport_name": "Lester B. Pearson International Airport",
+                            "airport_city_name": "Toronto",
+                            "date_time": "2024-12-10 10:15:00",
+                            "terminal": "3"
+                        },
+                        "arrival_information": {
+                            "airport_code": "YVR",
+                            "airport_name": "Vancouver International Airport",
+                            "airport_city_name": "Vancouver",
+                            "date_time": "2024-12-10 12:34:00",
+                            "terminal": "M"
+                        },
+                        "marketing_airline_information": {
+                            "airline_code": "PD",
+                            "airline_name": "Porter Airlines",
+                            "flight_number": "305",
+                            "alliance": null
+                        },
+                        "operating_airline_information": {
+                            "airline_code": "PD",
+                            "airline_name": "Porter Airlines",
+                            "flight_number": "305",
+                            "alliance": null
+                        },
+                        "additional_information": {
+                            "equipment": {
+                                "code": "295",
+                                "name": "Embraer E195-E2",
+                                "graphic": "https://bnwassets.s3.amazonaws.com/images/aircrafts/PD/295.png"
+                            },
+                            "e_ticket": "true",
+                            "mileage": "2085",
+                            "flight_detail": {
+                                "duration": "319"
+                            }
+                        },
+                        "services": [],
+                        "media": [],
+                        "fare_description": [],
+                        "emission": 332.87,
+                        "distance": 2085
+                    }
+                ],
+                "brand_information": {},
+                "createdAt": "2024-09-18T14:46:55.013Z",
+                "public": "b3b6d5eb-0fe1-40be-82ef-bfcfbca201b1",
+                "expireAt": "2024-12-17T00:00:00.001Z",
+                "check_in": {
+                    "check_in_link": "https://www.flyporter.com/en-ca/manage-flights/web-check-in",
+                    "check_in_window": [
+                        "2024-12-09 09:15:00",
+                        "2024-12-10 08:45:00"
+                    ]
+                }
+            }
+        ],
+        "createdAt": "2024-09-18T14:48:16.627Z",
+        "public": "c7cb779b-8bdd-4632-8b54-5c2793bda46e"
+    }
+]
+```
+
+- `status`: (`QUEUED` | `ISSUED` | `CANCELLED`) The status of the booking.
+- `locator`: (`string`) The unique identifier for the entire booking. This may or may not be the same as the booking references, depending on the channel.
+- `pcc`: (`string?`) The Pseudo City Code the booking was made with.
+- `provider`: (`string`) The source the booking was made through.
+- `itinerary_price`: ([Itinerary Price Information](/versions/v3/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
+- `itinerary`: (`Array<`[Order Flight Fare](/versions/v3/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
+- `session`: ([Session](/versions/v3/glossary#session)) Information about the long-lived booking session.  
+
+> 🛎 The endpoint currently does not include any metadata about the pagination. If the empty array is returned, you can assume that there are no more results to be fetched.
+
 ## Requesting Order Retrieve
 
 ### Request
@@ -367,9 +540,9 @@ This endpoint will provide you with the necessary information and details of the
   - `ticketing_info.ticketed`: (`boolean`) A boolean value indicating whether the ticket has been issued or not.
   - `ticketing_info.time_limit`: (`string?`) The time when the order will expire at, if not ticketed.
 - `booking_references`: (`Array<Record>`) An array containing booking reference information. There may or may not be one locator per marketing airline in the booking, depending on the type of the partnership.
-  - `booking_references[].airline`: ([Airline IATA Code](/versions/v1/glossary#airline-iata-code)) The IATA code of the airline.
+  - `booking_references[].airline`: ([Airline IATA Code](/versions/v3/glossary#airline-iata-code)) The IATA code of the airline.
   - `booking_references[].locator`: (`string`) The unique identifier for the booking reference provided by the airline.
-- `itinerary_price`: ([Itinerary Price Information](/versions/v1/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
-- `itinerary`: (`Array<`[Order Flight Fare](/versions/v1/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
-- `passengers`: (`Array<`[Flight Order Passenger Information](/versions/v1/glossary#flight-order-passenger-information).`>`) An array containing the details of all passengers.
-- `seats`: (`Array<`[Order Seat-Like](/versions/v1/glossary#order-seat-like)`>`) An array of all the seats within the order.
+- `itinerary_price`: ([Itinerary Price Information](/versions/v3/glossary#itinerary-price-information)) An object containing all the information about the pricing of the order.
+- `itinerary`: (`Array<`[Order Flight Fare](/versions/v3/glossary#order-flight-fare)`>`) An array containing the details of each bound's Order Flight Fare.
+- `passengers`: (`Array<`[Flight Order Passenger Information](/versions/v3/glossary#flight-order-passenger-information).`>`) An array containing the details of all passengers.
+- `seats`: (`Array<`[Order Seat-Like](/versions/v3/glossary#order-seat-like)`>`) An array of all the seats within the order.

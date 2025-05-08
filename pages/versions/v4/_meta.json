@@ -4,16 +4,18 @@
   "flights": "Flights",
   "payment": "Payment Management",
   "passengers": "Passenger Management",
+  "webhook": "Webhook",
+  "fraud-prevention": "Fraud Prevention",
   "about": {
     "title": "About",
     "type": "page",
-    "href": "https://www.orx.travel/about",
+    "href": "https://www.orxtravel.com/",
     "newWindow": true
   },
   "contact": {
     "title": "Contact ↗",
     "type": "page",
-    "href": "https://www.orx.travel/contact",
+    "href": "https://www.orxtravel.com/company/contact/general",
     "newWindow": true
   }
 }

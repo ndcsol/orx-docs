@@ -13,12 +13,12 @@
     "title": "Versions",
     "type": "menu",
     "items": {
-      "v2": {
-        "title": "v2",
-        "type": "page"
-      },
       "v3": {
         "title": "v3",
+        "type": "page"
+      },
+      "v4": {
+        "title": "v4",
         "type": "page"
       }
     }
