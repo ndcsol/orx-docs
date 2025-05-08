@@ -5,6 +5,7 @@
   "payment": "Payment Management",
   "passengers": "Passenger Management",
   "webhook": "Webhook",
+  "sdk": "Browser SDK",
   "fraud-prevention": "Fraud Prevention",
   "about": {
     "title": "About",

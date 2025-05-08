@@ -1,18 +1,39 @@
 # Fraud Prevention
 
-## ORX SDK
+## Loading the SDK
 
-To proceed with 3D Secure authentication, pass this object to the `threeDs` function in `@ndcsol/orx`.
+The following content assumes that the [Browser SDK](/versions/v4/sdk) is configured and loaded. 
 
-```bash copy
-npm install @ndcsol/orx
+## Context Overview
+
+The `createContext` method is used to generate a context object that should be included in the `context` property of the order endpoint. It returns a context object containing information necessary for fraud prevention.
+
+### Creating a Context 
+
+To create a context object, call the `createContext` method on the ORX instance.
+
+```ts
+const context = instance.createContext();
 ```
 
-```ts copy
-import { threeDs } from '@ndcsol/orx';
+The `context` object should then be included in the order request to enhance fraud prevention measures.
 
-const threeDsResult = await threeDs(threeDsActionObject);
+#### Context Object Example
+```json
+{
+    "gateway": "stripe",
+    "status": "success",
+    "payload": {
+        "radarSession": {
+            "id": "rse_1RMZ41KO2Vs5OgwIcWS8C7oA",
+            "passive_captcha_site_key": "9883b18b-8cd9-4469-b478-05c06d8252d8"
+        }
+    }
+}
 ```
+Include this context object in the `context` property of the order request to improve fraud prevention capabilities.
+
+
 
 ## 3D Secure Overview
 
@@ -61,29 +82,23 @@ When a payment requires 3D Secure authentication, the API will return a response
 
 If 3D Secure is presented, the response object will be of type [3D Secure Action](/versions/v3/glossary#3d-secure-action).
 
-#### Possible Errors
+#### possible errors
 
-| Status Code | Error | Reason | Reason Code |
+| status code | error | reason | reason code |
 |---|---|---|---|
-| 400 | [Validation Error] | Failed Validation | ORX_VALIDATION_EXCEPTION |
-| 400 | Authentication Failure | 3D Secure authentication failed. | |
-| 400 | Payment Authorization Failed When Confirming a Successful 3DS | Payment Authorization Failed. Could not find a successful authorization attempt. | ORX_PAYMENT_AUTHORIZATION_FAILED |
-| 400 | Payment Authorization Failed When Triggering 3DS | Payment Authorization Failed. The payment intent was not successful. | ORX_PAYMENT_AUTHORIZATION_FAILED |
+| 400 | [validation error] | failed validation | orx_validation_exception |
+| 400 | authentication failure | 3d secure authentication failed. | |
+| 400 | payment authorization failed when confirming a successful 3ds | payment authorization failed. could not find a successful authorization attempt. | orx_payment_authorization_failed |
+| 400 | payment authorization failed when triggering 3ds | payment authorization failed. the payment intent was not successful. | orx_payment_authorization_failed |
 
 
 ### ORX SDK Authentication
 
 
-To proceed with 3D Secure authentication, pass this object to the `threeDs` function in `@ndcsol/orx`.
-
-```bash copy
-npm install @ndcsol/orx
-```
+To proceed with 3D Secure authentication, pass this object to the `threeDs` function of the ORX instance.
 
 ```ts copy
-import { threeDs } from '@ndcsol/orx';
-
-const threeDsResult = await threeDs(threeDsActionObject);
+const threeDsResult = await instance.threeDs(threeDsActionObject);
 ```
 
 After passing the 3D Secure action object to the `threeDs` method, the function will return either a success or an error response.
