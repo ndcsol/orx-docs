@@ -132,15 +132,16 @@ The response will be a new [session](/versions/v4/session#session-object). The o
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Failed Validation |
-| 404 | Session not found or expired | Request targeting a non-existent session. |
-| 500 | NDCx Internal Error | Unknown |
-| 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. |
-| 409 | Session is currently locked by another process. Please try again later. | Session is locked by another process. |
-| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment are provided in the order. |
-| 412 | No payment method provided for the order | No payment of any kind has been provided for the order. |
-| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified. |
-| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. |
-| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. |
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 400 | [Validation Error] | Failed Validation | ORX_SESSION_NOT_FOUND |
+| 404 | Session not found or expired | Request targeting a non-existent session. | |
+| 500 | NDCx Internal Error | Unknown | ORX_UNKNOWN_ERROR |
+| 412 | Pricing not found. Please price the session before attempting to order | Pricing call hasn’t been made for the current combination of fares, brands and seats. | ORX_PRICING_NOT_FOUND |
+| 409 | session is currently locked by another process. Please try again later. | Session is locked by another process. | ORX_SESSION_LOCKED |
+| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment are provided in the order. | ORX_MULTIPLE_FOP |
+| 412 | No payment method provided for the order | No payment of any kind has been provided for the order. | ORX_NO_PAYMENT_ATTACHED |
+| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified. | ORX_NO_PAYMENT_ATTACHED |
+| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual Intervention is required. | ORX_MALFORMED_PASSENGER_INFO |
+| 412 | Not all flights are selected | The Itinerary has not yet been fully selected. | ORX_UNORDERED_FLIGHTS |
+| 403 | The payment was rejected due to a high fraud risk. Please contact support for further assistance. | There was a high risk of fraud associated with the transaction. | ORX_PAYMENT_REJECTED |
