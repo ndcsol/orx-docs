@@ -1727,6 +1727,24 @@ interface BrandMatching {
 }
 ```
 
+## SDK Load Payload 
+
+This object is returned by the API in order to load the browser SDK. It contains the information required by the SDK to initialize. 
+
+### Sub Properties
+
+    - `gateway` : (`string`) The provider the SDK uses for its functionalities.
+    - `payload` : (`Record<string,any>`) The details required by the provider for the initialization.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureAction {
+  gateway: string;
+  payload: Record<string, any>;
+}
+```
+
 ## 3D Secure Action 
 
 Object describing a 3D Secure action that needs to be handled by the browser SDK.
