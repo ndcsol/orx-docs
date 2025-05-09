@@ -36,7 +36,7 @@ Include this context object in the `context` property of the order request to im
 
 ## 3D Secure Overview
 
-ORX provides 3D Secure authentication to add an extra layer of security against unauthorized credit card use. The process is triggered when a payment request is made with the `three-ds` prefer flag enabled. If 3D Secure authentication is required, ORX will return a 3D Secure action object instead of an immediate success response.
+ORX provides 3D Secure authentication to add an extra layer of security against unauthorized credit card use. If 3D Secure authentication is required, ORX will return a 3D Secure action object instead of an immediate success response.
 
 To complete the 3D Secure authentication, pass the returned object to the `threeDs` method in `@ndcsol/orx`, which will handle the authentication flow. Once successfully authenticated, the returned payload can be included in the order request to complete the payment.
 

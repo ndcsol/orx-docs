@@ -28,4 +28,4 @@ curl -H "x-api-key: your-api-key" -H "x-api-version: 1" https://your-api-url.com
 
 > 🧨 It's important to manage sessions carefully to ensure that they don't expire before the client has completed their search. If the session expires, the client will need to initiate a new search and create a new session ID.
 
-> ⛳ By default, session expirations are set to a static window, but you can request the API set the session expiration to be the same as the shortest-lived offer in the response, by setting the header `Prefer: dynamic-session-expiry=true`. This default behavior will change in the future major version of the API.
+> ⛳ By default, session expirations are set to be the same as the shortest-lived offer in the response, but you can request the API set the session expiration to a static 2-hour window by setting the header `Prefer: dynamic-session-expiry=false`. This is not recommended for production use, as certain offers may expire before the session does.
