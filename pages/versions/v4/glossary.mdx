@@ -75,6 +75,38 @@ Represents a passenger's gender.
 ```ts
 type PassengerGender = "F" | "M" | "X";
 ```
+## Session
+
+A session that contexluizes a search or an order.
+
+### Sub Properties
+
+- `flow`: (`FLIGHT` | `FLIGHT_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking.
+- `public`: ([Public ID](#public-id)) The public ID of the session.
+- `expireAt`: (`string`) The date and time when the session will expire.
+- `createdAt`: (`string`) The date and time when the session was created.
+
+### Type Definition
+
+```ts
+interface Session {
+  flow: "FLIGHT" | "FLIGHT_BOOKING";
+  public: PublicID;
+  expireAt: string;
+  createdAt: string;
+}
+```
+
+### Example
+
+```json
+{
+  "flow": "FLIGHT_BOOKING",
+  "id": "60d67317-2529-4e10-ae3e-9ba5c0746a3b",
+  "expireAt": "2023-03-17T23:05:24.944Z",
+  "createdAt": "2023-03-17T21:05:24.945Z"
+}
+```
 
 ## Brand Name
 
@@ -568,13 +600,13 @@ export interface SegmentInformation {
 
 ## Flight Fare
 
-A flight fare is a representation of a bound. It may contain one or more [segments](#segment-information). It will also contain different [Brands](/versions/v1/glossary#flight-brand-information), one of which will have to be selected.
+A flight fare is a representation of a bound. It may contain one or more [segments](#segment-information). It will also contain different [Brands](/versions/v4/glossary#flight-brand-information), one of which will have to be selected.
 
 ### Sub Properties
 
-- `public`: ([Public ID](/versions/v1/glossary#public-id)) The public ID of the flight fare. This will be used to select and retrieve the flight.
-- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v1/session#session-object).
-- `airports`: (`Array<`[Flight Airport Information](/versions/v1/glossary#flight-airport-information)`>`) An array representing all of the airports visited.
+- `public`: ([Public ID](/versions/v4/glossary#public-id)) The public ID of the flight fare. This will be used to select and retrieve the flight.
+- `expireAt`: (`string`) The time in which the flight will expire. This will hold the same as the `expireAt` property of your [Session](/versions/v4/session#session-object).
+- `airports`: (`Array<`[Flight Airport Information](/versions/v4/glossary#flight-airport-information)`>`) An array representing all of the airports visited.
 - `sort_field`: (`Record`) An object containing general information about the flight.
   - `sort_field.departure_date_time`: (`string`) The date and time of the flight's departure.
   - `sort_field.arrival_date_time`: (`string`) The date and time of the flight's arrival.
@@ -584,7 +616,7 @@ A flight fare is a representation of a bound. It may contain one or more [segmen
   - `sort_field.alliance`: (`Array<string>`) An array containing unique names of the alliances that the airlines on this flight are a part of.
   - `sort_field.emission`: (`number?`) The total amount of CO2 emitted by this flight in `KgCO2e` per passenger.
 - `segments`: (`Array<`[Segment Information](#segment-information)`>`) An array of objects representing the flight segments.
-- `brand_information`: (`Record<`[Cabin Code](/versions/v1/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v1/glossary#brand-name) `,`[Brand Information](/versions/v1/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
+- `brand_information`: (`Record<`[Cabin Code](/versions/v4/glossary#cabin-code)`,` `Record<` [Brand Name](/versions/v4/glossary#brand-name) `,`[Brand Information](/versions/v4/glossary#flight-brand-information)`>` `>`) An object containing information about the brands available for each cabin.
 
 ### Type Definition
 
@@ -986,13 +1018,13 @@ interface FlightFare {
 
 ## Itinerary Flight Fare
 
-An **itinerary** flight fare is a representation of a bound that has **already been selected**. It looks just like the [Flight Fare](#flight-fare), but it only has a single [Brand Information](/versions/v1/glossary#flight-brand-information); the one that has been selected.
+An **itinerary** flight fare is a representation of a bound that has **already been selected**. It looks just like the [Flight Fare](#flight-fare), but it only has a single [Brand Information](/versions/v4/glossary#flight-brand-information); the one that has been selected.
 
 ### Sub Properties
 
-It contains the same properties as a [Flight Fare](/versions/v1/glossary#flight-fare), with the exception of its `brand_information`:
+It contains the same properties as a [Flight Fare](/versions/v4/glossary#flight-fare), with the exception of its `brand_information`:
 
-- `brand_information`: ([Brand Information](/versions/v1/glossary#flight-brand-information)) The object containing the selected brand information.
+- `brand_information`: ([Brand Information](/versions/v4/glossary#flight-brand-information)) The object containing the selected brand information.
 
 ### Type Definition
 
@@ -1518,7 +1550,7 @@ A Passenger's frequent flyer information.
 interface FlightFrequentFlyerInformation {
   program_id: string;
   id: string;
-};
+}
 ```
 
 ### Validation
@@ -1528,7 +1560,6 @@ The following programs have specific validation rules for the `id` field:
 | `program_id` | `id` validation |
 | ------------ | --------------- |
 | `AC`         | `/^[0-9]{9}$/`  |
-
 
 ## Flight Order Passenger Information
 
@@ -1550,7 +1581,7 @@ type FlightOrderPassengerInformation = PassengerInformation & {
 
 ## Payment Information
 
-Object describing a payment method.
+Object describing a payment.
 
 ### Sub Properties
 
@@ -1590,5 +1621,263 @@ interface PaymentInformation {
     city: string;
     postal_code: string;
   };
+}
+```
+
+## Alternative Payment Information
+
+Object describing an alternativePayment method.
+
+### Sub Properties
+
+- `method`: (`VERTO`) The alternative payment method. Currently only `VERTO` is supported.
+- `payload`: ([Verto Payment Method Payload](#verto-payment-method-payload)) The payload for the alternative payment method. Each method has its own payload structure.
+
+### Type Definition
+
+```ts
+interface AlternativePaymentInformation {
+  code: "VERTO";
+  payload: {
+    sample: "payload";
+  };
+}
+```
+
+## Verto Payment Method Payload
+
+Object describing the payload for the Verto payment method.
+
+### Sub Properties
+
+- `token`: (`string`) The Verto token represneting the transaction.
+
+### Type Definition
+
+```ts
+interface VertoPaymentMethodPayload {
+  token: string;
+}
+```
+
+## Fare Matching
+
+Object describing a matching fare
+
+### Sub Properties
+
+- `public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the matching fare.
+- `airline`: (`Array<string>`) The marketing airlines of the flights included in the fare.
+- `duration`: (`string`) The flight duration of the fare (TODO: Includes stopover or not?).
+- `departure`: (`string`) The departure time of the fare.
+- `departureAirport`: (`string`) The departure location of the fare.
+- `arrival`: (`string`) The arrival time of the fare.
+- `arrivalAirport`: (`string`) The arrival location of the fare.
+- `brands`: (`Array<`[Brand Matching](/versions/v4/glossary#brand-matching)`>`) The brands of the given fare that can be matched with the queried fares.
+
+### Type Definition
+
+```ts
+interface FareMatching {
+  airline: string[];
+  duration: string;
+  departure: string;
+  departureAirport: string;
+  arrival: string;
+  arrivalAirport: string;
+  layovers: Record<string, string>;
+  public: string;
+  brands: BrandMatching[];
+}
+```
+
+## Brand Matching
+
+Object describing a matching brand
+
+### Sub Properties
+
+    - `total_amount` : (`string`) The total price of the brand.
+    - `starting_fare_amount` : (`string`) For the first bound, this is the minimum priced itinerary that can be created with the given brand. For subsequent bounds, this is the price increase compared to the minimum branded fare for the given bound.
+    - `currency` : (`string`) : The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code of the `total_amount` and `starting_fare_amount`
+    - `name` : (`string`) The airline's name for the given brand class.
+    - `cabin` : ([Cabin Code](/versions/v4/glossary#cabin-code)) The cabin to which the brand belongs.
+    - `offering` : (`string[]`) All of the additional amenities offered with the flight
+    - `fare_matchings` : (`Array<Record>`) The brands from the `selectedFares` with which the current brand can be matched.
+      - `fare_matchings[].public`: ([Public ID](/versions/v4/glossary#public-id)) The public ID of the fare given in `selectedFares`.
+      - `fare_matchings[].brand_matchings`: (`Array<Record>`) The brands of the `selectedFares` with which the brand from `fares[].brands[]` can be matched.
+        - `fare_matchings[].brand_matchings[].public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the given brand.
+        - `fare_matchings[].brand_matchings[].name` : (`string`) The airline's name for the given brand class.
+        - `fare_matchings[].brand_matchings[].cabin` : ([Cabin Code](/versions/v4/glossary#cabin-code)) The cabin to which the brand belongs.
+
+### Type Definition
+
+```ts
+interface BrandMatching {
+  public: string;
+  total_amount: string;
+  starting_fare_amount: string;
+  name: string;
+  cabin: string;
+  currency: string;
+  fare_matchings: Array<{
+    public: string;
+    brand_matchings: Record<string, string>;
+  }>;
+}
+```
+
+## SDK Load Payload 
+
+This object is returned by the API in order to load the browser SDK. It contains the information required by the SDK to initialize. 
+
+### Sub Properties
+
+    - `gateway` : (`string`) The provider the SDK uses for its functionalities.
+    - `payload` : (`Record<string,any>`) The details required by the provider for the initialization.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureAction {
+  gateway: string;
+  payload: Record<string, any>;
+}
+```
+
+## 3D Secure Action 
+
+Object describing a 3D Secure action that needs to be handled by the browser SDK.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The 3D Secure provider processing the authentication.
+    - `payload` : (`Record<string,any>`) The details required by the provider for the authentication.
+    - `action` : (`three_d_s`) The action that needs to be taken by the browser SDK.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureAction {
+  gateway: string;
+  payload: Record<string, any>;
+  action: "three_d_s";
+}
+```
+
+## 3D Secure Success
+
+This object is produced by the browser SDK after a successful 3D Secure authentication.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The payment provider processing the transaction.
+    - `payload` : (`Record<string,any>`) The successful authentication details returned by the provider.
+    - `status` : (`success`) The status of the 3D Secure authentication.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureSuccess {
+  gateway: string;
+  payload: Record<string, any>;
+  status: "success";
+}
+```
+
+## 3D Secure Failure
+
+This object is produced by the browser SDK after a failed 3D Secure authentication.
+
+### Sub Properties
+
+    - `gateway` : (`string`) The payment provider processing the transaction.
+    - `status` : (`error`) The status of the 3D Secure authentication.
+    - `error` : (`any`?) The error object returned by the provider or the SDK, intended for tracking. This can may or may not be a JavaScript error object.  
+    - `message` : (`string`?) The error message returned by the provider or the SDK, intended for display to the user.
+
+### Type Definition
+
+```ts
+interface ThreeDSecureFailure {
+  gateway: string;
+  status: "error";
+  error?: any;
+  message?: string;
+}
+```
+
+## Risk Evaluation 
+
+This object represents the risk evaluation of an order upon completion of order.  
+
+### Sub Properties
+
+    - `riskLevel` : (`string`) The level of risk associated with the order. 
+    - `riskScore` : (`string`) The risk score associated with the order out of 100.
+
+### Type Definition
+
+```ts
+interface RiskEvaluation {
+  riskLevel: 'highest' | 'elevated' | 'normal';
+  riskScore: string;
+}
+```
+
+## Payment Authorization 
+
+This object represents the payment authorization attached to an order.  
+
+### Sub Properties
+- `gateway` : (`string`) The payment gateway used for the transaction.
+- `threeDsResult` : (`any`?) Details of the 3D Secure authentication result. You can assume that 3DS was performed if this property is present.
+- `public` : ([Public ID](/versions/v4/glossary#public-id)) The public ID of the fare given in `selectedFares`.
+- `createdAt` : (`string`) The timestamp when the payment authorization was created.
+
+### Type Definition
+```ts
+interface PaymentAuthorization {
+  gateway: string;
+  threeDsResult: any;
+  public: string;
+  createdAt: string;
+}
+```
+
+
+## Commission Details
+
+The object describing the details of the commission calculation for a fare.
+
+### Sub Properties
+- `calculation` : (`Record`) Details of the commission calculation.
+  - `calculation` : (`Record`) Additional calculation details.
+    - `calculation.calculation.rbd` : (`Array<string>`) The RBD codes for the applicable fare class.
+    - `calculation.calculation.amount` : (`number`) The commission amount/percentage.
+    - `calculation.calculation.type` : (`PERCENTAGE`|`FIXED`) The type of commission calculation (e.g., percentage).
+    - `calculation.calculation.tour_code` : (`string`?) The tour code associated with the commission calculation.
+  - `calculation.fare_combination_rule` : (`LOWEST`|`HIGHEST`) Indicates whether the commission is applied to the highest or lowest fare in the itinerary.
+  - `calculation.applied_to` : (`BASE_FARE`|`TOTAL_FARE`) Indicates whether the commission is applied to the base fare or total fare.
+  - `pax_type` : (`Array<PassengerCode>`?) The passenger types to which the commission applies.
+- `bookingRule` : (`string`) The ID of the booking rule associated with the commission. Could be used for tracking purposes.
+- `estimatedCommission` : (`string`) The estimated commission amount in the currency of the fare.
+
+### Type Definition
+```ts
+interface CommissionDetails {
+  calculation: {
+    calculation: {
+      rbd: string[];
+      amount: number;
+      type: "FIXED" | "PERCENTAGE"
+      tour_code?: string;
+    };
+    fare_combination_rule: "LOWEST" | "HIGHEST";
+    applied_to: "BASE_FARE" | "TOTAL_FARE";
+    pax_type: PassengerCode[];
+  };
+  bookingRule: string;
+  estimatedCommission: string;
 }
 ```

@@ -32,7 +32,7 @@ To ensure compatibility between different versions of the ORX API, we use versio
 When making requests to the API, the version number should be included in the `x-api-version` HTTP header. This ensures that the correct version of the API is used to process the request:
 
 ```shell copy
-curl -H "x-api-version: 1" https://api.orx.travel/example
+curl -H "x-api-version: 4" https://api.orx.travel/example
 ```
 
 > 🧨 We strongly recommend that you always specify the version of the API you are using in your requests. This ensures that your application will continue to function correctly even if we make changes to the API.
@@ -64,4 +64,13 @@ Authorization errors will have a response code of `401`:
   "message": "Forbidden resource",
   "error": "Forbidden"
 }
+```
+
+## Preference Headers
+
+In some cases, the API allows you to specify preferences for certain behaviors by including a Prefer header in your request. The Prefer header should contain a comma-separated list of preference values. Each feature will document its available preference flags and default values, marked with the ⛳ icon.
+
+```json
+curl -X GET http://api.orx.travel/some-route \
+  -H "Prefer: some-flag=false, some-other-flag=true"
 ```
