@@ -3,16 +3,24 @@ import Image from "next/image";
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-  logo: <Image src="/logo.png" width="120" height="50" alt="ORX API Logo" />,
+  logo: (
+    <Image
+      src="/logo.png"
+      width={120}
+      height={50}
+      alt="ORX API Logo"
+      priority
+    />
+  ),
   project: {
-    link: "https://github.com/ndcsol",
+    link: "https://github.com/ndcsol"
   },
   chat: {
-    link: "https://discord.com",
+    link: "https://discord.com"
   },
   docsRepositoryBase: "https://github.com/ndcsol/orx-docs",
   footer: {
-    text: `ORX Travel API ${new Date().getFullYear()}`,
+    text: `ORX Travel API ${new Date().getFullYear()}`
   },
   head: (
     <>
@@ -23,9 +31,9 @@ const config: DocsThemeConfig = {
   ),
   useNextSeoProps: () => {
     return {
-      titleTemplate: "%s - ORX API",
+      titleTemplate: "%s - ORX API"
     };
-  },
+  }
 };
 
 export default config;

@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ndcsol/orx-docs.git"
@@ -18,14 +21,14 @@
   },
   "homepage": "https://github.com/ndcsol/orx-docs#readme",
   "dependencies": {
-    "next": "^13.0.6",
-    "nextra": "^2.13",
-    "nextra-theme-docs": "^2.13",
+    "next": "^14.2.0",
+    "nextra": "^2.13.0",
+    "nextra-theme-docs": "^2.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.11.10",
-    "typescript": "^4.9.3"
+    "@types/node": "22.5.0",
+    "typescript": "^5.0.0"
   }
 }

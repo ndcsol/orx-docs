@@ -10,17 +10,6 @@
     }
   },
   "versions": {
-    "title": "Versions",
-    "type": "menu",
-    "items": {
-      "v3": {
-        "title": "v3",
-        "type": "page"
-      },
-      "v4": {
-        "title": "v4",
-        "type": "page"
-      }
-    }
+    "title": "Versions"
   }
 }
