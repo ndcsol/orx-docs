@@ -1,0 +1,67 @@
+# Migrating to v5
+
+This guide outlines the key changes introduced in the latest version of ORX. If you're upgrading from a previous version, please read this carefully to avoid unexpected behavior in production.
+
+---
+
+## ⚠️ Breaking Changes
+
+### Prefer Flag Defaults Changing
+
+The default values of certain `prefer` flags have changed. These are now **enabled by default**, whereas they used to be opt-in:
+
+* `error-reason-codes`: `false` → `true`
+* `dynamic-session-expiry`: `false` → `true`
+* `three-ds`: `false` → `true`
+
+You can still override these flags back to `false` by explicitly setting them in your requests.
+
+---
+
+### Initializing the SDK
+
+The SDK now requires explicit initialization via the `GET /sdk` endpoint. You must first call this endpoint, then pass its response to the `load` method of the SDK. 
+
+Previously, the `threeDs` method could be called directly using the payload returned from the `/order` endpoint.
+
+🔗 [Loading the SDK](/versions/v5/sdk#loading-the-sdk)
+
+---
+
+### Order Rejection on Payment Risk
+
+Orders with high-risk payments may now be rejected **before** 3DS is offered. When this happens, the API will return an error with the reason code `ORX_PAYMENT_REJECTED`.
+
+You must handle this error on the frontend or product side. Previously, all orders would either succeed or initiate 3DS.
+
+🔗 [Create Order Possible Errors](/versions/v5/flights/order#possible-errors)
+
+---
+
+## ✅ Non-breaking Changes
+
+### Commission Details in Pricing
+
+The pricing endpoint now includes additional commission-related fields:
+
+* Estimated commission
+* Explanation of how the estimate was calculated
+
+🔗 [Pricing Response](/versions/v5/flights/pricing#response)
+
+---
+
+### 3DS Data in `/retrieve`
+
+The `/retrieve` endpoint may now return a `paymentAuthorization` object, which could details details about any possible 3DS workflow associated with the order.
+
+🔗 [Payment Authorization](/versions/v5/glossary#payment-authorization)
+
+---
+
+### 3. Risk Evaluation in `/retrieve`
+
+The `/retrieve` endpoint may also include a new `riskEvaluation` field, including Stripe Radar's risk evaluation.  
+
+🔗 [Risk Evaluation](/versions/v5/glossary#risk-evaluation)
+

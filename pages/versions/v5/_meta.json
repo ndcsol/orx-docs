@@ -1,0 +1,23 @@
+{
+  "index": "Getting Started",
+  "migration": "Migration Guide",
+  "session": "Session Management",
+  "flights": "Flights",
+  "payment": "Payment Management",
+  "passengers": "Passenger Management",
+  "webhook": "Webhook",
+  "sdk": "Browser SDK",
+  "fraud-prevention": "Fraud Prevention",
+  "about": {
+    "title": "About",
+    "type": "page",
+    "href": "https://www.orxtravel.com/",
+    "newWindow": true
+  },
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://www.orxtravel.com/company/contact/general",
+    "newWindow": true
+  }
+}

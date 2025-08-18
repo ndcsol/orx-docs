@@ -10,5 +10,9 @@
   "v4": {
     "title": "v4",
     "type": "page"
+  },
+  "v5": {
+    "title": "v5",
+    "type": "page"
   }
 }

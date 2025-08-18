@@ -1,0 +1,139 @@
+# Passenger Management
+
+To manage passengers, clients must first perform a search and receive a session_id. Passengers are defined within a session and will expire when the session has expired.
+
+> 🛎 Please note that the public ID needed to update passenger information can be obtained by using the [Retrieving All Passengers](#retrieving-all-passengers) endpoint and will be included in the response. You should use this public ID when updating passenger information through the [Update Passenger](#updating-a-passenger) endpoint.
+
+## Retrieving All Passengers
+
+`PUT /versions/v5/passenger/[session_id]`
+
+This endpoint returns a list of all passengers with their public ID and all information that has been filled so far.
+
+### Response
+
+The response looks like this when the client has just received their session_id:
+
+```json copy
+[
+  {
+    "expireAt": "2023-03-28T01:04:19.790Z",
+    "code": "ADT",
+    "createdAt": "2023-03-27T23:04:20.182Z",
+    "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2"
+  }
+]
+```
+
+And it will look like this after inputting all of the necessary information:
+
+```json
+[
+  {
+    "expireAt": "2023-03-28T01:04:19.790Z",
+    "code": "ADT",
+    "createdAt": "2023-03-27T23:04:20.182Z",
+    "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2",
+    "email": "Passenger@traveller.com",
+    "frequent_flyer": {
+      "program_id": "WS",
+      "id": "90398494444"
+    },
+    "personal_info": {
+      "date_of_birth": "1978-05-05",
+      "first_name": "John",
+      "last_name": "Doe",
+      "middle_name": "",
+      "gender": "X"
+    },
+    "phone_number": "+16023033033"
+  }
+]
+```
+
+> 🛎 You should use the `public` property to identify the passenger in the following endpoints.
+
+## Retrieving a Single Passenger
+
+`GET /versions/v5/passenger/[session_id]/[passenger_public]`
+
+Retrieves information about a specific passenger within a session. To use this endpoint, you'll need to provide the session_id of the session containing the passenger, as well as the public of the passenger you want to retrieve information for. The passenger's reference should be the `public` ID returned in the response of the [Retrieving All Passengers](#retrieving-all-passengers) endpoint.
+
+This endpoint will return all the information that has been filled out for the specified passenger. Here's an example response:
+
+### Response
+
+```json copy
+{
+  "expireAt": "2023-03-28T01:04:19.790Z",
+  "code": "ADT",
+  "createdAt": "2023-03-27T23:04:20.182Z",
+  "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2",
+  "email": "Passenger@traveller.com",
+  "frequent_flyer": {
+    "program_id": "WS",
+    "id": "90398494444"
+  },
+  "personal_info": {
+    "date_of_birth": "1978-05-05",
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "",
+    "gender": "X"
+  },
+  "phone_number": "+16023033033"
+}
+```
+
+The response, if complete, will of type [Passenger Information](/versions/v5/glossary#passenger-information).
+
+> 🛎 If the specified passenger is not found within the session, the endpoint will return a 404 status code.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | Passenger not found or expired | Passenger referenced does not exist. |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+
+## Updating a Passenger
+
+`PUT /versions/v5/passenger/[session_id]/[passenger_public]`
+
+Updates the passenger information for a specific passenger in the session using their public property.
+
+### Payload
+
+```json
+{
+  "personal_info": {
+    "date_of_birth": "1978-05-05",
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "",
+    "gender": "X"
+  },
+  "phone_number": "+16023033033",
+  "email": "Passenger@traveller.com",
+  "frequent_flyer": {
+    "program_id": "WS",
+    "id": "90398494444"
+  }
+}
+```
+
+The payload needs to be of type [Passenger Information](/versions/v5/glossary#passenger-information).
+
+> 🛎 You do not need to send the passenger information all at once. You can do it in multiple separate calls.
+
+### Response
+
+The response will be the same as the response of the [Retrieving a Single Passenger](#retrieving-a-single-passenger) endpoint.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Failed Validation |
+| 404 | Session not found or expired | Request targeting a non-existent session. |
+| 404 | Passenger not found or expired | Passenger referenced does not exist. |

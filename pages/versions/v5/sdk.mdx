@@ -1,0 +1,59 @@
+# Browser SDK
+
+The `@ndcsol/orx` SDK is a utility to provide support for browser-related features.  
+
+## SDK Overview
+
+Before being able to use the SDK, you need to call the `load` method of the SDK.  
+
+### Get SDK Load Payload
+
+This endpoint returns the payload required to load the SDK. You will need to pass the returned payload to the `load` method of the SDK in the browser. Exposing the payload to the client is completely safe. 
+
+
+`GET /sdk`
+
+> 🛎 Since this data is technically static, it may be aggressively cached. We recommend employing a stale-while-revalidate strategy to ensure that the payload is always up to date.
+
+#### Response Example
+
+```json filename="GET /sdk" copy
+{
+    "gateway": "stripe",
+    "payload": {
+        "publishable_key": "pk_test_sdfjsldkfjlsd"
+    }
+}
+```
+The response will of type [SDK Load Payload](/versions/v5/glossary#sdk-load-payload).
+
+#### possible errors
+
+| status code | error | reason | reason code |
+|---|---|---|---|
+| 400 | authentication failure | 3d secure authentication failed. | |
+
+### Loading the SDK
+
+```bash copy
+npm install @ndcsol/orx@4
+```
+
+```ts copy
+import { load } from '@ndcsol/orx';
+
+// Call from your backend
+const loadInfo = await (await fetch('/sdk')).json();
+
+const { instance, error } = await load(loadInfo);
+
+if(error){
+  //handle initiation error
+}
+
+const threeDsResult = await instance.threeDs(threeDsActionObject);
+const context = await instance.createContext();
+```
+
+If no error is returned, you may safely assume that the `instance` property is available. 
+
