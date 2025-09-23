@@ -1,0 +1,63 @@
+# Hotel Search
+
+The hotel search flow begins with location discovery and progresses through hotel content retrieval. This page covers the initial location search capabilities that enable users to find and select destinations for their hotel searches.
+
+## Location Auto-Complete
+
+`GET /location/search`
+
+This endpoint provides autocomplete functionality for geographical locations and specific hotels. It supports searching across cities, airports, regions, and individual hotel properties, returning standardized location objects that can be used in subsequent hotel searches.
+
+### Request
+
+The endpoint accepts query parameters to filter and search for locations:
+
+- `query`: (`string`) The search query string for location auto-complete
+- `types`: (`string?`) A comma-separated list of location types to filter by. Valid values are `CITY`, `AIRPORT`, `REGION`, and `HOTEL`. 
+- `limit`: (`number?`) Maximum number of results to return
+
+### Response
+
+Returns an array of [Location Search Result](/versions/v5/glossary#location-search-result) objects matching the search query.
+
+```json filename="GET /location/search?query=toronto&limit=2" copy
+[
+    {
+        "type": "CITY",
+        "name": "Toronto",
+        "country": "United States",
+        "region": "Illinois",
+        "public": "58524b9e-313c-4e69-a92e-ffca5c0f2b7f",
+        "score": 11
+    },
+    {
+        "type": "AIRPORT",
+        "name": "Lester B. Pearson International Airport",
+        "country": "Canada",
+        "region": "Ontario",
+        "iata": "YYZ",
+        "public": "292104e4-5efe-44a5-9ac3-138faf2c52ef",
+        "score": 8.8
+    }
+]
+```
+
+> 🛎 The `public` ID from any location result can be used directly in hotel search requests.
+
+### Location Types
+
+The API returns four types of location results:
+
+- **CITY**: Municipal areas and urban centers
+- **AIRPORT**: Airport locations that can serve as search centers
+- **REGION**: Broader geographical regions like provinces or tourist areas
+- **HOTEL**: Specific hotel properties for direct booking
+
+> ⛳ Airport locations include both the airport itself and the surrounding area for hotel searches.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Invalid query parameters or search string |
+| 429 | [Rate Limit Exceeded] | Too many requests in short time period |
