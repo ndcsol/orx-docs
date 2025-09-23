@@ -3,6 +3,7 @@
   "migration": "Migration Guide",
   "session": "Session Management",
   "flights": "Flights",
+  "hotels": "Hotels",
   "payment": "Payment Management",
   "passengers": "Passenger Management",
   "webhook": "Webhook",
