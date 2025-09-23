@@ -1,0 +1,159 @@
+# Hotel Property Details
+
+This page covers retrieving comprehensive information about a specific hotel property, including detailed descriptions, amenities, policies, and check-in instructions.
+
+## Hotel Property Details
+
+`GET /hotel/[sessionId]/property/[selectedAvailability]`
+
+This endpoint retrieves comprehensive information about a specific hotel property, including detailed descriptions, amenities, policies, check-in instructions, and other property-specific information. The `selectedAvailability` parameter should be the public identifier of a hotel from the availability results.
+
+> 🛎 Use the `public` ID from a hotel availability result to fetch detailed property information including amenities, policies, and check-in procedures.
+
+### Request
+
+```json filename="GET /hotel/[sessionId]/property/[selectedAvailability]" copy
+```
+
+### Response
+
+Returns a [Hotel Property Details Response](/versions/v5/glossary#hotel-property-details-response) with comprehensive hotel information.
+
+```json filename="GET /hotel/[sessionId]/property/[selectedAvailability]" copy
+{
+  "hotel_information": {
+    "hotel_name": "Fairmont Hotel Vancouver",
+    "rating": "5",
+    "distance": {
+      "distance": "0.5",
+      "UOM": "KM"
+    },
+    "logo": {
+      "src": "https://example.com/fairmont-logo.png",
+      "alt": "Fairmont Hotel Vancouver"
+    },
+    "chain_code": "FM",
+    "hotel_code": "YVRFM001",
+    "master_chain_name": "Fairmont Hotels & Resorts",
+    "master_chain_code": "FM",
+    "address": {
+      "address": "900 W Georgia St",
+      "city_name": "Vancouver",
+      "city_code": "YVR",
+      "postal_code": "V6C 2W6",
+      "country_name": "Canada",
+      "country_code": "CA",
+      "phone": ["+1-604-684-3131"],
+      "fax": ["+1-604-662-1929"],
+      "location": {
+        "latitude": "49.2827",
+        "longitude": "-123.1207"
+      }
+    }
+  },
+  "check_in_information": {
+    "check_in": ["15:00", "16:00"],
+    "check_out": ["11:00", "12:00"],
+    "instructions": [
+      "Photo identification and credit card required at check-in",
+      "Guests must be 18 years or older to check in"
+    ],
+    "special_instructions": [
+      "Valet parking available for additional fee",
+      "Early check-in subject to availability"
+    ]
+  },
+  "hotel_amenities": [
+    "Free WiFi",
+    "Fitness Center",
+    "Swimming Pool",
+    "Business Center",
+    "Concierge Service",
+    "Restaurant",
+    "Room Service",
+    "Spa Services",
+    "Valet Parking"
+  ],
+  "descriptions": [
+    {
+      "title": "Hotel Overview",
+      "text": "Located in the heart of downtown Vancouver, the Fairmont Hotel Vancouver offers luxury accommodations with stunning city and mountain views. This historic landmark hotel combines timeless elegance with modern amenities."
+    },
+    {
+      "title": "Location",
+      "text": "Situated on West Georgia Street, the hotel is within walking distance of major shopping districts, theaters, and business centers. Vancouver International Airport is 30 minutes away."
+    }
+  ],
+  "policies": [
+    {
+      "title": "Cancellation Policy",
+      "text": "Cancellations must be made 24 hours prior to arrival to avoid penalty charges. Late cancellations will be charged one night's accommodation."
+    },
+    {
+      "title": "Pet Policy",
+      "text": "Pets are welcome with advance notice. A non-refundable pet fee of $50 CAD per stay applies. Maximum 2 pets per room."
+    }
+  ],
+  "fees": [
+    {
+      "title": "Resort Fee",
+      "text": "A daily resort fee of $25 CAD includes WiFi access, fitness center use, and local telephone calls."
+    },
+    {
+      "title": "Parking",
+      "text": "Valet parking available for $35 CAD per night. Self-parking options available nearby."
+    }
+  ],
+  "rates_info": [
+    {
+      "rate_description": {
+        "start_date": "2025-10-08",
+        "end_date": "2025-10-12",
+        "tax_inclusive": true,
+        "number_of_nights": 4,
+        "refundable": true,
+        "discount_codes": [],
+        "pay_at_hotel": null
+      },
+      "rate_price": {
+        "fees": {
+          "total": "100.00",
+          "description": "Resort fees and service charges"
+        },
+        "taxes": {
+          "total": "54.00",
+          "description": "GST/HST and city taxes"
+        },
+        "commission": {
+          "type": "PERCENTAGE",
+          "amount": "10.0"
+        },
+        "average_nightly_rate": "135.50",
+        "average_nightly_rate_before_tax": "122.00",
+        "amount_after_tax": "542.00",
+        "amount_before_tax": "488.00",
+        "currency": "CAD",
+        "discount": null
+      },
+      "local_rate_price": null,
+      "expireAt": "2025-01-24T23:55:00",
+      "createdAt": "2025-01-24T21:55:00",
+      "public": "rate_67890"
+    }
+  ],
+  "expireAt": "2025-01-24T23:55:00",
+  "public": "details_12345",
+  "createdAt": "2025-01-24T21:55:00",
+  "updatedAt": "2025-01-24T21:55:00"
+}
+```
+
+> ⛳ Property details include the same rate information as the availability response, but with additional context like amenities and policies to help with booking decisions.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Property Not Found] | The specified property ID does not exist in the current session |
+| 412 | [Search Not Initiated] | No search has been started for this session |

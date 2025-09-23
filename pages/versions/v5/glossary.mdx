@@ -2554,3 +2554,131 @@ interface HotelRatePriceDiscount {
   average_nightly_rate_before_discount: string;
 }
 ```
+
+## Hotel Information
+
+Represents comprehensive hotel information with all available details (extends [Hotel Information Preview](#hotel-information-preview)).
+
+### Sub Properties
+
+Inherits all properties from [Hotel Information Preview](#hotel-information-preview):
+
+- `hotel_name`: (`string`) Name of the hotel
+- `rating`: (`string?`) Hotel star rating as a string
+- `distance`: ([Hotel Distance](#hotel-distance)`?`) Distance information from search location coordinates
+- `logo`: ([Hotel Image](#hotel-image)`?`) Hotel logo information
+- `chain_code`: (`string?`) Hotel chain code
+- `hotel_code`: (`string`) Unique hotel identifier code
+- `master_chain_name`: (`string?`) Name of the master hotel chain
+- `master_chain_code`: (`string?`) Code of the master hotel chain
+- `address`: ([Hotel Address](#hotel-address)`?`) Hotel address information
+
+### Type Definition
+
+```ts
+type HotelInformation = HotelInformationPreview;
+```
+
+> 🛎 Hotel Information is currently identical to Hotel Information Preview but is defined separately to allow for future extensions without breaking existing references.
+
+## Hotel Check-In Information
+
+Represents check-in and check-out procedures and instructions for a hotel.
+
+### Sub Properties
+
+- `check_in`: (`Array<string>`) Tuple of check-in time. If more than one option is available, the second element indicates the latest check-in time.
+- `check_out`: (`Array<string>`) Tuple of check-out time. If more than one option is available, the second element indicates the latest check-out time.
+- `instructions`: (`Array<string>?`) General check-in instructions
+- `special_instructions`: (`Array<string>?`) Special check-in instructions
+
+### Type Definition
+
+```ts
+interface HotelCheckInInformation {
+  check_in: [string] | [string, string];
+  check_out: [string] | [string, string];
+  instructions?: string[];
+  special_instructions?: string[];
+}
+```
+
+### Example
+
+```json
+{
+  "check_in": ["15:00", "16:00"],
+  "check_out": ["11:00", "12:00"],
+  "instructions": [
+    "Photo identification and credit card required at check-in",
+    "Guests must be 18 years or older to check in"
+  ],
+  "special_instructions": [
+    "Valet parking available for additional fee",
+    "Early check-in subject to availability"
+  ]
+}
+```
+
+## Hotel Description
+
+Represents descriptive text content with a title, used for hotel descriptions, policies, and fee information.
+
+### Sub Properties
+
+- `title`: (`string`) Title or heading for the description content
+- `text`: (`string`) Detailed description text content
+
+### Type Definition
+
+```ts
+interface HotelDescription {
+  title: string;
+  text: string;
+}
+```
+
+### Example
+
+```json
+{
+  "title": "Cancellation Policy",
+  "text": "Cancellations must be made 24 hours prior to arrival to avoid penalty charges. Late cancellations will be charged one night's accommodation."
+}
+```
+
+## Hotel Property Details Response
+
+Represents the comprehensive response from the hotel property details endpoint.
+
+### Sub Properties
+
+- `hotel_information`: ([Hotel Information](#hotel-information)) Basic hotel information (inherited from availability)
+- `check_in_information`: ([Hotel Check-In Information](#hotel-check-in-information)) Check-in and check-out procedures
+- `hotel_amenities`: (`Array<string>`) List of hotel amenities and facilities
+- `descriptions`: (`Array<`[Hotel Description](#hotel-description)`>`) Detailed hotel descriptions and information
+- `policies`: (`Array<`[Hotel Description](#hotel-description)`>`) Hotel policies and terms
+- `fees`: (`Array<`[Hotel Description](#hotel-description)`>?`) Additional fees and charges information
+- `rates_info`: (`Array<`[Hotel Rate Info](#hotel-rate-info)`>`) Available rates for this hotel property
+- `expireAt`: (`string`) Property details expiration timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the hotel property details
+- `createdAt`: (`string`) Creation timestamp
+- `updatedAt`: (`string`) Last update timestamp
+
+### Type Definition
+
+```ts
+interface HotelPropertyDetailsResponse {
+  hotel_information: HotelInformation;
+  check_in_information: HotelCheckInInformation;
+  hotel_amenities: string[];
+  descriptions: HotelDescription[];
+  policies: HotelDescription[];
+  fees?: HotelDescription[];
+  rates_info: HotelRateInfo[];
+  expireAt: string;
+  public: PublicID;
+  createdAt: string;
+  updatedAt: string;
+}
+```
