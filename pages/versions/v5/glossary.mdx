@@ -2015,3 +2015,542 @@ Represents the device type for search and booking operations.
 ```ts
 type DeviceType = "DESKTOP" | "MOBILE";
 ```
+
+## Hotel Search Status
+
+Represents the status of a hotel search operation or individual search stream.
+
+### Possible Values
+
+- `IN_PROGRESS`: Search is currently running
+- `COMPLETED`: Search has finished successfully
+- `ERRORED`: Search encountered an error
+- `TIMED_OUT`: Search exceeded time limits
+
+### Type Definition
+
+```ts
+type HotelSearchStatus = "IN_PROGRESS" | "COMPLETED" | "ERRORED" | "TIMED_OUT";
+```
+
+## Hotel Search Stream
+
+Represents an individual search stream from a hotel content provider.
+
+### Sub Properties
+
+- `id`: (`string`) Unique identifier for this search stream
+- `credential_id`: (`string`) Identifier for the provider credential used
+- `status`: ([Hotel Search Status](#hotel-search-status)) Status of this specific stream
+- `error`: (`string?`) Error message if the stream encountered an error
+- `modifierError`: (`string?`) Modifier-specific error information if applicable
+
+### Type Definition
+
+```ts
+interface HotelSearchStream {
+  id: string;
+  credential_id: string;
+  status: HotelSearchStatus;
+  error?: string;
+  modifierError?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "id": "stream_001",
+  "credential_id": "provider_001",
+  "status": "COMPLETED",
+  "error": null,
+  "modifierError": null
+}
+```
+
+## Hotel Search Response
+
+Represents the response from hotel search initiation and status endpoints.
+
+### Sub Properties
+
+- `status`: ([Hotel Search Status](#hotel-search-status)) Overall status of the search across all streams
+- `error`: (`string?`) General error information for the entire search
+- `timeoutError`: (`string?`) Timeout-specific error information if the search timed out
+- `streams`: (`Array<`[Hotel Search Stream](#hotel-search-stream)`>`) List of search streams from different providers
+
+### Type Definition
+
+```ts
+interface HotelSearchResponse {
+  status: HotelSearchStatus;
+  error?: string;
+  timeoutError?: string;
+  streams: HotelSearchStream[];
+}
+```
+
+### Example
+
+```json
+{
+  "status": "COMPLETED",
+  "error": null,
+  "timeoutError": null,
+  "streams": [
+    {
+      "id": "stream_001",
+      "credential_id": "provider_001",
+      "status": "COMPLETED",
+      "error": null,
+      "modifierError": null
+    }
+  ]
+}
+```
+
+## Hotel Availability Response
+
+Represents the response from the hotel availability endpoint with incremental update support.
+
+### Sub Properties
+
+- `new`: (`Array<`[Hotel Availability](#hotel-availability)`>`) Newly added hotel properties since the last timestamp
+- `updated`: (`Array<`[Hotel Availability](#hotel-availability)`>`) Updated hotel properties since the last timestamp  
+- `timestamp`: (`string`) Current timestamp for subsequent incremental requests
+- `status`: ([Hotel Search Status](#hotel-search-status)) Current status of the hotel search process
+
+### Type Definition
+
+```ts
+interface HotelAvailabilityResponse {
+  new: HotelAvailability[];
+  updated: HotelAvailability[];
+  timestamp: string;
+  status: HotelSearchStatus;
+}
+```
+
+### Example
+
+```json
+{
+  "new": [],
+  "updated": [],
+  "timestamp": "2025-01-24T21:55:30Z",
+  "status": "COMPLETED"
+}
+```
+
+## Hotel Availability
+
+Represents hotel availability information with rates from a specific provider.
+
+### Sub Properties
+
+- `hotel_information`: ([Hotel Information Preview](#hotel-information-preview)) Detailed information about the hotel
+- `credential_id`: (`string`) Identifier for the provider credential
+- `provider`: (`string`) Name of the hotel content provider
+- `rates_info`: (`Array<`[Hotel Rate Info](#hotel-rate-info)`>`) List of available rates for the hotel
+- `expireAt`: (`string`) Hotel availability expiration timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the hotel availability
+- `createdAt`: (`string`) Creation timestamp
+- `updatedAt`: (`string`) Last update timestamp
+
+### Type Definition
+
+```ts
+interface HotelAvailability {
+  hotel_information: HotelInformationPreview;
+  credential_id: string;
+  provider: string;
+  rates_info: HotelRateInfo[];
+  expireAt: string;
+  public: PublicID;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+## Hotel Information Preview
+
+Represents basic hotel information provided during search results.
+
+### Sub Properties
+
+- `hotel_name`: (`string`) Name of the hotel
+- `rating`: (`string?`) Hotel star rating as a string
+- `distance`: ([Hotel Distance](#hotel-distance)`?`) Distance information from search location coordinates
+- `logo`: ([Hotel Image](#hotel-image)`?`) Hotel logo information
+- `chain_code`: (`string?`) Hotel chain code
+- `hotel_code`: (`string`) Unique hotel identifier code
+- `master_chain_name`: (`string?`) Name of the master hotel chain
+- `master_chain_code`: (`string?`) Code of the master hotel chain
+- `address`: ([Hotel Address](#hotel-address)`?`) Hotel address information
+
+### Type Definition
+
+```ts
+interface HotelInformationPreview {
+  hotel_name: string;
+  rating?: string;
+  distance?: HotelDistance;
+  logo?: HotelImage;
+  chain_code?: string;
+  hotel_code: string;
+  master_chain_name?: string;
+  master_chain_code?: string;
+  address?: HotelAddress;
+}
+```
+
+### Example
+
+```json
+{
+  "hotel_name": "Fairmont Hotel Vancouver",
+  "rating": "5",
+  "distance": {
+    "distance": "0.5",
+    "UOM": "KM"
+  },
+  "logo": {
+    "src": "https://example.com/fairmont-logo.png",
+    "alt": "Fairmont Hotel Vancouver"
+  },
+  "chain_code": "FM",
+  "hotel_code": "YVRFM001",
+  "master_chain_name": "Fairmont Hotels & Resorts",
+  "master_chain_code": "FM",
+  "address": {
+    "address": "900 W Georgia St",
+    "city_name": "Vancouver",
+    "city_code": "YVR",
+    "postal_code": "V6C 2W6",
+    "country_name": "Canada",
+    "country_code": "CA",
+    "phone": ["+1-604-684-3131"],
+    "fax": ["+1-604-662-1929"],
+    "location": {
+      "latitude": "49.2827",
+      "longitude": "-123.1207"
+    }
+  }
+}
+```
+
+## Hotel Distance
+
+Represents distance information from the search location to the hotel.
+
+### Sub Properties
+
+- `distance`: (`string`) Distance value as a string
+- `UOM`: (`string`) Unit of measurement (e.g., KM, MI)
+
+### Type Definition
+
+```ts
+interface HotelDistance {
+  distance: string;
+  UOM: string;
+}
+```
+
+### Example
+
+```json
+{
+  "distance": "0.5",
+  "UOM": "KM"
+}
+```
+
+## Hotel Image
+
+Represents hotel image information (logos, photos, etc.).
+
+### Sub Properties
+
+- `src`: (`string`) URL to the hotel image
+- `alt`: (`string`) Alternative text for the image
+
+### Type Definition
+
+```ts
+interface HotelImage {
+  src: string;
+  alt: string;
+}
+```
+
+### Example
+
+```json
+{
+  "src": "https://example.com/fairmont-logo.png",
+  "alt": "Fairmont Hotel Vancouver"
+}
+```
+
+## Hotel Address
+
+Represents comprehensive hotel address and contact information.
+
+### Sub Properties
+
+- `address`: (`string`) Street address of the hotel
+- `city_name`: (`string`) Name of the city where the hotel is located
+- `city_code`: (`string`) City code identifier
+- `postal_code`: (`string`) Postal or ZIP code
+- `country_name`: (`string`) Full name of the country
+- `country_code`: (`string`) ISO country code (e.g., CA, US)
+- `phone`: (`Array<string>`) Array of phone numbers for the hotel
+- `fax`: (`Array<string>`) Array of fax numbers for the hotel
+- `location`: (`Record`) Geographical coordinates of the hotel
+  - `location.latitude`: (`string`) Latitude coordinate of the hotel
+  - `location.longitude`: (`string`) Longitude coordinate of the hotel
+
+### Type Definition
+
+```ts
+interface HotelAddress {
+  address: string;
+  city_name: string;
+  city_code: string;
+  postal_code: string;
+  country_name: string;
+  country_code: string;
+  phone: string[];
+  fax: string[];
+  location: {
+    latitude: string;
+    longitude: string;
+  };
+}
+```
+
+### Example
+
+```json
+{
+  "address": "900 W Georgia St",
+  "city_name": "Vancouver",
+  "city_code": "YVR",
+  "postal_code": "V6C 2W6",
+  "country_name": "Canada",
+  "country_code": "CA",
+  "phone": ["+1-604-684-3131"],
+  "fax": ["+1-604-662-1929"],
+  "location": {
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  }
+}
+```
+
+## Hotel Rate Info
+
+Represents detailed rate information for a hotel including pricing and terms.
+
+### Sub Properties
+
+- `rate_description`: ([Hotel Rate Description](#hotel-rate-description)) Description and terms of the rate
+- `rate_price`: ([Hotel Rate Price](#hotel-rate-price)`?`) Pricing information in client currency
+- `local_rate_price`: ([Hotel Rate Price](#hotel-rate-price)`?`) Pricing information in local currency
+- `expireAt`: (`string`) Rate expiration timestamp
+- `createdAt`: (`string`) Rate creation timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the rate
+
+### Type Definition
+
+```ts
+interface HotelRateInfo {
+  rate_description: HotelRateDescription;
+  rate_price?: HotelRatePrice;
+  local_rate_price?: HotelRatePrice;
+  expireAt: string;
+  createdAt: string;
+  public: PublicID;
+}
+```
+
+## Hotel Rate Description
+
+Represents the terms and conditions of a hotel rate.
+
+### Sub Properties
+
+- `start_date`: (`string`) Check-in date in YYYY-MM-DD format
+- `end_date`: (`string`) Check-out date in YYYY-MM-DD format
+- `tax_inclusive`: (`boolean`) Whether the rate includes taxes
+- `number_of_nights`: (`number`) Number of nights for the stay
+- `refundable`: (`boolean`) Whether the rate is refundable
+- `discount_codes`: (`Array<string>`) List of applicable discount codes
+- `pay_at_hotel`: (`string?`) Payment method information if paid at hotel or prepaid
+
+### Type Definition
+
+```ts
+interface HotelRateDescription {
+  start_date: string;
+  end_date: string;
+  tax_inclusive: boolean;
+  number_of_nights: number;
+  refundable: boolean;
+  discount_codes: string[];
+  pay_at_hotel?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "start_date": "2025-10-08",
+  "end_date": "2025-10-12",
+  "tax_inclusive": true,
+  "number_of_nights": 4,
+  "refundable": true,
+  "discount_codes": [],
+  "pay_at_hotel": null
+}
+```
+
+## Hotel Rate Price
+
+Represents comprehensive pricing information for a hotel rate.
+
+### Sub Properties
+
+- `fees`: ([Hotel Rate Fees](#hotel-rate-fees)) Fee information for the rate
+- `taxes`: ([Hotel Rate Taxes](#hotel-rate-taxes)) Tax information for the rate
+- `commission`: ([Hotel Rate Commission](#hotel-rate-commission)`?`) Commission information for the rate
+- `average_nightly_rate`: (`string`) Average nightly rate including taxes
+- `average_nightly_rate_before_tax`: (`string`) Average nightly rate before taxes
+- `amount_after_tax`: (`string`) Total amount for the stay including taxes
+- `amount_before_tax`: (`string`) Total amount for the stay before taxes
+- `currency`: (`string`) Currency code for all amounts
+- `discount`: ([Hotel Rate Price Discount](#hotel-rate-price-discount)`?`) Discount information showing pre-discount pricing
+
+### Type Definition
+
+```ts
+interface HotelRatePrice {
+  fees: HotelRateFees;
+  taxes: HotelRateTaxes;
+  commission?: HotelRateCommission;
+  average_nightly_rate: string;
+  average_nightly_rate_before_tax: string;
+  amount_after_tax: string;
+  amount_before_tax: string;
+  currency: string;
+  discount?: HotelRatePriceDiscount;
+}
+```
+
+## Hotel Rate Fees
+
+Represents fee information for a hotel rate.
+
+### Sub Properties
+
+- `total`: (`string`) Total fees amount as a string
+- `description`: (`string?`) Description of the fees
+
+### Type Definition
+
+```ts
+interface HotelRateFees {
+  total: string;
+  description?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "total": "25.00",
+  "description": "Resort fees"
+}
+```
+
+## Hotel Rate Taxes
+
+Represents tax information for a hotel rate.
+
+### Sub Properties
+
+- `total`: (`string`) Total tax amount as a string
+- `description`: (`string?`) Description of the taxes
+
+### Type Definition
+
+```ts
+interface HotelRateTaxes {
+  total: string;
+  description?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "total": "45.60",
+  "description": "GST/HST"
+}
+```
+
+## Hotel Rate Commission
+
+Represents commission information for a hotel rate.
+
+### Sub Properties
+
+- `type`: (`PERCENTAGE` | `FIXED`) Type of commission calculation
+- `amount`: (`string`) Commission amount or percentage as a string
+
+### Type Definition
+
+```ts
+interface HotelRateCommission {
+  type: "PERCENTAGE" | "FIXED";
+  amount: string;
+}
+```
+
+### Example
+
+```json
+{
+  "type": "PERCENTAGE",
+  "amount": "10.0"
+}
+```
+
+## Hotel Rate Price Discount
+
+Represents discount information showing pre-discount pricing for comparison.
+
+### Sub Properties
+
+- `title`: (`string?`) Title or name of the discount
+- `amount_before_tax_before_discount`: (`string`) Total amount for the stay before taxes and before discount applied
+- `amount_before_discount`: (`string`) Total amount for the stay after taxes but before discount applied
+- `average_nightly_rate_before_tax_before_discount`: (`string`) Average nightly rate before taxes and before discount applied
+- `average_nightly_rate_before_discount`: (`string`) Average nightly rate after taxes but before discount applied
+
+### Type Definition
+
+```ts
+interface HotelRatePriceDiscount {
+  title?: string;
+  amount_before_tax_before_discount: string;
+  amount_before_discount: string;
+  average_nightly_rate_before_tax_before_discount: string;
+  average_nightly_rate_before_discount: string;
+}
+```

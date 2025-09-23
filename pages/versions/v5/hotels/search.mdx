@@ -129,3 +129,296 @@ Returns a [Session](/versions/v5/glossary#session) object with `flow` set to `HO
 | 400 | [Validation Error] | Invalid request parameters or date format |
 | 400 | [Invalid Date Range] | Check-out date must be after check-in date |
 | 404 | [Location Not Found] | The specified location ID does not exist |
+
+## Hotel Search Initiation
+
+`POST /hotel/[sessionId]/search`
+
+This endpoint initiates the asynchronous process of retrieving hotel availability and rates from multiple providers. The search operates on streams, where each stream represents a connection to a specific hotel content provider.
+
+> 🛎 Hotel searches are asynchronous and use streaming providers. Use the search status endpoint to monitor progress and the availability endpoint to retrieve results.
+
+### Request
+
+This endpoint does not require a request body - the search parameters are defined during session creation.
+
+`POST /hotel/[sessionId]/search`
+
+### Response
+
+Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) with the current search status and stream information.
+
+```json filename="POST /hotel/[sessionId]/search" copy
+{
+    "status": "COMPLETED",
+    "streams": [
+        {
+            "id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+            "credential_id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "a0fc581f-5000-4660-a16a-f824792122d0",
+            "credential_id": "a0fc581f-5000-4660-a16a-f824792122d0",
+            "status": "COMPLETED"
+        }
+    ]
+}
+```
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 409 | [Search Already Initiated] | A search has already been started for this session |
+
+## Hotel Search Status
+
+`GET /hotel/[sessionId]/search`
+
+This endpoint returns the current status of the hotel search streams, allowing clients to poll for updates as hotel data becomes available from different providers.
+
+### Request
+
+`GET /hotel/[sessionId]/search `
+
+### Response
+
+Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) with updated status information for all search streams.
+
+```json filename="GET /hotel/[sessionId]/search" copy
+{
+    "status": "IN_PROGRESS",
+    "streams": [
+        {
+            "id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+            "credential_id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "a0fc581f-5000-4660-a16a-f824792122d0",
+            "credential_id": "a0fc581f-5000-4660-a16a-f824792122d0",
+            "status": "IN_PROGRESS"
+        }
+    ]
+}
+```
+
+> 🛎 Poll this endpoint regularly to track search progress. The overall status becomes `COMPLETED`, `ERRORED` or `TIMED_OUT` when all streams finish processing.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 412 | [Search Not Initiated] | No search has been started for this session |
+
+## Hotel Availability Results
+
+`GET /hotel/[sessionId]/availability`
+
+This endpoint provides live hotel data from the search process. It supports incremental updates through timestamp-based polling, returning newly added properties in the `new` array and updated properties in the `updated` array when a timestamp is provided.
+
+### Request
+
+Query parameters for incremental updates:
+
+- `timestamp`: (`string?`) Timestamp from previous response for incremental updates
+
+`GET /hotel/[sessionId]/availability?timestamp=2025-01-24T21:55:00Z`
+
+### Response
+
+Returns a [Hotel Availability Response](/versions/v5/glossary#hotel-availability-response) with hotel data and search status.
+
+```json filename="GET /hotel/[sessionId]/availability" copy
+{
+  "new": [
+    {
+      "hotel_information": {
+        "hotel_name": "Fairmont Royal York Gold Experience",
+        "rating": "5",
+        "distance": {
+          "distance": "20.34",
+          "UOM": "KM"
+        },
+        "images": [
+          {
+            "src": "https://i.travelapi.com/lodging/38000000/37230000/37220300/37220227/9efb2546_z.jpg",
+            "alt": "Primary image"
+          },
+          {
+            "src": "https://i.travelapi.com/lodging/38000000/37230000/37220300/37220227/758bf1a7_z.jpg",
+            "alt": "Room"
+          },
+          {
+            "src": "https://i.travelapi.com/lodging/38000000/37230000/37220300/37220227/54c852f4_z.jpg",
+            "alt": "Room"
+          },
+          {
+            "src": "https://i.travelapi.com/lodging/38000000/37230000/37220300/37220227/ce4ee48b_z.jpg",
+            "alt": "Room"
+          }
+        ],
+        "chain_code": "-1",
+        "hotel_code": "37220227",
+        "master_chain_name": "Accor Hotel Brands",
+        "master_chain_code": "RT",
+        "address": {
+          "city_name": "Toronto",
+          "country_code": "CA",
+          "address": "100 Front St West-Building A",
+          "city_code": null,
+          "postal_code": "M5J1E3",
+          "phone": ["1-416-3682511"],
+          "fax": [],
+          "location": {
+            "latitude": "43.64599",
+            "longitude": "-79.38141",
+          }
+        }
+      },
+      "credential_id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+      "rates_info": [
+        {
+          "rate_description": {
+            "start_date": "2025-10-08",
+            "end_date": "2025-10-12",
+            "tax_inclusive": false,
+            "number_of_nights": 4,
+            "refundable": true,
+            "commissionable": true,
+            "discount_codes": [],
+            "pay_at_hotel": false
+          },
+          "rate_price": {
+            "fees": {
+              "total": "0.00",
+              "description": null
+            },
+            "taxes": {
+              "total": "1104.52",
+              "description": null
+            },
+            "commission": {
+              "type": "FIXED",
+              "amount": "452.09"
+            },
+            "average_nightly_rate": "1497.63",
+            "average_nightly_rate_before_tax": "1221.50",
+            "amount_after_tax": "5990.52",
+            "amount_before_tax": "4886.00",
+            "currency": "CAD"
+          },
+          "local_rate_price": null,
+          "expireAt": "2025-09-24T01:08:57.332Z",
+          "createdAt": "2025-09-23T23:09:05.577Z",
+          "public": "51c3fb0a-6414-495f-84ee-dd26bee0cf97"
+        }
+      ],
+      "expireAt": "2025-09-24T01:08:57.332Z",
+      "public": "24caae5e-52a0-4bdd-a84d-f08b4057bb81",
+      "createdAt": "2025-09-23T23:09:06.206Z",
+      "updatedAt": "2025-09-23T23:09:06.206Z"
+    }
+  ],
+  "updated": [
+    {
+      "hotel_information": {
+        "hotel_name": "Hampton Inn by Hilton Brampton Toronto",
+        "rating": "3",
+        "distance": {
+          "distance": "10.08",
+          "UOM": "KM"
+        },
+        "images": [
+          {
+            "src": "https://i.travelapi.com/lodging/6000000/5410000/5406600/5406597/91c982f3_z.jpg",
+            "alt": "Primary image"
+          },
+          {
+            "src": "https://i.travelapi.com/lodging/6000000/5410000/5406600/5406597/44e4961a_z.jpg",
+            "alt": "Lobby"
+          },
+          {
+            "src": "https://i.travelapi.com/lodging/6000000/5410000/5406600/5406597/930ab092_z.jpg",
+            "alt": "Lobby"
+          }
+        ],
+        "chain_code": "-5",
+        "hotel_code": "5406597",
+        "master_chain_name": null,
+        "master_chain_code": null,
+        "address": {
+          "city_name": "Brampton",
+          "country_code": "CA",
+          "address": "8710 The Gore Road",
+          "city_code": null,
+          "postal_code": "L6P0B1",
+          "phone": ["1-905-488-4888"],
+          "fax": ["1-905-488-4889"],
+          "location": {
+            "latitude": "43.76562",
+            "longitude": "-79.65842",
+            "_id": "68d3289105bcd16cf744db8a"
+          }
+        }
+      },
+      "credential_id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
+      "rates_info": [
+        {
+          "rate_description": {
+            "start_date": "2025-10-08",
+            "end_date": "2025-10-12",
+            "tax_inclusive": false,
+            "number_of_nights": 4,
+            "refundable": false,
+            "commissionable": true,
+            "discount_codes": [],
+            "pay_at_hotel": true
+          },
+          "rate_price": {
+            "fees": {
+              "total": "0.00",
+              "description": null
+            },
+            "taxes": {
+              "total": "138.59",
+              "description": null
+            },
+            "commission": {
+              "type": "FIXED",
+              "amount": "26.81"
+            },
+            "average_nightly_rate": "190.62",
+            "average_nightly_rate_before_tax": "155.97",
+            "amount_after_tax": "762.47",
+            "amount_before_tax": "623.88",
+            "currency": "CAD"
+          },
+          "local_rate_price": null,
+          "expireAt": "2025-09-24T01:08:57.332Z",
+          "createdAt": "2025-09-23T23:09:05.691Z",
+          "public": "aa1a6114-c9ad-4299-abba-ee9325efeb74"
+        }
+      ],
+      "expireAt": "2025-09-24T01:08:57.332Z",
+      "public": "23a45288-ee5e-40a8-926f-33204eadecca",
+      "createdAt": "2025-09-23T23:09:06.291Z",
+      "updatedAt": "2025-09-23T23:09:06.291Z"
+    }
+  ],
+  "timestamp": "1758668948729",
+  "status": "IN_PROGRESS"
+}
+```
+
+> ⛳ When no timestamp is provided, all available results are returned in the `new` array. Use the returned timestamp for subsequent incremental requests.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 412 | [Search Not Initiated] | No search has been started for this session |
