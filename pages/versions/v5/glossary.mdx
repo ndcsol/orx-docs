@@ -81,7 +81,7 @@ A session that contexluizes a search or an order.
 
 ### Sub Properties
 
-- `flow`: (`FLIGHT` | `FLIGHT_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking.
+- `flow`: (`FLIGHT` | `FLIGHT_BOOKING` | `HOTEL`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking. `HOTEL` indicates a hotel search session.
 - `public`: ([Public ID](#public-id)) The public ID of the session.
 - `expireAt`: (`string`) The date and time when the session will expire.
 - `createdAt`: (`string`) The date and time when the session was created.
@@ -90,7 +90,7 @@ A session that contexluizes a search or an order.
 
 ```ts
 interface Session {
-  flow: "FLIGHT" | "FLIGHT_BOOKING";
+  flow: "FLIGHT" | "FLIGHT_BOOKING" | "HOTEL";
   public: PublicID;
   expireAt: string;
   createdAt: string;
@@ -1880,4 +1880,138 @@ interface CommissionDetails {
   bookingRule: string;
   estimatedCommission: string;
 }
+```
+
+## Location Search Result
+
+Represents a location result from the location auto-complete endpoint.
+
+### Sub Properties
+
+- `type`: (`CITY` | `AIRPORT` | `REGION` | `HOTEL`) The type of location result
+- `name`: (`string`) The name of the location or hotel
+- `country`: (`string`) The country where the location is situated
+- `region`: (`string?`) The region or state within the country
+- `iata`: (`string?`) IATA code for airport locations only
+- `public`: ([Public ID](#public-id)) The public ID that can be used for hotel searches
+- `score`: (`number?`) Relevance score for the search result
+
+### Type Definition
+
+```ts
+interface LocationSearchResult {
+  type: "CITY" | "AIRPORT" | "REGION" | "HOTEL";
+  name: string;
+  country: string;
+  region?: string;
+  iata?: string;
+  public: PublicID;
+  score?: number;
+}
+```
+
+### Example
+
+```json
+{
+  "type": "AIRPORT",
+  "name": "Lester B. Pearson International Airport",
+  "country": "Canada",
+  "region": "Ontario",
+  "iata": "YYZ",
+  "public": "292104e4-5efe-44a5-9ac3-138faf2c52ef",
+  "score": 8.8
+}
+```
+
+## Hotel Session Query
+
+Represents the search parameters for creating a hotel session.
+
+### Sub Properties
+
+- `location`: (`string`) The public ID from a location search result
+- `check_in_date`: (`string`) Check-in date in YYYY-MM-DD format
+- `check_out_date`: (`string`) Check-out date in YYYY-MM-DD format  
+- `channel`: ([Channel Type](#channel-type)) The booking channel type
+- `device`: ([Device Type](#device-type)) The device type for the search
+
+### Type Definition
+
+```ts
+interface HotelSessionQuery {
+  location: string;
+  check_in_date: string;
+  check_out_date: string;
+  channel: ChannelType;
+  device: DeviceType;
+}
+```
+
+### Example
+
+```json
+{
+  "location": "292104e4-5efe-44a5-9ac3-138faf2c52ef",
+  "check_in_date": "2025-10-08",
+  "check_out_date": "2025-10-12",
+  "channel": "MEMBER",
+  "device": "MOBILE"
+}
+```
+
+## Hotel Preferences
+
+Represents preferences for hotel searches and bookings.
+
+### Sub Properties
+
+- `account_id`: (`string?`) UUID for the user account
+
+### Type Definition
+
+```ts
+interface HotelPreferences {
+  account_id?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "account_id": "e3b34b0e-e812-41fc-a247-35ba3106af2d"
+}
+```
+
+## Channel Type
+
+Represents the booking channel type for hotel reservations.
+
+### Possible Values
+
+- `AGENT`: Travel agent bookings
+- `CORPORATE`: Corporate travel bookings
+- `GUEST`: Direct guest bookings
+- `MEMBER`: Loyalty member bookings
+
+### Type Definition
+
+```ts
+type ChannelType = "AGENT" | "CORPORATE" | "GUEST" | "MEMBER";
+```
+
+## Device Type
+
+Represents the device type for search and booking operations.
+
+### Possible Values
+
+- `DESKTOP`: Desktop computer access
+- `MOBILE`: Mobile device access
+
+### Type Definition
+
+```ts
+type DeviceType = "DESKTOP" | "MOBILE";
 ```

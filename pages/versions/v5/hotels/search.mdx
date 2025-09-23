@@ -61,3 +61,71 @@ The API returns four types of location results:
 |---|---|---|
 | 400 | [Validation Error] | Invalid query parameters or search string |
 | 429 | [Rate Limit Exceeded] | Too many requests in short time period |
+
+## Hotel Session Initiation
+
+`POST /hotel/initiate`
+
+This endpoint creates a session context for hotel searches without immediately triggering the search process. This design accommodates both location-based searches and direct hotel searches, where the latter may not require the asynchronous search flow.
+
+> 🛎 Unlike flight searches, hotel session creation and search execution are separate operations, allowing for more flexible search patterns.
+
+### Request
+
+```json filename="POST /hotel/initiate" copy
+{
+  "query": {
+    "location": "292104e4-5efe-44a5-9ac3-138faf2c52ef",
+    "check_in_date": "2025-10-08",
+    "check_out_date": "2025-10-12",
+    "channel": "MEMBER",
+    "device": "MOBILE"
+  },
+  "passengers": [
+    {
+      "code": "ADT"
+    },
+    {
+      "code": "CHD"
+    }
+  ],
+  "preferences": {
+    "account_id": "e3b34b0e-e812-41fc-a247-35ba3106af2d"
+  }
+}
+```
+
+### Request Parameters
+
+- `query`: ([Hotel Session Query](/versions/v5/glossary#hotel-session-query)) The search parameters for the hotel session
+- `passengers`: (`Array<Record>`) List of passengers for the hotel booking
+  - `code`: ([Passenger Code](/versions/v5/glossary#passenger-code)) Currently only `ADT` (adult) is supported, `CHD` (child) support coming soon
+- `preferences`: ([Hotel Preferences](/versions/v5/glossary#hotel-preferences)`?`) Search preferences
+
+### Required Headers
+
+- `x-forwarded-for`: User's IP address must be provided
+- `user-agent`: (optional) Will be used to infer device type in future versions
+
+### Response
+
+Returns a [Session](/versions/v5/glossary#session) object with `flow` set to `HOTEL`.
+
+```json filename="POST /hotel/initiate" copy
+{
+  "flow": "HOTEL",
+  "expireAt": "2025-01-24T23:55:00",
+  "createdAt": "2025-01-24T21:55:00",
+  "public": "77553c48-6ecf-41ba-a4fa-ba48418aebf2"
+}
+```
+
+> ⛳ Hotel sessions have a default 2-hour expiration time and use the `HOTEL` flow type to distinguish them from flight search sessions.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 400 | [Validation Error] | Invalid request parameters or date format |
+| 400 | [Invalid Date Range] | Check-out date must be after check-in date |
+| 404 | [Location Not Found] | The specified location ID does not exist |
