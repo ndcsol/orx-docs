@@ -3,5 +3,6 @@
   "details": "Property & Rate Details",
   "pricing": "Pricing",
   "order": "Create Order",
-  "retrieve": "Retrieve Order"
+  "retrieve": "Retrieve Order",
+  "cancel": "Cancel Order"
 }

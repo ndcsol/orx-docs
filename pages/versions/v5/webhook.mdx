@@ -1,26 +1,31 @@
 # Webhooks
 
-ORX provides a webhook mechanism to notify clients about important events in the flight booking process.
+ORX provides a webhook mechanism to notify clients about important events in the booking process for both flights and hotels.
 
 ## Webhook Events
 
 The webhook supports the following event types:
 
+### Flight Events
 - `FLIGHT_BOOKING_QUEUED`: Triggered when a flight booking request is initially processed and queued.
 - `FLIGHT_BOOKING_ISSUED`: Triggered when a flight booking is successfully issued.
 - `FLIGHT_BOOKING_CANCELLED`: Triggered when a flight booking is cancelled.
+
+### Hotel Events
+- `HOTEL_BOOKING_ISSUED`: Triggered when a hotel booking is successfully confirmed.
+- `HOTEL_BOOKING_CANCELLED`: Triggered when a hotel booking is cancelled.
 
 ## Payload Structure
 
 ```json
 {
   "session": Session,
-  "eventType": "FLIGHT_BOOKING_QUEUED" | "FLIGHT_BOOKING_ISSUED" | "FLIGHT_BOOKING_CANCELLED"
+  "eventType": "FLIGHT_BOOKING_QUEUED" | "FLIGHT_BOOKING_ISSUED" | "FLIGHT_BOOKING_CANCELLED" | "HOTEL_BOOKING_ISSUED" | "HOTEL_BOOKING_CANCELLED"
 }
 ```
 
-- `eventType`: (`FLIGHT_BOOKING_QUEUED` | `FLIGHT_BOOKING_ISSUED` | `FLIGHT_BOOKING_CANCELLED`) The event that occured.
-- `session`: ([Session](/versions/v5/glossary#session)) the session object concerned with the event.    
+- `eventType`: The event that occurred - can be any of the flight or hotel event types listed above.
+- `session`: ([Session](/versions/v5/glossary#session)) The session object associated with the event.    
 
 ## Response
 

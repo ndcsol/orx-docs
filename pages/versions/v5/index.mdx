@@ -2,6 +2,12 @@
 
 This page covers essential information related to authentication, versioning, throttling, and authorization errors for the ORX API. We'll explain how to use authentication tokens, how versioning works, what throttling is and how it works, and how to handle authorization errors.
 
+## What's New in v5
+
+ORX API v5 introduces hotel booking capabilities alongside the existing flight booking system, with no breaking changes to existing integrations:
+
+**[Hotel Booking](/versions/v5/hotels)**: Full hotel search, booking, and cancellation system
+
 ## Authentication
 
 To ensure the security and privacy of our users, the ORX API requires authentication for all requests. All requests must include an authentication token in the `x-api-key` HTTP header.
@@ -32,7 +38,7 @@ To ensure compatibility between different versions of the ORX API, we use versio
 When making requests to the API, the version number should be included in the `x-api-version` HTTP header. This ensures that the correct version of the API is used to process the request:
 
 ```shell copy
-curl -H "x-api-version: 4" https://api.orx.travel/example
+curl -H "x-api-version: 5" https://api.orx.travel/example
 ```
 
 > 🧨 We strongly recommend that you always specify the version of the API you are using in your requests. This ensures that your application will continue to function correctly even if we make changes to the API.
