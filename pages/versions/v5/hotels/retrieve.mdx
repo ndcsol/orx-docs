@@ -1,0 +1,397 @@
+# Retrieve Hotel Order
+
+At this stage, it is assumed that you have successfully created a hotel booking session and obtained the necessary session identifier. The booking session allows you to perform various operations related to the management of hotel orders, such as retrieving booking details.
+
+## Get List of Hotel Bookings
+
+### Request
+
+`GET /hotel/list`
+
+#### Query Parameters
+
+- `page`: (`number`) The page number of the results, starting from `1`.
+- `provider`: (`string?`) Filter the results by the provider of the booking.
+- `status`: (`ISSUED` | `CANCELLED` `?`) Filter the results by the status of the booking.
+- `client-meta-[key]`: (`string?`) Filter the results by the client meta data key-value pairs. Multiple keys can be provided by adding the key to the query parameter.
+
+You can request a list of all hotel bookings that you have made. This endpoint will give you a shortened version of each booking. If you wish to retrieve all of the details about each booking, you can use the [Retrieve Hotel Booking](#requesting-hotel-booking-retrieve) endpoint.
+
+### Response
+
+```json filename="GET /hotel/list" copy
+[
+  {
+    "session": {
+      "flow": "HOTEL_BOOKING",
+      "expireAt": "2025-10-12T23:59:59.000Z",
+      "createdAt": "2025-01-24T22:30:15.817Z",
+      "public": "fe3bd8d3-0952-4885-b739-bf4518da2cd9"
+    },
+    "status": "ISSUED",
+    "locator": "HTL123ABC",
+    "provider": "SABRE",
+    "pcc": "7J8K",
+    "hotel": {
+      "hotel_information": {
+        "hotel_name": "Fairmont Hotel Vancouver",
+        "master_chain_name": "Fairmont Hotels & Resorts",
+        "master_chain_code": "FM",
+        "hero": {
+          "src": "https://example.com/fairmont-hero.jpg",
+          "alt": "Fairmont Hotel Vancouver - Hero Image"
+        }
+      }
+    },
+    "rooms": [
+      {
+        "type": {
+          "name": "Deluxe King Room",
+          "code": "DLX_KING"
+        },
+        "bed_types": [
+          {
+            "type": "King",
+            "count": 1
+          }
+        ],
+        "max_occupancy": 2,
+        "rate": {
+          "rate_price": {
+            "average_nightly_rate": "143.05",
+            "average_nightly_rate_before_tax": "128.75",
+            "amount_after_tax": "572.20",
+            "amount_before_tax": "515.00",
+            "currency": "CAD"
+          },
+          "local_rate_price": null,
+          "public": "confirmed_rate_98765"
+        },
+        "public": "room_details_67890"
+      }
+    ],
+    "createdAt": "2025-01-24T22:30:15.817Z",
+    "public": "c7cb779b-8bdd-4632-8b54-5c2793bda46e"
+  }
+]
+```
+
+- `status`: (`ISSUED` | `CANCELLED`) The status of the hotel booking.
+- `locator`: (`string`) The unique identifier for the entire booking. This may or may not be the same as the booking references, depending on the channel.
+- `pcc`: (`string?`) The Pseudo City Code the booking was made with.
+- `provider`: (`SABRE` | `ZENTRUM`) The source the booking was made through.
+- `hotel`: ([Hotel Order Hotel Minimal](/versions/v5/glossary#hotel-order-hotel-minimal)) Minimal hotel information for listing.
+- `rooms`: (`Array<`[Hotel Booking Room Details Minimal](/versions/v5/glossary#hotel-booking-room-details-minimal)`>`) Minimal room information for listing purposes.
+- `session`: ([Session](/versions/v5/glossary#session)) Information about the long-lived booking session.
+
+> 🛎 The endpoint currently does not include any metadata about the pagination. If the empty array is returned, you can assume that there are no more results to be fetched.
+
+## Requesting Hotel Booking Retrieve
+
+### Request
+
+`GET /hotel/[sessionId]/retrieve`
+
+This endpoint will provide you with the necessary information and details of the hotel booking associated with the specified booking session. By retrieving the hotel booking, you can access important information such as guest details, hotel information, room details, booking status, and any other relevant booking information.
+
+### Response
+
+```json filename="GET /hotel/[sessionId]/retrieve" copy
+{
+  "status": "ISSUED",
+  "locator": "HTL123ABC",
+  "provider": "SABRE",
+  "hotel": {
+    "hotel_information": {
+      "hotel_name": "Fairmont Hotel Vancouver",
+      "rating": "5",
+      "distance": {
+        "distance": "0.5",
+        "UOM": "KM"
+      },
+      "logo": {
+        "src": "https://example.com/fairmont-logo.png",
+        "alt": "Fairmont Hotel Vancouver"
+      },
+      "chain_code": "FM",
+      "hotel_code": "YVRFM001",
+      "master_chain_name": "Fairmont Hotels & Resorts",
+      "master_chain_code": "FM",
+      "address": {
+        "address": "900 W Georgia St",
+        "city_name": "Vancouver",
+        "city_code": "YVR",
+        "postal_code": "V6C 2W6",
+        "country_name": "Canada",
+        "country_code": "CA",
+        "phone": ["+1-604-684-3131"],
+        "fax": ["+1-604-662-1929"],
+        "location": {
+          "latitude": "49.2827",
+          "longitude": "-123.1207"
+        }
+      }
+    },
+    "check_in_information": {
+      "check_in": ["15:00", "16:00"],
+      "check_out": ["11:00", "12:00"],
+      "instructions": [
+        "Photo identification and credit card required at check-in",
+        "Guests must be 18 years or older to check in"
+      ],
+      "special_instructions": [
+        "Valet parking available for additional fee",
+        "Early check-in subject to availability"
+      ]
+    },
+    "hotel_amenities": [
+      "Free WiFi",
+      "Fitness Center",
+      "Swimming Pool",
+      "Business Center",
+      "Concierge Service",
+      "Restaurant",
+      "Room Service",
+      "Spa Services",
+      "Valet Parking"
+    ],
+    "descriptions": [
+      {
+        "title": "Hotel Overview",
+        "text": "Located in the heart of downtown Vancouver, the Fairmont Hotel Vancouver offers luxury accommodations with stunning city and mountain views."
+      },
+      {
+        "title": "Location",
+        "text": "Situated on West Georgia Street, the hotel is within walking distance of major shopping districts, theaters, and business centers."
+      }
+    ],
+    "policies": [
+      {
+        "title": "Cancellation Policy",
+        "text": "Cancellations must be made 24 hours prior to arrival to avoid penalty charges. Late cancellations will be charged one night's accommodation."
+      },
+      {
+        "title": "Pet Policy",
+        "text": "Pets are welcome with advance notice. A non-refundable pet fee of $50 CAD per stay applies. Maximum 2 pets per room."
+      }
+    ],
+    "fees": [
+      {
+        "title": "Resort Fee",
+        "text": "A daily resort fee of $25 CAD includes WiFi access, fitness center use, and local telephone calls."
+      },
+      {
+        "title": "Parking",
+        "text": "Valet parking available for $35 CAD per night. Self-parking options available nearby."
+      }
+    ]
+  },
+  "loyalty_program": null,
+  "references": [
+    {
+      "source": "SABRE",
+      "code": "HTL123ABC"
+    },
+    {
+      "source": "HOTEL_CHAIN",
+      "code": "FM987654321"
+    }
+  ],
+  "disclaimers": [
+    "Rates are subject to availability and may change without notice",
+    "Additional fees and taxes may apply",
+    "Cancellation policy applies as per hotel terms and conditions"
+  ],
+  "rooms": [
+    {
+      "type": {
+        "name": "Deluxe King Room",
+        "code": "DLX_KING"
+      },
+      "bed_types": [
+        {
+          "type": "King",
+          "count": 1
+        }
+      ],
+      "max_occupancy": 2,
+      "non_smoking": true,
+      "amenities": [
+        "Free WiFi",
+        "Air conditioning",
+        "Mini-fridge",
+        "Coffee maker",
+        "Flat-screen TV",
+        "Work desk",
+        "Safe",
+        "Hair dryer"
+      ],
+      "images": [
+        {
+          "src": "https://example.com/room-deluxe-king-1.jpg",
+          "alt": "Deluxe King Room - Main View"
+        },
+        {
+          "src": "https://example.com/room-deluxe-king-bathroom.jpg",
+          "alt": "Deluxe King Room - Bathroom"
+        }
+      ],
+      "rate": {
+        "rate_description": {
+          "start_date": "2025-10-08",
+          "end_date": "2025-10-12",
+          "tax_inclusive": true,
+          "number_of_nights": 4,
+          "refundable": true,
+          "discount_codes": [],
+          "pay_at_hotel": null,
+          "cancellation": {
+            "refundable": true,
+            "penalties": [
+              {
+                "amount": "0.00",
+                "currency": "CAD",
+                "deadline": "2025-10-07T15:00:00",
+                "percentage": null
+              },
+              {
+                "amount": "210.80",
+                "currency": "CAD",
+                "deadline": "2025-10-08T15:00:00",
+                "percentage": "50"
+              },
+              {
+                "amount": "421.60",
+                "currency": "CAD",
+                "deadline": "2025-10-08T23:59:59",
+                "percentage": "100"
+              }
+            ]
+          }
+        },
+        "rate_price": {
+          "fees": {
+            "total": "105.00",
+            "description": {
+              "text": "Resort fees include WiFi access, fitness center use, pool access, and daily breakfast",
+              "title": "Resort & Service Fees",
+              "link": "https://example.com/fairmont-fees-policy",
+              "link_text": "View complete fee policy"
+            },
+            "breakdown": [
+              {
+                "amount": 80.00,
+                "text": "Resort fee (per night)"
+              },
+              {
+                "amount": 25.00,
+                "text": "Service fee (total stay)"
+              }
+            ]
+          },
+          "taxes": {
+            "total": "67.20",
+            "description": {
+              "text": "Government taxes and local city fees as required by Canadian and municipal law",
+              "title": "Taxes & Government Fees",
+              "link": null,
+              "link_text": null
+            },
+            "breakdown": [
+              {
+                "amount": 50.40,
+                "text": "GST/HST (13%)"
+              },
+              {
+                "amount": 16.80,
+                "text": "Toronto city occupancy tax"
+              }
+            ]
+          },
+          "commission": {
+            "type": "PERCENTAGE",
+            "amount": "12.5"
+          },
+          "average_nightly_rate": "143.05",
+          "average_nightly_rate_before_tax": "128.75",
+          "amount_after_tax": "572.20",
+          "amount_before_tax": "515.00",
+          "currency": "CAD",
+          "discount": {
+            "title": "Advanced Purchase Discount",
+            "amount_before_tax_before_discount": "600.00",
+            "amount_before_discount": "667.20",
+            "average_nightly_rate_before_tax_before_discount": "150.00",
+            "average_nightly_rate_before_discount": "166.80"
+          }
+        },
+        "local_rate_price": null,
+        "expireAt": "2025-01-24T23:55:00",
+        "createdAt": "2025-01-24T22:15:30",
+        "public": "confirmed_rate_98765"
+      },
+      "expireAt": "2025-01-24T23:55:00",
+      "public": "room_details_67890",
+      "createdAt": "2025-01-24T21:55:00",
+      "updatedAt": "2025-01-24T21:55:00"
+    }
+  ],
+  "passengers": [
+    {
+      "frequent_flyer": null,
+      "personal_info": {
+        "date_of_birth": "1985-03-15",
+        "first_name": "John",
+        "last_name": "Doe",
+        "middle_name": null,
+        "gender": "M"
+      },
+      "phone_number": "+16047843131",
+      "email": "john.doe@example.com",
+      "createdAt": "2025-01-24T22:15:30.331Z",
+      "public": "494aa2db-f4be-4c8d-8d16-cefbc5420c8f",
+      "expireAt": "2025-10-12T23:59:59.000Z",
+      "code": "ADT",
+      "ticket_number": null
+    }
+  ],
+  "paymentAuthorization": {
+    "gateway": "stripe",
+    "threeDsResult": {
+      "gateway": "stripe",
+      "public": "3ds_result_123456",
+      "createdAt": "2025-01-24T22:15:25.000Z"
+    },
+    "public": "auth_789012",
+    "createdAt": "2025-01-24T22:15:30.000Z"
+  },
+  "riskEvaluation": {
+    "riskLevel": "normal",
+    "riskScore": "25"
+  },
+  "expireAt": "2025-10-12T23:59:59.000Z",
+  "createdAt": "2025-01-24T22:30:15.817Z",
+  "updatedAt": "2025-01-24T22:30:20.000Z",
+  "public": "dacb4773-ca39-4ea0-9b70-5d17c5e9c84d"
+}
+```
+
+- `status`: (`ISSUED` | `CANCELLED`) The status of the hotel booking.
+- `locator`: (`string`) The unique identifier for the entire booking. This may or may not be the same as the booking references, depending on the channel.
+- `provider`: (`SABRE` | `ZENTRUM`) The source the booking was made through.
+- `hotel`: ([Hotel Order Hotel](/versions/v5/glossary#hotel-order-hotel)) Complete hotel information and details.
+- `loyalty_program`: (`string?`) Loyalty program information if applicable.
+- `references`: (`Array<`[Booking Reference](/versions/v5/glossary#booking-reference)`>?`) Booking reference codes from various systems.
+- `disclaimers`: (`Array<string>?`) Important disclaimers and terms.
+- `rooms`: (`Array<`[Hotel Booking Room Details](/versions/v5/glossary#hotel-booking-room-details)`>`) Detailed information about booked rooms.
+- `passengers`: (`Array<`[Passenger Information](/versions/v5/glossary#passenger-information)`>`) Guest information for the booking.
+- `paymentAuthorization`: ([Payment Authorization](/versions/v5/glossary#payment-authorization)`?`) Payment authorization details.
+- `riskEvaluation`: ([Risk Evaluation](/versions/v5/glossary#risk-evaluation)`?`) Risk assessment information.
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Booking Not Found] | No booking exists for the specified session |
+| 412 | [Invalid Session Type] | The session is not a hotel booking session |

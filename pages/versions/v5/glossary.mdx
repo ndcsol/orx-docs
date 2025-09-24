@@ -3069,3 +3069,282 @@ interface HotelRoomDetails {
   updatedAt: string;
 }
 ```
+
+## Hotel Booking Room Details
+
+Represents detailed information about a booked room including rate information (extends [Hotel Room Details](#hotel-room-details)).
+
+### Sub Properties
+
+Inherits from [Hotel Room Details](#hotel-room-details):
+- `type`: ([Room Type](#room-type)) Room type classification
+- `bed_types`: (`Array<`[Bed Type](#bed-type)`>`) Available bed configurations
+- `max_occupancy`: (`number?`) Maximum number of guests allowed
+- `non_smoking`: (`boolean?`) Whether the room is non-smoking
+- `amenities`: (`Array<string>?`) Room-specific amenities
+- `images`: (`Array<`[Hotel Image](#hotel-image)`>?`) Images of the room
+- `expireAt`: (`string`) Room details expiration timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the room details
+- `createdAt`: (`string`) Creation timestamp
+- `updatedAt`: (`string`) Last update timestamp
+
+Modified properties:
+- `rate`: ([Enhanced Hotel Rate Info](#enhanced-hotel-rate-info)) Single booked rate details for this room (instead of rates array)
+
+### Type Definition
+
+```ts
+interface HotelBookingRoomDetails extends Omit<HotelRoomDetails, 'rates'> {
+  rate: EnhancedHotelRateInfo;
+}
+```
+
+## Hotel Order Hotel
+
+Represents complete hotel information in booking context (extends [Hotel Information Preview](#hotel-information-preview)).
+
+### Sub Properties
+
+Inherits from [Hotel Information Preview](#hotel-information-preview):
+- `hotel_information`: ([Hotel Information Preview](#hotel-information-preview)) Detailed hotel property information
+
+Additional properties:
+- `check_in_information`: ([Hotel Check-In Information](#hotel-check-in-information)) Check-in and check-out details
+- `hotel_amenities`: (`Array<string>`) List of hotel amenities and facilities
+- `descriptions`: (`Array<`[Hotel Description](#hotel-description)`>`) Detailed hotel descriptions and information
+- `policies`: (`Array<`[Hotel Description](#hotel-description)`>`) Hotel policies and terms
+- `fees`: (`Array<`[Hotel Description](#hotel-description)`>?`) Additional fees and charges information
+
+### Type Definition
+
+```ts
+interface HotelOrderHotel {
+  hotel_information: HotelInformationPreview;
+  check_in_information: HotelCheckInInformation;
+  hotel_amenities: string[];
+  descriptions: HotelDescription[];
+  policies: HotelDescription[];
+  fees?: HotelDescription[];
+}
+```
+
+## Booking Reference
+
+Represents booking reference codes from various systems.
+
+### Sub Properties
+
+- `source`: (`string`) Source system or provider of the reference
+- `code`: (`string`) Reference code or confirmation number
+
+### Type Definition
+
+```ts
+interface BookingReference {
+  source: string;
+  code: string;
+}
+```
+
+### Example
+
+```json
+{
+  "source": "SABRE",
+  "code": "HTL123ABC"
+}
+```
+
+## Hotel Information Minimal
+
+Represents minimal hotel information for efficient listing purposes.
+
+### Sub Properties
+
+- `hotel_name`: (`string?`) Name of the hotel property
+- `master_chain_name`: (`string?`) Master chain name
+- `master_chain_code`: (`string?`) Master chain code
+- `hero`: ([Hotel Image](#hotel-image)`?`) Hotel hero image
+
+### Type Definition
+
+```ts
+interface HotelInformationMinimal {
+  hotel_name?: string;
+  master_chain_name?: string;
+  master_chain_code?: string;
+  hero?: HotelImage; 
+}
+```
+
+### Example
+
+```json
+{
+  "hotel_name": "Fairmont Hotel Vancouver",
+  "master_chain_name": "Fairmont Hotels & Resorts",
+  "master_chain_code": "FM",
+  "hero": {
+    "src": "https://example.com/fairmont-hero.jpg",
+    "alt": "Fairmont Hotel Vancouver - Hero Image"
+  }
+}
+```
+
+## Hotel Order Hotel Minimal
+
+Represents minimal hotel information for listing purposes.
+
+### Sub Properties
+
+- `hotel_information`: ([Hotel Information Minimal](#hotel-information-minimal)) Minimal hotel property information
+
+### Type Definition
+
+```ts
+interface HotelOrderHotelMinimal {
+  hotel_information: HotelInformationMinimal;
+}
+```
+
+### Example
+
+```json
+{
+  "hotel_information": {
+    "hotel_name": "Fairmont Hotel Vancouver",
+    "master_chain_name": "Fairmont Hotels & Resorts",
+    "master_chain_code": "FM",
+    "hero": {
+      "src": "https://example.com/fairmont-hero.jpg",
+      "alt": "Fairmont Hotel Vancouver - Hero Image"
+    }
+  }
+}
+```
+
+## Hotel Rate Price Minimal
+
+Represents minimal pricing information for efficient listing.
+
+### Sub Properties
+
+- `average_nightly_rate`: (`string`) Average nightly rate including taxes
+- `average_nightly_rate_before_tax`: (`string`) Average nightly rate before taxes
+- `amount_after_tax`: (`string`) Total amount for the stay including taxes
+- `amount_before_tax`: (`string`) Total amount for the stay before taxes
+- `currency`: (`string`) Currency code for all amounts
+
+### Type Definition
+
+```ts
+interface HotelRatePriceMinimal {
+  average_nightly_rate: string;
+  average_nightly_rate_before_tax: string;
+  amount_after_tax: string;
+  amount_before_tax: string;
+  currency: string;
+}
+```
+
+### Example
+
+```json
+{
+  "average_nightly_rate": "143.05",
+  "average_nightly_rate_before_tax": "128.75",
+  "amount_after_tax": "572.20",
+  "amount_before_tax": "515.00",
+  "currency": "CAD"
+}
+```
+
+## Hotel Booking Rate Details Minimal
+
+Represents minimal rate details for listing purposes.
+
+### Sub Properties
+
+- `rate_price`: ([Hotel Rate Price Minimal](#hotel-rate-price-minimal)`?`) Pricing information in client currency
+- `local_rate_price`: ([Hotel Rate Price Minimal](#hotel-rate-price-minimal)`?`) Pricing information in local currency
+- `public`: ([Public ID](#public-id)) Public identifier for the rate
+
+### Type Definition
+
+```ts
+interface HotelBookingRateDetailsMinimal {
+  rate_price?: HotelRatePriceMinimal;
+  local_rate_price?: HotelRatePriceMinimal;
+  public: PublicID;
+}
+```
+
+### Example
+
+```json
+{
+  "rate_price": {
+    "average_nightly_rate": "143.05",
+    "average_nightly_rate_before_tax": "128.75",
+    "amount_after_tax": "572.20",
+    "amount_before_tax": "515.00",
+    "currency": "CAD"
+  },
+  "local_rate_price": null,
+  "public": "bd28b356-8602-4e91-a653-e60da9027dc7"
+}
+```
+
+## Hotel Booking Room Details Minimal
+
+Represents minimal room details for efficient listing purposes.
+
+### Sub Properties
+
+- `type`: ([Room Type](#room-type)) Room type classification
+- `bed_types`: (`Array<`[Bed Type](#bed-type)`>`) Available bed configurations
+- `max_occupancy`: (`number?`) Maximum number of guests allowed
+- `rate`: ([Hotel Booking Rate Details Minimal](#hotel-booking-rate-details-minimal)) Minimal rate details for this room
+- `public`: ([Public ID](#public-id)) Public identifier for the room details
+
+### Type Definition
+
+```ts
+interface HotelBookingRoomDetailsMinimal {
+  type: RoomType;
+  bed_types: BedType[];
+  max_occupancy?: number;
+  rate: HotelBookingRateDetailsMinimal;
+  public: PublicID;
+}
+```
+
+### Example
+
+```json
+{
+  "type": {
+    "name": "Deluxe King Room",
+    "code": "DLX_KING"
+  },
+  "bed_types": [
+    {
+      "type": "King",
+      "count": 1
+    }
+  ],
+  "max_occupancy": 2,
+  "rate": {
+    "rate_price": {
+      "average_nightly_rate": "143.05",
+      "average_nightly_rate_before_tax": "128.75",
+      "amount_after_tax": "572.20",
+      "amount_before_tax": "515.00",
+      "currency": "CAD"
+    },
+    "local_rate_price": null,
+    "public": "c6f74438-6b63-4485-8fa1-3f9f0e970792"
+  },
+  "public": "bd28b356-8602-4e91-a653-e60da9027dc7"
+}
+```
