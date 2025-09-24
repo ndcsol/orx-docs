@@ -1,154 +1,145 @@
 # Hotel Property Details
 
-This page covers retrieving comprehensive information about a specific hotel property, including detailed descriptions, amenities, policies, and check-in instructions.
+This page covers retrieving information about a specific hotel property and its rooms.
 
 ## Hotel Property Details
 
-`GET /hotel/[sessionId]/property/[selectedAvailability]`
+`GET /hotel/[sessionId]/property/[propertyId]`
 
-This endpoint retrieves comprehensive information about a specific hotel property, including detailed descriptions, amenities, policies, check-in instructions, and other property-specific information. The `selectedAvailability` parameter should be the public identifier of a hotel from the availability results.
+This endpoint retrieves information about a specific hotel property, including detailed descriptions, amenities, policies, check-in instructions, and other property-specific information. The `propertyId` parameter should be the public identifier of a hotel from the availability results.
 
 > 🛎 Use the `public` ID from a hotel availability result to fetch detailed property information including amenities, policies, and check-in procedures.
 
 ### Request
 
-```json filename="GET /hotel/[sessionId]/property/[selectedAvailability]" copy
-```
+`GET /hotel/[sessionId]/property/[propertyId]`
 
 ### Response
 
 Returns a [Hotel Property Details Response](/versions/v5/glossary#hotel-property-details-response) with comprehensive hotel information.
 
-```json filename="GET /hotel/[sessionId]/property/[selectedAvailability]" copy
+```json filename="GET /hotel/[sessionId]/property/[propertyId]" copy
 {
-  "hotel_information": {
-    "hotel_name": "Fairmont Hotel Vancouver",
-    "rating": "5",
-    "distance": {
-      "distance": "0.5",
-      "UOM": "KM"
+    "hotel_information": {
+        "hotel_name": "Fairmont Royal York",
+        "rating": "4",
+        "distance": null,
+        "images": [
+            {
+                "src": "https://i.travelapi.com/lodging/1000000/20000/17300/17289/ca60300e_z.jpg",
+                "alt": "Primary image"
+            },
+            {
+                "src": "https://i.travelapi.com/lodging/1000000/20000/17300/17289/4e7fad5f_z.jpg",
+                "alt": "Lobby"
+            }
+        ],
+        "chain_code": "-1",
+        "hotel_code": "17289",
+        "master_chain_name": "Accor Hotel Brands",
+        "master_chain_code": "RT",
+        "address": {
+            "city_name": "Toronto",
+            "country_code": "CA",
+            "address": "100 Front St West",
+            "city_code": null,
+            "postal_code": "M5J1E3",
+            "phone": [
+                "1-416-368-2511"
+            ],
+            "fax": [
+                "1-416-368-2884"
+            ],
+            "location": {
+                "latitude": "43.645954",
+                "longitude": "-79.381454",
+            }
+        }
     },
-    "logo": {
-      "src": "https://example.com/fairmont-logo.png",
-      "alt": "Fairmont Hotel Vancouver"
+    "check_in_information": {
+        "check_in": [
+            "2025-10-08 16:00:00",
+            "2025-10-09 02:00:00"
+        ],
+        "check_out": [
+            "2025-10-12 12:00:00"
+        ],
+        "instructions": [
+            "<ul><li>Extra-person charges may apply and vary depending on property policy</li><li>Government-issued photo identification and a credit card, debit card, or cash deposit may be required at check-in for incidental charges</li><li>Special requests are subject to availability upon check-in and may incur additional charges; special requests cannot be guaranteed</li><li>This property accepts credit cards; cash is not accepted</li><li>Cashless transactions are available</li><li>Safety features at this property include a smoke detector</li><li>This property affirms that it follows the cleaning and disinfection practices of ALLSAFE (Accor Hotels)</li><li>Please note that cultural norms and guest policies may differ by country and by property; the policies listed are provided by the property</li>  </ul>"
+        ],
+        "special_instructions": [
+            "Front desk staff will greet guests on arrival at the property. For any questions, please contact the property using the information on the booking confirmation.  Guests should contact the hotel about reaching the property during road construction using the number on the booking confirmation."
+        ]
     },
-    "chain_code": "FM",
-    "hotel_code": "YVRFM001",
-    "master_chain_name": "Fairmont Hotels & Resorts",
-    "master_chain_code": "FM",
-    "address": {
-      "address": "900 W Georgia St",
-      "city_name": "Vancouver",
-      "city_code": "YVR",
-      "postal_code": "V6C 2W6",
-      "country_name": "Canada",
-      "country_code": "CA",
-      "phone": ["+1-604-684-3131"],
-      "fax": ["+1-604-662-1929"],
-      "location": {
-        "latitude": "49.2827",
-        "longitude": "-123.1207"
-      }
-    }
-  },
-  "check_in_information": {
-    "check_in": ["15:00", "16:00"],
-    "check_out": ["11:00", "12:00"],
-    "instructions": [
-      "Photo identification and credit card required at check-in",
-      "Guests must be 18 years or older to check in"
+    "hotel_amenities": [
+        "Dry cleaning/laundry service",
+        "Gift shops or newsstand",
+        "Shopping on site",
+        "Comprehensive recycling policy",
+        "Bulk dispenser for toiletries",
+        "Proposal/romance packages available",
+        "Vegetarian breakfast available",
+        "Biodegradable/compostable stirrers",
+        "No single-use plastic straws",
+        "No single-use plastic soda bottles",
+        "Number of meeting rooms - 40",
+        "No single-use plastic stirrers",
+        "Conference space size (meters) - 6503",
+        "Reusable cups only",
+        "Wired internet access - surcharge",
+        "Reusable tableware only",
+        "Biodegradable/compostable straws",
+        "WiFi (surcharge)",
+        "Limo or town car service available",
+        "Sailing nearby",
+        "No single-use plastic water bottles",
+        "Number of bars/lounges - 3",
+        "Number of indoor pools - 1",
+        "Assistive listening devices available",
+        "Tours/ticket assistance",
+        "Internet access - wireless"
     ],
-    "special_instructions": [
-      "Valet parking available for additional fee",
-      "Early check-in subject to availability"
-    ]
-  },
-  "hotel_amenities": [
-    "Free WiFi",
-    "Fitness Center",
-    "Swimming Pool",
-    "Business Center",
-    "Concierge Service",
-    "Restaurant",
-    "Room Service",
-    "Spa Services",
-    "Valet Parking"
-  ],
-  "descriptions": [
-    {
-      "title": "Hotel Overview",
-      "text": "Located in the heart of downtown Vancouver, the Fairmont Hotel Vancouver offers luxury accommodations with stunning city and mountain views. This historic landmark hotel combines timeless elegance with modern amenities."
-    },
-    {
-      "title": "Location",
-      "text": "Situated on West Georgia Street, the hotel is within walking distance of major shopping districts, theaters, and business centers. Vancouver International Airport is 30 minutes away."
-    }
-  ],
-  "policies": [
-    {
-      "title": "Cancellation Policy",
-      "text": "Cancellations must be made 24 hours prior to arrival to avoid penalty charges. Late cancellations will be charged one night's accommodation."
-    },
-    {
-      "title": "Pet Policy",
-      "text": "Pets are welcome with advance notice. A non-refundable pet fee of $50 CAD per stay applies. Maximum 2 pets per room."
-    }
-  ],
-  "fees": [
-    {
-      "title": "Resort Fee",
-      "text": "A daily resort fee of $25 CAD includes WiFi access, fitness center use, and local telephone calls."
-    },
-    {
-      "title": "Parking",
-      "text": "Valet parking available for $35 CAD per night. Self-parking options available nearby."
-    }
-  ],
-  "rates_info": [
-    {
-      "rate_description": {
-        "start_date": "2025-10-08",
-        "end_date": "2025-10-12",
-        "tax_inclusive": true,
-        "number_of_nights": 4,
-        "refundable": true,
-        "discount_codes": [],
-        "pay_at_hotel": null
-      },
-      "rate_price": {
-        "fees": {
-          "total": "100.00",
-          "description": "Resort fees and service charges"
+    "descriptions": [
+        {
+            "title": "amenities",
+            "text": "Pamper yourself with a visit to the spa, which offers body treatments and facials. You're sure to appreciate the recreational amenities, including a health club, an indoor pool, and a sauna. This hotel also features wireless internet access (surcharge), concierge services, and gift shops/newsstands."
         },
-        "taxes": {
-          "total": "54.00",
-          "description": "GST/HST and city taxes"
+        {
+            "title": "dining",
+            "text": "Enjoy Regional cuisine at REIGN Restaurant + Bar, one of the hotel's 3 restaurants, or stay in and take advantage of the room service (during limited hours). Snacks are also available at the coffee shop/cafe. Need to unwind? Take a break with a tasty beverage at one of the 3 bars/lounges. Full breakfasts are served on weekdays from 6:30 AM to 11:00 AM and on weekends from 6:30 AM to 11:30 AM for a fee."
         },
-        "commission": {
-          "type": "PERCENTAGE",
-          "amount": "10.0"
+        {
+            "title": "renovations",
+            "text": "The following facilities are closed on Sunday: <ul><li>Full-service spa</li></ul>"
         },
-        "average_nightly_rate": "135.50",
-        "average_nightly_rate_before_tax": "122.00",
-        "amount_after_tax": "542.00",
-        "amount_before_tax": "488.00",
-        "currency": "CAD",
-        "discount": null
-      },
-      "local_rate_price": null,
-      "expireAt": "2025-01-24T23:55:00",
-      "createdAt": "2025-01-24T21:55:00",
-      "public": "rate_67890"
-    }
-  ],
-  "expireAt": "2025-01-24T23:55:00",
-  "public": "details_12345",
-  "createdAt": "2025-01-24T21:55:00",
-  "updatedAt": "2025-01-24T21:55:00"
+        {
+            "title": "business_amenities",
+            "text": "Featured amenities include wired internet access (surcharge), limo/town car service, and express check-in. Planning an event in Toronto? This hotel has 70000 square feet (6503 square meters) of space consisting of conference space and 40 meeting rooms."
+        },
+        {
+            "title": "rooms",
+            "text": "Make yourself at home in one of the 1343 guestrooms featuring minibars and LCD televisions. Your pillowtop bed comes with premium bedding. Digital programming and video-game consoles are provided for your entertainment, with wired and wireless internet access available for a surcharge. Private bathrooms with bathtubs or showers feature designer toiletries and hair dryers."
+        },
+        {
+            "title": "attractions",
+            "text": "Distances are displayed to the nearest 0.1 mile and kilometer. <br /> <p>PATH Underground Shopping Mall - 0.1 km / 0.1 mi <br /> The Path - 0.1 km / 0.1 mi <br /> Toronto-Dominion Centre - 0.3 km / 0.2 mi <br /> Hockey Hall of Fame - 0.4 km / 0.3 mi <br /> Roy Thomson Hall - 0.5 km / 0.3 mi <br /> Scotiabank Arena - 0.5 km / 0.3 mi <br /> Meridian Hall - 0.5 km / 0.3 mi <br /> Metro Toronto Convention Centre - 0.5 km / 0.3 mi <br /> Canada Permanent Building - 0.6 km / 0.4 mi <br /> Royal Alexandra Theatre - 0.7 km / 0.5 mi <br /> Four Seasons Centre - 0.8 km / 0.5 mi <br /> Rogers Centre - 0.8 km / 0.5 mi <br /> Ripley's Aquarium of Canada - 0.8 km / 0.5 mi <br /> Princess of Wales Theatre - 0.8 km / 0.5 mi <br /> CN Tower - 0.8 km / 0.5 mi <br /> </p><p>The nearest airports are:<br />Billy Bishop Toronto City Airport (YTZ) - 3.2 km / 2 mi<br /> Toronto Pearson Intl. Airport (YYZ) - 27.1 km / 16.9 mi<br /> </p><p></p>"
+        }
+    ],
+    "policies": [
+        {
+            "title": "know_before_you_go",
+            "text": "  Pool access available from 6:00 AM to 10:00 PM.Reservations are required for spa treatments. Reservations can be made by contacting the hotel prior to arrival, using the contact information on the booking confirmation. Children 18 years old and younger stay free when occupying the parent or guardian's room, using existing bedding. The property has connecting/adjoining rooms, which are subject to availability and can be requested by contacting the property using the number on the booking confirmation. The property allows pets in specific rooms only and has other pet restrictions (surcharges apply and can be found in the Fees section). Guests can arrange to bring pets by contacting the property directly, using the contact information on the booking confirmation.  Cashless payment methods are available for all transactions.Contactless check-in and contactless check-out are available.This property welcomes guests of all sexual orientations and gender identities (LGBTQ+ friendly). "
+        }
+    ],
+    "fees": null,
+    "expireAt": "2025-09-24T18:44:06.430Z",
+    "public": "9607a431-69e5-4f40-8e18-503612ad0c72",
+    "createdAt": "2025-09-24T16:45:16.434Z",
+    "updatedAt": "2025-09-24T16:45:16.434Z"
 }
 ```
 
-> ⛳ Property details include the same rate information as the availability response, but with additional context like amenities and policies to help with booking decisions.
+> ⛳ Property details include the same information as the availability response, but with additional context like amenities and policies to help with booking decisions.
 
 ### Possible Errors
 
