@@ -2555,31 +2555,7 @@ interface HotelRatePriceDiscount {
 }
 ```
 
-## Hotel Information
 
-Represents comprehensive hotel information with all available details (extends [Hotel Information Preview](#hotel-information-preview)).
-
-### Sub Properties
-
-Inherits all properties from [Hotel Information Preview](#hotel-information-preview):
-
-- `hotel_name`: (`string`) Name of the hotel
-- `rating`: (`string?`) Hotel star rating as a string
-- `distance`: ([Hotel Distance](#hotel-distance)`?`) Distance information from search location coordinates
-- `logo`: ([Hotel Image](#hotel-image)`?`) Hotel logo information
-- `chain_code`: (`string?`) Hotel chain code
-- `hotel_code`: (`string`) Unique hotel identifier code
-- `master_chain_name`: (`string?`) Name of the master hotel chain
-- `master_chain_code`: (`string?`) Code of the master hotel chain
-- `address`: ([Hotel Address](#hotel-address)`?`) Hotel address information
-
-### Type Definition
-
-```ts
-type HotelInformation = HotelInformationPreview;
-```
-
-> 🛎 Hotel Information is currently identical to Hotel Information Preview but is defined separately to allow for future extensions without breaking existing references.
 
 ## Hotel Check-In Information
 
@@ -2653,7 +2629,7 @@ Represents the comprehensive response from the hotel property details endpoint.
 
 ### Sub Properties
 
-- `hotel_information`: ([Hotel Information](#hotel-information)) Basic hotel information (inherited from availability)
+- `hotel_information`: ([Hotel Information Preview](#hotel-information-preview)) Basic hotel information (inherited from availability)
 - `check_in_information`: ([Hotel Check-In Information](#hotel-check-in-information)) Check-in and check-out procedures
 - `hotel_amenities`: (`Array<string>`) List of hotel amenities and facilities
 - `descriptions`: (`Array<`[Hotel Description](#hotel-description)`>`) Detailed hotel descriptions and information
@@ -2669,13 +2645,293 @@ Represents the comprehensive response from the hotel property details endpoint.
 
 ```ts
 interface HotelPropertyDetailsResponse {
-  hotel_information: HotelInformation;
+  hotel_information: HotelInformationPreview;
   check_in_information: HotelCheckInInformation;
   hotel_amenities: string[];
   descriptions: HotelDescription[];
   policies: HotelDescription[];
   fees?: HotelDescription[];
   rates_info: HotelRateInfo[];
+  expireAt: string;
+  public: PublicID;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+## Room Type
+
+Represents room type classification information.
+
+### Sub Properties
+
+- `name`: (`string?`) Name of the room type
+- `code`: (`string?`) Code identifier for the room type
+
+### Type Definition
+
+```ts
+interface RoomType {
+  name?: string;
+  code?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "name": "Deluxe King Room",
+  "code": "DLX_KING"
+}
+```
+
+## Bed Type
+
+Represents bed configuration information for hotel rooms.
+
+### Sub Properties
+
+- `type`: (`string`) Type of bed (e.g., King, Queen, Twin)
+- `count`: (`number`) Number of beds of this type
+
+### Type Definition
+
+```ts
+interface BedType {
+  type: string;
+  count: number;
+}
+```
+
+### Example
+
+```json
+{
+  "type": "King",
+  "count": 1
+}
+```
+
+## Rate Price Component Breakdown
+
+Represents detailed breakdown information for rate pricing components.
+
+### Sub Properties
+
+- `amount`: (`number`) Breakdown amount as a number
+- `text`: (`string`) Description of this breakdown component
+
+### Type Definition
+
+```ts
+interface RatePriceComponentBreakdown {
+  amount: number;
+  text: string;
+}
+```
+
+### Example
+
+```json
+{
+  "amount": 75.00,
+  "text": "Resort fee (per night)"
+}
+```
+
+## Enhanced Hotel Rate Fees
+
+Represents enhanced fee information with detailed breakdowns (extends [Hotel Rate Fees](#hotel-rate-fees)).
+
+### Sub Properties
+
+Inherits from [Hotel Rate Fees](#hotel-rate-fees):
+- `total`: (`string`) Total fees amount as a string
+
+Enhanced properties:
+- `description`: (`Record?`) Enhanced description object with additional details
+  - `description.text`: (`string`) Detailed description of the fees
+  - `description.title`: (`string`) Title for the fees section
+  - `description.link`: (`string?`) Link for more information
+  - `description.link_text`: (`string?`) Display text for the link
+- `breakdown`: (`Array<`[Rate Price Component Breakdown](#rate-price-component-breakdown)`>`) Detailed breakdown of fee components
+
+### Type Definition
+
+```ts
+interface EnhancedHotelRateFees extends Omit<HotelRateFees, 'description'> {
+  description?: {
+    text: string;
+    title: string;
+    link?: string;
+    link_text?: string;
+  };
+  breakdown: RatePriceComponentBreakdown[];
+}
+```
+
+### Example
+
+```json
+{
+  "total": "100.00",
+  "description": {
+    "text": "Resort fees include WiFi access, fitness center use, and pool access",
+    "title": "Resort & Service Fees",
+    "link": "https://example.com/fees-policy",
+    "link_text": "View detailed fee policy"
+  },
+  "breakdown": [
+    {
+      "amount": 75.00,
+      "text": "Resort fee (per night)"
+    },
+    {
+      "amount": 25.00,
+      "text": "Service fee (total stay)"
+    }
+  ]
+}
+```
+
+## Enhanced Hotel Rate Taxes
+
+Represents enhanced tax information with detailed breakdowns (extends [Hotel Rate Taxes](#hotel-rate-taxes)).
+
+### Sub Properties
+
+Inherits from [Hotel Rate Taxes](#hotel-rate-taxes):
+- `total`: (`string`) Total tax amount as a string
+
+Enhanced properties:
+- `description`: (`Record?`) Enhanced description object with additional details
+  - `description.text`: (`string`) Detailed description of the taxes
+  - `description.title`: (`string`) Title for the taxes section
+  - `description.link`: (`string?`) Link for more information
+  - `description.link_text`: (`string?`) Display text for the link
+- `breakdown`: (`Array<`[Rate Price Component Breakdown](#rate-price-component-breakdown)`>`) Detailed breakdown of tax components
+
+### Type Definition
+
+```ts
+interface EnhancedHotelRateTaxes extends Omit<HotelRateTaxes, 'description'> {
+  description?: {
+    text: string;
+    title: string;
+    link?: string;
+    link_text?: string;
+  };
+  breakdown: RatePriceComponentBreakdown[];
+}
+```
+
+### Example
+
+```json
+{
+  "total": "64.80",
+  "description": {
+    "text": "Government taxes and local city fees as required by law",
+    "title": "Taxes & Government Fees",
+    "link": null,
+    "link_text": null
+  },
+  "breakdown": [
+    {
+      "amount": 48.60,
+      "text": "GST/HST (13%)"
+    },
+    {
+      "amount": 16.20,
+      "text": "City occupancy tax"
+    }
+  ]
+}
+```
+
+## Enhanced Hotel Rate Price
+
+Represents enhanced pricing information with detailed breakdowns (extends [Hotel Rate Price](#hotel-rate-price)).
+
+### Sub Properties
+
+Inherits core pricing from [Hotel Rate Price](#hotel-rate-price):
+- `commission`: ([Hotel Rate Commission](#hotel-rate-commission)`?`) Commission information for the rate
+- `average_nightly_rate`: (`string`) Average nightly rate including taxes
+- `average_nightly_rate_before_tax`: (`string`) Average nightly rate before taxes
+- `amount_after_tax`: (`string`) Total amount for the stay including taxes
+- `amount_before_tax`: (`string`) Total amount for the stay before taxes
+- `currency`: (`string`) Currency code for all amounts
+- `discount`: ([Hotel Rate Price Discount](#hotel-rate-price-discount)`?`) Discount information showing pre-discount pricing
+
+Enhanced properties:
+- `fees`: ([Enhanced Hotel Rate Fees](#enhanced-hotel-rate-fees)) Enhanced fee information with breakdowns
+- `taxes`: ([Enhanced Hotel Rate Taxes](#enhanced-hotel-rate-taxes)) Enhanced tax information with breakdowns
+
+### Type Definition
+
+```ts
+interface EnhancedHotelRatePrice extends Omit<HotelRatePrice, 'fees' | 'taxes'> {
+  fees: EnhancedHotelRateFees;
+  taxes: EnhancedHotelRateTaxes;
+}
+```
+
+## Enhanced Hotel Rate Info
+
+Represents enhanced rate information with detailed pricing breakdowns (extends [Hotel Rate Info](#hotel-rate-info)).
+
+### Sub Properties
+
+Inherits from [Hotel Rate Info](#hotel-rate-info):
+- `rate_description`: ([Hotel Rate Description](#hotel-rate-description)) Description and terms of the rate
+- `expireAt`: (`string`) Rate expiration timestamp
+- `createdAt`: (`string`) Rate creation timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the rate
+
+Enhanced properties:
+- `rate_price`: ([Enhanced Hotel Rate Price](#enhanced-hotel-rate-price)`?`) Enhanced pricing information in client currency
+- `local_rate_price`: ([Enhanced Hotel Rate Price](#enhanced-hotel-rate-price)`?`) Enhanced pricing information in local currency
+
+### Type Definition
+
+```ts
+interface EnhancedHotelRateInfo extends Omit<HotelRateInfo, 'rate_price' | 'local_rate_price'> {
+  rate_price?: EnhancedHotelRatePrice;
+  local_rate_price?: EnhancedHotelRatePrice;
+}
+```
+
+## Hotel Room Details
+
+Represents detailed information about a specific room type including configuration, amenities, and enhanced rate information.
+
+### Sub Properties
+
+- `type`: ([Room Type](#room-type)) Room type classification
+- `bed_types`: (`Array<`[Bed Type](#bed-type)`>`) Available bed configurations
+- `max_occupancy`: (`number?`) Maximum number of guests allowed
+- `non_smoking`: (`boolean?`) Whether the room is non-smoking
+- `amenities`: (`Array<string>?`) Room-specific amenities
+- `images`: (`Array<`[Hotel Image](#hotel-image)`>?`) Images of the room
+- `rates`: (`Array<`[Enhanced Hotel Rate Info](#enhanced-hotel-rate-info)`>`) Available rates with enhanced pricing details
+- `expireAt`: (`string`) Room details expiration timestamp
+- `public`: ([Public ID](#public-id)) Public identifier for the room details
+- `createdAt`: (`string`) Creation timestamp
+- `updatedAt`: (`string`) Last update timestamp
+
+### Type Definition
+
+```ts
+interface HotelRoomDetails {
+  type: RoomType;
+  bed_types: BedType[];
+  max_occupancy?: number;
+  non_smoking?: boolean;
+  amenities?: string[];
+  images?: HotelImage[];
+  rates: EnhancedHotelRateInfo[];
   expireAt: string;
   public: PublicID;
   createdAt: string;

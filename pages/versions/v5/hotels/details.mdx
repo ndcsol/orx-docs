@@ -148,3 +148,192 @@ Returns a [Hotel Property Details Response](/versions/v5/glossary#hotel-property
 | 404 | [Session Not Found] | The specified session ID does not exist or has expired |
 | 404 | [Property Not Found] | The specified property ID does not exist in the current session |
 | 412 | [Search Not Initiated] | No search has been started for this session |
+
+## Hotel Rooms and Rate Details
+
+`GET /hotel/[sessionId]/rooms/[propertyId]`
+
+Returns detailed information about available room and associated rate options with enhanced pricing breakdowns.
+
+> 🛎 Use the `public` ID from a hotel availability properties.
+
+### Request
+
+`GET /hotel/[sessionId]/rooms/[propertyId]`
+
+### Response
+
+Returns an array of [Hotel Room Details](/versions/v5/glossary#hotel-room-details) with comprehensive room and rate information.
+
+```json filename="GET /hotel/[sessionId]/rooms/[propertyId]" copy
+[
+    {
+        "type": {
+            "name": "Guest room",
+            "code": "42"
+        },
+        "bed_types": [
+            {
+                "type": "Queen",
+                "count": 2
+            }
+        ],
+        "max_occupancy": null,
+        "non_smoking": null,
+        "amenities": [],
+        "images": null,
+        "rates": [
+            {
+                "rate_description": {
+                    "start_date": "2025-10-08 00:00:00",
+                    "end_date": "2025-10-12 00:00:00",
+                    "tax_inclusive": true,
+                    "number_of_nights": 4,
+                    "refundable": true,
+                    "commissionable": false,
+                    "discount_codes": [],
+                    "pay_at_hotel": true,
+                    "is_disabled": false,
+                    "payment_owner": "VENDOR"
+                },
+                "rate_price": null,
+                "local_rate_price": {
+                    "fees": {
+                        "total": "0.00",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "taxes": {
+                        "total": "347.21",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "average_nightly_rate": "470.80",
+                    "average_nightly_rate_before_tax": "384.00",
+                    "amount_after_tax": "1883.21",
+                    "amount_before_tax": "1536.00",
+                    "currency": "CAD"
+                },
+                "expireAt": "2025-09-24T18:44:06.430Z",
+                "createdAt": "2025-09-24T17:11:54.519Z",
+                "public": "f6937840-8f61-4159-a932-d62795adac2a"
+            },
+            {
+                "rate_description": {
+                    "start_date": "2025-10-08 00:00:00",
+                    "end_date": "2025-10-12 00:00:00",
+                    "tax_inclusive": true,
+                    "number_of_nights": 4,
+                    "refundable": true,
+                    "commissionable": false,
+                    "discount_codes": [],
+                    "pay_at_hotel": true,
+                    "is_disabled": false,
+                    "payment_owner": "VENDOR"
+                },
+                "rate_price": null,
+                "local_rate_price": {
+                    "fees": {
+                        "total": "0.00",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "taxes": {
+                        "total": "374.33",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "average_nightly_rate": "507.58",
+                    "average_nightly_rate_before_tax": "414.00",
+                    "amount_after_tax": "2030.33",
+                    "amount_before_tax": "1656.00",
+                    "currency": "CAD"
+                },
+                "expireAt": "2025-09-24T18:44:06.430Z",
+                "createdAt": "2025-09-24T17:11:54.520Z",
+                "public": "223912d8-31c6-4dce-92dc-4a5067b49296"
+            }
+        ],
+        "expireAt": "2025-09-24T18:44:06.430Z",
+        "public": "eaa8a92c-9ffb-4c58-856a-e25ed45091ba",
+        "createdAt": "2025-09-24T17:11:54.599Z",
+        "updatedAt": "2025-09-24T17:11:54.599Z"
+    },
+    {
+        "type": {
+            "name": "Guest room",
+            "code": "42"
+        },
+        "bed_types": [
+            {
+                "type": "King",
+                "count": 1
+            }
+        ],
+        "max_occupancy": null,
+        "non_smoking": null,
+        "amenities": [
+            "Balcony Lanai Terrace"
+        ],
+        "images": [
+          {
+            "src": "https://example.com/room-deluxe-king-1.jpg",
+            "alt": "Deluxe King Room - Main View"
+          },
+          {
+            "src": "https://example.com/room-deluxe-king-bathroom.jpg", 
+            "alt": "Deluxe King Room - Bathroom"
+          }
+        ],
+        "rates": [
+            {
+                "rate_description": {
+                    "start_date": "2025-10-08 00:00:00",
+                    "end_date": "2025-10-12 00:00:00",
+                    "tax_inclusive": true,
+                    "number_of_nights": 4,
+                    "refundable": true,
+                    "commissionable": false,
+                    "discount_codes": [],
+                    "pay_at_hotel": true,
+                    "is_disabled": false,
+                    "payment_owner": "VENDOR"
+                },
+                "rate_price": null,
+                "local_rate_price": {
+                    "fees": {
+                        "total": "0.00",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "taxes": {
+                        "total": "428.60",
+                        "description": null,
+                        "breakdown": []
+                    },
+                    "average_nightly_rate": "581.15",
+                    "average_nightly_rate_before_tax": "474.00",
+                    "amount_after_tax": "2324.60",
+                    "amount_before_tax": "1896.00",
+                    "currency": "CAD"
+                },
+                "expireAt": "2025-09-24T18:44:06.430Z",
+                "createdAt": "2025-09-24T17:11:54.549Z",
+                "public": "6e4872f8-3f74-447b-b77d-2a7985009b95"
+            }
+        ],
+        "expireAt": "2025-09-24T18:44:06.430Z",
+        "public": "593130b5-6a25-42f9-b20e-6bfe867b05d4",
+        "createdAt": "2025-09-24T17:11:54.602Z",
+        "updatedAt": "2025-09-24T17:11:54.602Z"
+    }
+]
+```
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Hotel Not Found] | The specified hotel availability ID does not exist in the current session |
+| 412 | [Search Not Initiated] | No search has been started for this session |
