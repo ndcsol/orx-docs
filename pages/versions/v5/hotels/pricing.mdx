@@ -1,0 +1,85 @@
+# Hotel Pricing
+
+This page covers retrieving confirmed pricing for specific hotel rates.
+
+## Hotel Rate Pricing
+
+`GET /hotel/[sessionId]/pricing/[rateId]`
+
+This endpoint retrieves confirmed pricing information for a specific hotel rate. The `rateId` parameter should be the public identifier from an Enhanced Hotel Rate Info object obtained from the room details endpoint.
+
+> 🛎 Use this endpoint to get final confirmed pricing before proceeding to booking. Pricing may differ from room details due to availability changes.
+
+### Request
+
+`GET /hotel/[sessionId]/pricing/[rateId]`
+
+### Response
+
+Returns a single [Enhanced Hotel Rate Info](/versions/v5/glossary#enhanced-hotel-rate-info) object with confirmed pricing.
+
+```json filename="GET /hotel/[sessionId]/pricing/[rateId]" copy
+{
+    "rate_description": {
+        "start_date": "2025-10-08",
+        "end_date": "2025-10-12",
+        "tax_inclusive": false,
+        "number_of_nights": 4,
+        "refundable": true,
+        "commissionable": true,
+        "discount_codes": [],
+        "pay_at_hotel": false,
+        "payment_owner": "CLIENT"
+    },
+    "rate_price": {
+        "average_nightly_rate": "105.40",
+        "average_nightly_rate_before_tax": "95.49",
+        "amount_after_tax": "421.60",
+        "amount_before_tax": "381.96",
+        "fees": {
+            "total": "0",
+            "description": null,
+            "breakdown": []
+        },
+        "taxes": {
+            "total": "39.64",
+            "description": {
+                "text": "This charge includes estimated amounts the travel service provider (i.e. hotel, car rental company) pays for their taxes, and/or taxes that we pay, to taxing authorities on your booking (including but not limited to sales, occupancy, and value added tax). This amount may also include any amounts charged to us for resort fees, cleaning fees, and other fees and/or a fee we, the hotel supplier and/or the site you booked on, retain as part of the compensation for our and/or their services, which varies based on factors such as location, the amount, and how you booked. For more details, please see the terms and conditions.",
+                "title": "Taxes and Fees",
+                "link": null,
+                "link_text": null
+            },
+            "breakdown": [
+                {
+                    "amount": 37.72,
+                    "text": "Tax and service fee"
+                },
+                {
+                    "amount": 1.92,
+                    "text": "Property fee"
+                }
+            ]
+        },
+        "currency": "CAD",
+        "commission": {
+            "type": "FIXED",
+            "amount": "27.34"
+        }
+    },
+    "local_rate_price": null,
+    "public": "3fb035e6-68ef-435e-a515-6ab21a0a25eb",
+    "expireAt": "2025-09-24T18:44:06.430Z",
+    "createdAt": "2025-09-24T17:32:00.041Z",
+    "updatedAt": "2025-09-24T17:32:00.041Z"
+}
+```
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Rate Not Found] | The specified rate ID does not exist or is no longer available |
+| 412 | [Search Not Initiated] | No search has been started for this session |
+| 410 | [Rate Expired] | The rate has expired and is no longer available for pricing |
+| 409 | [Rate No Longer Available] | The rate is no longer available due to inventory changes |
