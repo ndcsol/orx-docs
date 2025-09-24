@@ -2878,6 +2878,136 @@ interface EnhancedHotelRatePrice extends Omit<HotelRatePrice, 'fees' | 'taxes'> 
 }
 ```
 
+## Hotel Cancellation Penalty
+
+Represents a cancellation penalty with specific deadlines and amounts.
+
+### Sub Properties
+
+- `amount`: (`string`) Penalty amount as a string
+- `currency`: (`string`) Currency code for the penalty amount
+- `deadline`: (`string`) Deadline for when this penalty applies
+- `percentage`: (`string?`) Penalty as a percentage
+
+### Type Definition
+
+```ts
+interface HotelCancellationPenalty {
+  amount: string;
+  currency: string;
+  deadline: string;
+  percentage?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "amount": "150.00",
+  "currency": "CAD",
+  "deadline": "2025-10-07T15:00:00",
+  "percentage": null
+}
+```
+
+## Hotel Cancellation
+
+Represents cancellation information including refundability and penalty structure.
+
+### Sub Properties
+
+- `refundable`: (`boolean`) Whether the rate is refundable
+- `penalties`: (`Array<`[Hotel Cancellation Penalty](#hotel-cancellation-penalty)`>`) List of cancellation penalties with deadlines
+
+### Type Definition
+
+```ts
+interface HotelCancellation {
+  refundable: boolean;
+  penalties: HotelCancellationPenalty[];
+}
+```
+
+### Example
+
+```json
+{
+  "refundable": true,
+  "penalties": [
+    {
+      "amount": "0.00",
+      "currency": "CAD",
+      "deadline": "2025-10-07T15:00:00",
+      "percentage": null
+    },
+    {
+      "amount": "150.00",
+      "currency": "CAD", 
+      "deadline": "2025-10-08T15:00:00",
+      "percentage": "50"
+    }
+  ]
+}
+```
+
+## Enhanced Hotel Rate Description
+
+Represents enhanced rate description with cancellation information (extends [Hotel Rate Description](#hotel-rate-description)).
+
+### Sub Properties
+
+Inherits from [Hotel Rate Description](#hotel-rate-description):
+- `start_date`: (`string`) Check-in date in YYYY-MM-DD format
+- `end_date`: (`string`) Check-out date in YYYY-MM-DD format
+- `tax_inclusive`: (`boolean`) Whether the rate includes taxes
+- `number_of_nights`: (`number`) Number of nights for the stay
+- `refundable`: (`boolean`) Whether the rate is refundable
+- `discount_codes`: (`Array<string>`) List of applicable discount codes
+- `pay_at_hotel`: (`string?`) Payment method information if paid at hotel or prepaid
+
+Enhanced properties:
+- `cancellation`: ([Hotel Cancellation](#hotel-cancellation)) Detailed cancellation policy and penalties
+
+### Type Definition
+
+```ts
+interface EnhancedHotelRateDescription extends HotelRateDescription {
+  cancellation: HotelCancellation;
+}
+```
+
+### Example
+
+```json
+{
+  "start_date": "2025-10-08",
+  "end_date": "2025-10-12",
+  "tax_inclusive": true,
+  "number_of_nights": 4,
+  "refundable": true,
+  "discount_codes": [],
+  "pay_at_hotel": null,
+  "cancellation": {
+    "refundable": true,
+    "penalties": [
+      {
+        "amount": "0.00",
+        "currency": "CAD",
+        "deadline": "2025-10-07T15:00:00",
+        "percentage": null
+      },
+      {
+        "amount": "150.00",
+        "currency": "CAD",
+        "deadline": "2025-10-08T15:00:00",
+        "percentage": "50"
+      }
+    ]
+  }
+}
+```
+
 ## Enhanced Hotel Rate Info
 
 Represents enhanced rate information with detailed pricing breakdowns (extends [Hotel Rate Info](#hotel-rate-info)).
@@ -2885,19 +3015,20 @@ Represents enhanced rate information with detailed pricing breakdowns (extends [
 ### Sub Properties
 
 Inherits from [Hotel Rate Info](#hotel-rate-info):
-- `rate_description`: ([Hotel Rate Description](#hotel-rate-description)) Description and terms of the rate
 - `expireAt`: (`string`) Rate expiration timestamp
 - `createdAt`: (`string`) Rate creation timestamp
 - `public`: ([Public ID](#public-id)) Public identifier for the rate
 
 Enhanced properties:
+- `rate_description`: ([Enhanced Hotel Rate Description](#enhanced-hotel-rate-description)) Enhanced description and terms with cancellation details
 - `rate_price`: ([Enhanced Hotel Rate Price](#enhanced-hotel-rate-price)`?`) Enhanced pricing information in client currency
 - `local_rate_price`: ([Enhanced Hotel Rate Price](#enhanced-hotel-rate-price)`?`) Enhanced pricing information in local currency
 
 ### Type Definition
 
 ```ts
-interface EnhancedHotelRateInfo extends Omit<HotelRateInfo, 'rate_price' | 'local_rate_price'> {
+interface EnhancedHotelRateInfo extends Omit<HotelRateInfo, 'rate_description' | 'rate_price' | 'local_rate_price'> {
+  rate_description: EnhancedHotelRateDescription;
   rate_price?: EnhancedHotelRatePrice;
   local_rate_price?: EnhancedHotelRatePrice;
 }

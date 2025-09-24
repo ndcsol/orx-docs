@@ -29,7 +29,30 @@ Returns a single [Enhanced Hotel Rate Info](/versions/v5/glossary#enhanced-hotel
         "commissionable": true,
         "discount_codes": [],
         "pay_at_hotel": false,
-        "payment_owner": "CLIENT"
+        "payment_owner": "CLIENT",
+        "cancellation": {
+            "refundable": true,
+            "penalties": [
+                {
+                    "amount": "0.00",
+                    "currency": "CAD",
+                    "deadline": "2025-10-07T15:00:00",
+                    "percentage": null
+                },
+                {
+                    "amount": "210.80",
+                    "currency": "CAD",
+                    "deadline": "2025-10-08T15:00:00",
+                    "percentage": "50"
+                },
+                {
+                    "amount": "421.60",
+                    "currency": "CAD",
+                    "deadline": "2025-10-08T23:59:59",
+                    "percentage": "100"
+                }
+            ]
+        }
     },
     "rate_price": {
         "average_nightly_rate": "105.40",
