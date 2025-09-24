@@ -3348,3 +3348,126 @@ interface HotelBookingRoomDetailsMinimal {
   "public": "bd28b356-8602-4e91-a653-e60da9027dc7"
 }
 ```
+
+## Refund Type
+
+Represents the type of refund policy for hotel cancellations.
+
+### Possible Values
+
+- `REFUND_OR_RETAIN`: Partial refund with some amounts retained
+- `FORFEIT`: No refund available (full forfeiture)
+- `RESERVATION`: No charges have been made, so no refund applicable
+- `UNKNOWN`: Refund policy cannot be determined
+
+### Type Definition
+
+```ts
+type RefundType = "REFUND_OR_RETAIN" | "FORFEIT" | "RESERVATION" | "UNKNOWN";
+```
+
+## Refund Item Type
+
+Represents whether a refund amount is returned to the customer or retained by the vendor.
+
+### Possible Values
+
+- `REFUND`: Amount refunded to the original payment method
+- `RETAIN`: Amount retained as credit or voucher for future use
+
+### Type Definition
+
+```ts
+type RefundItemType = "REFUND" | "RETAIN";
+```
+
+## Refund Item
+
+Represents an individual refund or retention item in the cancellation breakdown.
+
+### Sub Properties
+
+- `type`: ([Refund Item Type](#refund-item-type)) Whether the amount is refunded or retained
+- `amount`: (`number`) Refund or retention amount
+- `currency`: (`string`) Currency code for the amount
+- `expiration`: (`string?`) Expiration date for retained credits
+
+### Type Definition
+
+```ts
+interface RefundItem {
+  type: RefundItemType;
+  amount: number;
+  currency: string;
+  expiration?: string;
+}
+```
+
+### Example
+
+```json
+{
+  "type": "REFUND",
+  "amount": 450.00,
+  "currency": "CAD",
+  "expiration": null
+}
+```
+
+## Hotel Cancel Refund
+
+Represents complete refund information for a hotel cancellation.
+
+### Sub Properties
+
+- `type`: ([Refund Type](#refund-type)) Overall refund policy type
+- `items`: (`Array<`[Refund Item](#refund-item)`>`) Detailed breakdown of refund items
+- `vendor`: (`string?`) Vendor handling the refund
+
+### Type Definition
+
+```ts
+interface HotelCancelRefund {
+  type: RefundType;
+  items: RefundItem[];
+  vendor?: string;
+}
+```
+
+## Hotel Check Cancel Response
+
+Represents the response from checking hotel cancellation eligibility.
+
+### Sub Properties
+
+- `locator`: (`string`) Booking locator or confirmation number
+- `refund`: ([Hotel Cancel Refund](#hotel-cancel-refund)) Detailed refund information for the cancellation check
+
+### Type Definition
+
+```ts
+interface HotelCheckCancelResponse {
+  locator: string;
+  refund: HotelCancelRefund;
+}
+```
+
+## Hotel Cancel Response
+
+Represents the response from performing an actual hotel booking cancellation.
+
+### Sub Properties
+
+- `success`: (`boolean`) Whether the cancellation was successful
+- `locator`: (`string`) Booking locator or confirmation number
+- `refund`: ([Hotel Cancel Refund](#hotel-cancel-refund)) Detailed refund information for the completed cancellation
+
+### Type Definition
+
+```ts
+interface HotelCancelResponse {
+  success: boolean;
+  locator: string;
+  refund: HotelCancelRefund;
+}
+```

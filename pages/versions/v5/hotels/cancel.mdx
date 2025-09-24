@@ -1,0 +1,97 @@
+# Hotel Cancellation
+
+This page covers checking cancellation eligibility and performing hotel booking cancellations. The cancellation process provides detailed refund information and handles various refund scenarios based on hotel policies.
+
+## Check Cancellation Eligibility
+
+`GET /hotel/[sessionId]/cancel`
+
+This endpoint checks if a hotel booking can be cancelled and returns cancellation details including refund information. This is a read-only operation that does not perform the actual cancellation. The session must contain a valid hotel booking.
+
+> 🛎 Use this endpoint to check cancellation terms before proceeding with the actual cancellation. Refund amounts may vary based on timing and hotel policies.
+
+### Request
+
+`GET /hotel/[sessionId]/cancel`
+
+### Response
+
+Returns a [Hotel Check Cancel Response](/versions/v5/glossary#hotel-check-cancel-response) with cancellation eligibility and refund breakdown.
+
+```json filename="GET /hotel/[sessionId]/cancel" copy
+{
+    "refund": {
+        "type": "REFUND_OR_RETAIN",
+        "items": [
+            {
+                "type": "REFUND",
+                "amount": "1335.01",
+                "currency": "CAD",
+                "expiration": null
+            }
+        ],
+        "vendor": "39686895"
+    },
+    "locator": "UDSDXT",
+    "cancellable": true
+}
+```
+
+> ⛳ Refund processing times vary by vendor and payment method. 
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Booking Not Found] | No booking exists for the specified session |
+| 412 | [Invalid Session Type] | The session is not a hotel booking session |
+| 409 | [Booking Already Cancelled] | The booking has already been cancelled |
+
+## Cancel Hotel Booking
+
+`POST /hotel/[sessionId]/cancel`
+
+This endpoint performs the actual cancellation of a hotel booking. The session must contain a valid hotel booking. Returns cancellation confirmation and refund details.
+
+> 🧨 This operation is irreversible. Once a booking is cancelled, it cannot be restored. Always check cancellation eligibility first using the check endpoint.
+
+### Request
+
+`POST /hotel/[sessionId]/cancel`
+
+### Response
+
+Returns a [Hotel Cancel Response](/versions/v5/glossary#hotel-cancel-response) with cancellation confirmation and refund information.
+
+```json filename="POST /hotel/[sessionId]/cancel" copy
+{
+    "refund": {
+        "type": "REFUND_OR_RETAIN",
+        "items": [
+            {
+                "type": "REFUND",
+                "amount": "1335.01",
+                "currency": "CAD",
+                "expiration": null
+            }
+        ],
+        "vendor": "39686895"
+    },
+    "success": true,
+    "locator": "UDSDXT",
+    "cancellable": true
+}
+```
+
+### Possible Errors
+
+| Status Code | Error | Reason |
+|---|---|---|
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
+| 404 | [Booking Not Found] | No booking exists for the specified session |
+| 412 | [Invalid Session Type] | The session is not a hotel booking session |
+| 409 | [Booking Already Cancelled] | The booking has already been cancelled |
+| 412 | [Cancellation Period Expired] | The booking is past the allowed cancellation window |
+| 422 | [Non-Refundable Booking] | The booking rate does not allow cancellations |
+| 500 | [Cancellation Processing Error] | System error occurred during cancellation processing |
