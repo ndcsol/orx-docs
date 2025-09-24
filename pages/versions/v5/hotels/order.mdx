@@ -1,0 +1,163 @@
+# Ordering Hotels
+
+Once you have selected your hotel, obtained the detailed room information, and confirmed the pricing, you can proceed to place an order for the selected accommodation. This step finalizes the booking process and requires providing payment information.
+
+## Passenger Requirements
+
+Before placing a hotel order, at least one adult ([Passenger Code](/versions/v5/glossary#passenger-code) `ADT`) must include:
+
+- Complete `personal_info` object with all required fields
+- Valid `email` address 
+- Valid `phone_number` in E.164 format
+
+> 🧨 If the passenger requirements are not met, the request will return validation errors for the passengers.
+
+
+## Requesting Order
+
+`POST /hotel/[sessionId]/order/[rateId]`
+
+Use this endpoint to place an order for the selected hotel rate using the specified payment details. The `rateId` parameter should be the public identifier from the pricing confirmation.
+
+You may provide a new payment or an alternative payment method here; or, create one using the [Payment Management](/versions/v5/payment) endpoint.
+
+### Request
+
+> 💣 If you choose to use the payment management endpoints, you must not provide the payment information in this request. Doing so will result in an error.
+
+#### Order using a Payment Information Object
+
+If paying with a regular payment object and have not created a payment object using the [Payment Management](/versions/v5/payment#update-payment) endpoint, you must provide the payment information in this request.
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "payment": {
+    "code": "visa",
+    "first_name": "John",
+    "last_name": "Doe", 
+    "token": "401299Hb1tTS9999",
+    "expiry": "10/25",
+    "billing_information": {
+      "unit": "211",
+      "country": "CA",
+      "state": "ON",
+      "address": "529 West Broadway",
+      "city": "Toronto",
+      "postal_code": "L5W1N6"
+    }
+  }
+}
+```
+
+- `payment`: ([Payment Information](/versions/v5/glossary#payment-information)?) Payment to be used for the order.
+
+#### Order using an Alternative Payment
+
+Alternatively, if you are planning to use an alternative payment method; and, [have not attached an alternative payment to the session](/versions/v5/payment#update-alternative-payment), you can provide the alternative payment information in this request.
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "alternativePayment": {
+    "method": "VERTO",
+    "payload": {
+      "token": "bd12b3d4-5c63-4938-86df-cf4a2207fc59"
+    }
+  }
+}
+```
+
+- `alternativePayment`: ([Alternative Payment Information](/versions/v5/glossary#alternative-payment-information)?) Alternative Payment to be used for the order.
+
+#### Attaching Meta Data to the Order Session
+
+You may attach a set of meta-data properties to the order session. This can be useful for filtering and searching orders later on. These must be string key-value pairs set in the `clientMeta` object.
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "clientMeta": {
+    "booking-source": "mobile-app",
+    "guest-type": "business-traveler"
+  }
+}
+```
+
+> 🔔 Please ensure that the meta-data properties are URL safe, as they will be used in the URL for filtering and searching orders.
+
+#### Attaching 3DS data to the Order
+
+If a 3DS flow is requested and completed, the 3DS data should be attached to the order request under the `threeDs` object.
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "threeDs": {
+    "gateway": "stripe",
+    "payload": {
+      "paymentIntent": {
+        "id": "pi_1J2f3sdf",
+        "status": "succeeded"
+      }
+    }
+  }
+}
+```
+
+#### Attaching a Context to the Order
+
+You may attach a context to the order session. This will help the fraud prevention mechanism to understand the context of the order more accurately.
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "context": {
+    "gateway": "stripe",
+    "payload": {
+      "radarSession": {
+        "id": "rse_1RMZ41KO2Vs5OgwIcWS8C7oA",
+        "passive_captcha_site_key": "9883b18b-8cd9-4469-b478-05c06d8252d8"
+      }
+    }
+  }
+}
+```
+
+#### Automatically Cancelling an Order
+
+You may request the order to be cancelled automatically right after the booking is made. This is useful for testing purposes. This can be done by attaching a `x-cancel-ttl` HTTP header, which accepts a time-to-live value in milliseconds. The accepted range is between 1000 and 300000. If any other value is passed in, the API will default to 60000.
+
+```shell copy
+curl -X POST -H "x-cancel-ttl: 3000" https://api.orx.travel/hotel/[sessionId]/order/[rateId]
+```
+
+### Response
+
+```json filename="POST /hotel/[sessionId]/order/[rateId]" copy
+{
+  "flow": "HOTEL_BOOKING",
+  "expireAt": "2025-10-12T23:59:59.000Z",
+  "createdAt": "2025-01-24T22:30:15.817Z",
+  "public": "aa27fbad-5c63-4938-86df-cf4a2207fc59"
+}
+```
+
+The response will be a new [Session](/versions/v5/glossary#session) object. The order session serves as a reference to manage and access specific hotel bookings.
+
+> 🧨 Once the order is placed, **the search session that you have been using will be invalidated**. For any action from here on, you will need to use the new [public](/versions/v5/glossary#public-id) returned in this response.
+
+> 🛎 The session returned will be of flow `HOTEL_BOOKING`. This session is a long-lived one that will expire after the check-out date of the hotel reservation. You can see the details of the session using the [Get Session](/versions/v5/session#accessing-session-information) endpoint.
+
+### Possible Errors
+
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 400 | [Validation Error] | Failed Validation | ORX_VALIDATION_EXCEPTION |
+| 404 | Session not found or expired | Request targeting a non-existent session | ORX_SESSION_NOT_FOUND |
+| 404 | Rate not found or expired | The specified rate ID does not exist or has expired | ORX_RATE_NOT_FOUND |
+| 500 | NDCx Internal Error | Unknown | ORX_UNKNOWN_ERROR |
+| 412 | Pricing not found. Please price the rate before attempting to order | Pricing call hasn't been made for the selected rate | ORX_PRICING_NOT_FOUND |
+| 409 | Session is currently locked by another process. Please try again later | Session is locked by another process | ORX_SESSION_LOCKED |
+| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment provided in the order | ORX_MULTIPLE_FOP |
+| 412 | No payment method provided for the order | No payment of any kind has been provided for the order | ORX_NO_PAYMENT_ATTACHED |
+| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified | ORX_INVALID_ALTERNATIVE_PAYMENT |
+| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual intervention is required | ORX_MALFORMED_PASSENGER_INFO |
+| 412 | Hotel rate not selected | No hotel rate has been selected for booking | ORX_UNSELECTED_RATE |
+| 403 | The payment was rejected due to a high fraud risk. Please contact support for further assistance | There was a high risk of fraud associated with the transaction | ORX_PAYMENT_REJECTED |
+| 410 | Hotel rate is no longer available | The selected rate is no longer available for booking | ORX_RATE_UNAVAILABLE |

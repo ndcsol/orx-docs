@@ -81,7 +81,7 @@ A session that contexluizes a search or an order.
 
 ### Sub Properties
 
-- `flow`: (`FLIGHT` | `FLIGHT_BOOKING` | `HOTEL`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing booking. `HOTEL` indicates a hotel search session.
+- `flow`: (`FLIGHT` | `FLIGHT_BOOKING` | `HOTEL` | `HOTEL_BOOKING`) The type of the session. `FLIGHT_BOOKING` indicates the session is used to retrieve information about an existing flight booking. `HOTEL` indicates a hotel search session. `HOTEL_BOOKING` indicates the session is used to retrieve information about an existing hotel booking.
 - `public`: ([Public ID](#public-id)) The public ID of the session.
 - `expireAt`: (`string`) The date and time when the session will expire.
 - `createdAt`: (`string`) The date and time when the session was created.
@@ -90,7 +90,7 @@ A session that contexluizes a search or an order.
 
 ```ts
 interface Session {
-  flow: "FLIGHT" | "FLIGHT_BOOKING" | "HOTEL";
+  flow: "FLIGHT" | "FLIGHT_BOOKING" | "HOTEL" | "HOTEL_BOOKING";
   public: PublicID;
   expireAt: string;
   createdAt: string;
