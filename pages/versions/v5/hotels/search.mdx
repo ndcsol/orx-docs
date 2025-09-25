@@ -61,6 +61,8 @@ The API returns four types of location results:
 |---|---|---|
 | 400 | [Validation Error] | Invalid query parameters or search string |
 | 429 | [Rate Limit Exceeded] | Too many requests in short time period |
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
 
 ## Hotel Session Initiation
 
@@ -127,12 +129,9 @@ Returns a [Session](/versions/v5/glossary#session) object with `flow` set to `HO
 | Status Code | Error | Reason | Reason Code |
 | --- | --- | --- | --- |
 | 401 | Unauthorized | Invalid or missing API key | |
-| 404 | Invalid Key Exception | API key exists but is invalid or inactive | ORX_INVALID_API_KEY      |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
 | 400 | [VALIDATION ERROR] | Failed Validation |
-| 500 | NDCx Internal Error | Unknown |
 | 404 | Location Not Found | Location with provided public ID not found | ORX_LOCATION_NOT_FOUND   |
-| 404 | Session Not Found | Session lookup failed during creation process | ORX_SESSION_NOT_FOUND    |
-| 500 | Internal Error Exception | Unhandled server errors, MongoDB issues, or unexpected errors | ORX_UNKNOWN_ERROR        |
 
 ## Hotel Search Initiation
 
@@ -174,8 +173,12 @@ Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) w
 
 | Status Code | Error | Reason |
 |---|---|---|
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
 | 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 409 | [Search Already Initiated] | A search has already been started for this session |
+| 400 | Search Already Initiated | A search has already been started for this session | ORX_SEARCH_ALREADY_STARTED |
+| 400 | Invalid Session Type | The session ID does not correspond to a hotel search session | ORX_INVALID_SESSION_TYPE |
+| 500 | NDCx Internal Error | Unknown |
 
 ## Hotel Search Status
 
@@ -215,8 +218,10 @@ Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) w
 
 | Status Code | Error | Reason |
 |---|---|---|
-| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 412 | [Search Not Initiated] | No search has been started for this session |
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired | ORX_SESSION_NOT_FOUND |
+| 400 | [Search Not Initiated] | No search has been started for this session | ORX_SEARCH_NOT_STARTED |
 
 ## Hotel Availability Results
 
@@ -425,4 +430,5 @@ Returns a [Hotel Availability Response](/versions/v5/glossary#hotel-availability
 | Status Code | Error | Reason |
 |---|---|---|
 | 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 412 | [Search Not Initiated] | No search has been started for this session |
+| 400 | Search Not Initiated | No search has been started for this session | ORX_SEARCH_NOT_STARTED |
+| 400 | [Validation Error] | Invalid query parameters or search string |
