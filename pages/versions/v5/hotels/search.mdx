@@ -150,17 +150,17 @@ Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) w
 
 ```json filename="POST /hotel/[sessionId]/search" copy
 {
-    "status": "COMPLETED",
+    "status": "IN_PROGRESS",
     "streams": [
         {
             "id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
             "credential_id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
-            "status": "COMPLETED"
+            "status": "IN_PROGRESS"
         },
         {
             "id": "a0fc581f-5000-4660-a16a-f824792122d0",
             "credential_id": "a0fc581f-5000-4660-a16a-f824792122d0",
-            "status": "COMPLETED"
+            "status": "IN_PROGRESS"
         }
     ]
 }
@@ -189,7 +189,7 @@ Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) w
 
 ```json filename="GET /hotel/[sessionId]/search" copy
 {
-    "status": "IN_PROGRESS",
+    "status": "COMPLETED",
     "streams": [
         {
             "id": "b4ee9428-63a5-4c1f-b78f-c41f28849edf",
@@ -199,7 +199,7 @@ Returns a [Hotel Search Response](/versions/v5/glossary#hotel-search-response) w
         {
             "id": "a0fc581f-5000-4660-a16a-f824792122d0",
             "credential_id": "a0fc581f-5000-4660-a16a-f824792122d0",
-            "status": "IN_PROGRESS"
+            "status": "COMPLETED"
         }
     ]
 }
