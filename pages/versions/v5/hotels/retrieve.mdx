@@ -88,6 +88,15 @@ You can request a list of all hotel bookings that you have made. This endpoint w
 
 > 🛎 The endpoint currently does not include any metadata about the pagination. If the empty array is returned, you can assume that there are no more results to be fetched.
 
+### Possible Errors
+
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 401 | Unauthorized | Invalid or missing API key |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
+| 400 | [Validation Error] | Invalid query parameters or search string | ORX_VALIDATION_EXCEPTION |
+
+
 ## Requesting Hotel Booking Retrieve
 
 ### Request
@@ -359,8 +368,10 @@ This endpoint will provide you with the necessary information and details of the
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 404 | [Booking Not Found] | No booking exists for the specified session |
-| 412 | [Invalid Session Type] | The session is not a hotel booking session |
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 401 | Unauthorized | Invalid or missing API key |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired | ORX_SESSION_NOT_FOUND |
+| 400 | [Validation Error] | Invalid query parameters or search string | ORX_VALIDATION_EXCEPTION |
+| 404 | Booking Not Found | A hotel booking with the given session id cannot be found | ORX_BOOKING_NOT_FOUND |
