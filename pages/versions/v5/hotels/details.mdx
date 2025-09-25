@@ -145,9 +145,11 @@ Returns a [Hotel Property Details Response](/versions/v5/glossary#hotel-property
 
 | Status Code | Error | Reason |
 |---|---|---|
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
 | 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 404 | [Property Not Found] | The specified property ID does not exist in the current session |
-| 412 | [Search Not Initiated] | No search has been started for this session |
+| 400 | [Validation Error] | Invalid query parameters or search string |
+| 500 | NDCx Internal Error | Unknown |
 
 ## Hotel Rooms and Rate Details
 
@@ -357,6 +359,8 @@ Returns an array of [Hotel Room Details](/versions/v5/glossary#hotel-room-detail
 
 | Status Code | Error | Reason |
 |---|---|---|
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
 | 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 404 | [Hotel Not Found] | The specified hotel availability ID does not exist in the current session |
-| 412 | [Search Not Initiated] | No search has been started for this session |
+| 400 | [Validation Error] | Invalid query parameters or search string |
+| 500 | NDCx Internal Error | Unknown |
