@@ -124,11 +124,15 @@ Returns a [Session](/versions/v5/glossary#session) object with `flow` set to `HO
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 400 | [Validation Error] | Invalid request parameters or date format |
-| 400 | [Invalid Date Range] | Check-out date must be after check-in date |
-| 404 | [Location Not Found] | The specified location ID does not exist |
+| Status Code | Error | Reason | Reason Code |
+| --- | --- | --- | --- |
+| 401 | Unauthorized | Invalid or missing API key | |
+| 404 | Invalid Key Exception | API key exists but is invalid or inactive | ORX_INVALID_API_KEY      |
+| 400 | [VALIDATION ERROR] | Failed Validation |
+| 500 | NDCx Internal Error | Unknown |
+| 404 | Location Not Found | Location with provided public ID not found | ORX_LOCATION_NOT_FOUND   |
+| 404 | Session Not Found | Session lookup failed during creation process | ORX_SESSION_NOT_FOUND    |
+| 500 | Internal Error Exception | Unhandled server errors, MongoDB issues, or unexpected errors | ORX_UNKNOWN_ERROR        |
 
 ## Hotel Search Initiation
 
