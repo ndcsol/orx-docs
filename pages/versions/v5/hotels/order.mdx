@@ -150,14 +150,12 @@ The response will be a new [Session](/versions/v5/glossary#session) object. The 
 |---|---|---|---|
 | 400 | [Validation Error] | Failed Validation | ORX_VALIDATION_EXCEPTION |
 | 404 | Session not found or expired | Request targeting a non-existent session | ORX_SESSION_NOT_FOUND |
-| 404 | Rate not found or expired | The specified rate ID does not exist or has expired | ORX_RATE_NOT_FOUND |
+| 404 | Could not find hotel rate details | |
 | 500 | NDCx Internal Error | Unknown | ORX_UNKNOWN_ERROR |
-| 412 | Pricing not found. Please price the rate before attempting to order | Pricing call hasn't been made for the selected rate | ORX_PRICING_NOT_FOUND |
 | 409 | Session is currently locked by another process. Please try again later | Session is locked by another process | ORX_SESSION_LOCKED |
-| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment provided in the order | ORX_MULTIPLE_FOP |
-| 412 | No payment method provided for the order | No payment of any kind has been provided for the order | ORX_NO_PAYMENT_ATTACHED |
-| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified | ORX_INVALID_ALTERNATIVE_PAYMENT |
-| 422 | The order was created, but the passenger information return was malformed. Order Locator: locator | The order has been created, but we have not been able to validate the created order. Manual intervention is required | ORX_MALFORMED_PASSENGER_INFO |
-| 412 | Hotel rate not selected | No hotel rate has been selected for booking | ORX_UNSELECTED_RATE |
+| 409 | session is currently locked by another process. Please try again later. | Session is locked by another process. | ORX_SESSION_LOCKED |
+| 409 | Multiple payment methods provided for the order | There are multiple alternativePayment or payment are provided in the order. | ORX_MULTIPLE_FOP |
+| 412 | No payment method provided for the order | No payment of any kind has been provided for the order. | ORX_NO_PAYMENT_ATTACHED |
+| 412 | Alternative payment method is not valid | The alternative payment provided cannot be verified. | ORX_NO_PAYMENT_ATTACHED |
 | 403 | The payment was rejected due to a high fraud risk. Please contact support for further assistance | There was a high risk of fraud associated with the transaction | ORX_PAYMENT_REJECTED |
-| 410 | Hotel rate is no longer available | The selected rate is no longer available for booking | ORX_RATE_UNAVAILABLE |
+

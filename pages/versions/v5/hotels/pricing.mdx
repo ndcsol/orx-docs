@@ -87,10 +87,11 @@ Returns a single [Enhanced Hotel Rate Info](/versions/v5/glossary#enhanced-hotel
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 404 | [Rate Not Found] | The specified rate ID does not exist or is no longer available |
-| 412 | [Search Not Initiated] | No search has been started for this session |
-| 410 | [Rate Expired] | The rate has expired and is no longer available for pricing |
-| 409 | [Rate No Longer Available] | The rate is no longer available due to inventory changes |
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 401 | Unauthorized | Invalid or missing API key |
+| 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired | ORX_SESSION_NOT_FOUND |
+| 400 | [Validation Error] | Invalid query parameters or search string | ORX_VALIDATION_EXCEPTION |
+| 404 | Could not find hotel rate details | |
+

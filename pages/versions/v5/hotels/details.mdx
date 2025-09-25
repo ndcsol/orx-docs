@@ -143,13 +143,14 @@ Returns a [Hotel Property Details Response](/versions/v5/glossary#hotel-property
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 401 | Unauthorized | Invalid or missing API key | |
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 401 | Unauthorized | Invalid or missing API key |
 | 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
-| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 400 | [Validation Error] | Invalid query parameters or search string |
-| 500 | NDCx Internal Error | Unknown |
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired | ORX_SESSION_NOT_FOUND |
+| 400 | [Validation Error] | Invalid query parameters or search string | ORX_VALIDATION_EXCEPTION |
+| 500 | NDCx Internal Error | Unknown | ORX_UNKNOWN_ERROR |
+
 
 ## Hotel Rooms and Rate Details
 
@@ -357,10 +358,12 @@ Returns an array of [Hotel Room Details](/versions/v5/glossary#hotel-room-detail
 
 ### Possible Errors
 
-| Status Code | Error | Reason |
-|---|---|---|
-| 401 | Unauthorized | Invalid or missing API key | |
+| Status Code | Error | Reason | Reason Code |
+|---|---|---|---|
+| 401 | Unauthorized | Invalid or missing API key |
 | 404 | Invalid Key Exception | API key is invalid or inactive | ORX_INVALID_API_KEY |
-| 404 | [Session Not Found] | The specified session ID does not exist or has expired |
-| 400 | [Validation Error] | Invalid query parameters or search string |
-| 500 | NDCx Internal Error | Unknown |
+| 404 | [Session Not Found] | The specified session ID does not exist or has expired | ORX_SESSION_NOT_FOUND |
+| 400 | [Validation Error] | Invalid query parameters or search string | ORX_VALIDATION_EXCEPTION |
+| 500 | NDCx Internal Error | Unknown | ORX_UNKNOWN_ERROR |
+
+
