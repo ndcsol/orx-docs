@@ -1579,13 +1579,32 @@ type FlightOrderPassengerInformation = PassengerInformation & {
 };
 ```
 
+## Payment Card Type
+
+Represents the supported payment card types.
+
+### Possible Values
+
+- `visa`: Visa payment card
+- `masterCard`: MasterCard payment card
+- `discover`: Discover payment card
+- `jcb`: JCB payment card
+- `diners`: Diners Club payment card
+- `americanExpress`: American Express payment card
+
+### Type Definition
+
+```ts
+type PaymentCardType = "visa" | "masterCard" | "discover" | "jcb" | "diners" | "americanExpress";
+```
+
 ## Payment Information
 
 Object describing a payment.
 
 ### Sub Properties
 
-- `code`: (`masterCard` | `americanExpress` | `discover` | `visa` | `diners` | `jcb`) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
+- `code`: ([Payment Card Type](#payment-card-type)) The [TokenEx cardType](https://docs.tokenex.com/docs/events#tokenize).
 - `first_name`: (`string`) The first name of the cardholder.
 - `last_name`: (`string`) The last name of the cardholder.
 - `token`: (`string`) The payment token associated with the card.
@@ -1602,13 +1621,7 @@ Object describing a payment.
 
 ```ts
 interface PaymentInformation {
-  code:
-    | "masterCard"
-    | "americanExpress"
-    | "discover"
-    | "visa"
-    | "diners"
-    | "jcb";
+  code: PaymentCardType;
   first_name: string;
   last_name: string;
   token: string;
@@ -2968,12 +2981,14 @@ Inherits from [Hotel Rate Description](#hotel-rate-description):
 
 Enhanced properties:
 - `cancellation`: ([Hotel Cancellation](#hotel-cancellation)) Detailed cancellation policy and penalties
+- `accepted_payment_cards`: (`Array<`[Payment Card Type](#payment-card-type)`>?`) List of accepted payment card types for this hotel rate
 
 ### Type Definition
 
 ```ts
 interface EnhancedHotelRateDescription extends HotelRateDescription {
   cancellation: HotelCancellation;
+  accepted_payment_cards?: PaymentCardType[];
 }
 ```
 
@@ -2988,6 +3003,7 @@ interface EnhancedHotelRateDescription extends HotelRateDescription {
   "refundable": true,
   "discount_codes": [],
   "pay_at_hotel": null,
+  "accepted_payment_cards": ["visa", "masterCard", "americanExpress"],
   "cancellation": {
     "refundable": true,
     "penalties": [
